@@ -1,8 +1,8 @@
 # coding: utf-8
 
 """
-    Solar radiation model, based on Duffie, J.A., and Beckman, W. A., 1974,
-    "Solar energy thermal processes"
+    Solar radiation model, based on Duffie, J.A., and 
+    Beckman, W. A., 1974, "Solar energy thermal processes"
 """
 
 import numpy as np
@@ -45,10 +45,6 @@ def Gon(n):
     -------
     Gon : float
           extraterrestrial radiation in W/m2
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
     B = deg2rad((n - 1) * (360 / 365))
 
@@ -70,10 +66,6 @@ def Eq_time(n):
     -------
     E : float
         equation of time in minutes
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
     B = deg2rad((n - 1) * (360 / 365))
 
@@ -96,10 +88,6 @@ def declination(n):
     -------
     declination : float
                   declination in radians
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
     B = deg2rad((n - 1) * (360 / 365))
 
@@ -127,10 +115,6 @@ def solar_time(n, hour, minute, long):
     -------
     solar time : tuple-like
                  local solar time (hour, minute, second)
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
     # standard time
     t_std = datetime(datetime.now().year, 1, 1) + \
@@ -164,10 +148,6 @@ def hour_angle(hour, minute):
     -------
     hour angle : float
                  local hour angle in radians
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
     w = ((hour + (minute / 60)) - 12) * 15
 
@@ -200,10 +180,6 @@ def theta(n, lat, beta, surf_az, hour, minute):
     -------
     theta : float
             angle of incidence in radians
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
     dec = declination(n)
     lat = deg2rad(lat)
@@ -242,10 +218,6 @@ def theta_z(n, lat, hour, minute):
     -------
     theta_z : float
               angle of incidence in radians
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
     beta = 0
     surf_az = 0
@@ -275,10 +247,6 @@ def solar_az(n, lat, hour, minute):
     -------
     solar_az : float
                azimuth angle in radians
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
     beta = 0
     surf_az = 0
@@ -307,10 +275,6 @@ def sunset_hour_angle(n, lat):
     -------
     sunset_hour_angle : float
                         hour angle at sunset in radians
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
     dec = declination(n)
     lat = deg2rad(lat)
@@ -333,10 +297,6 @@ def sunrise_hour_angle(n, lat):
     -------
     sunrise_hour_angle : float
                          hour angle at sunrise in radians
-    Note
-    ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes"
     """
 
     return -sunset_hour_angle(n, lat)
@@ -358,9 +318,7 @@ def daylight_hours(n, lat):
                 number of hours of light within the day
     Note
     ----
-    Based on Duffie, J.A., and Beckman, W. A., 1974,
-             "Solar energy thermal processes" and
-             http://mathforum.org/library/drmath/view/56478.html
+        http://mathforum.org/library/drmath/view/56478.html
     """
     dec = declination(n)
     lat = deg2rad(lat)
