@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-    Solar radiation model, based on Duffie, J.A., and 
+    Solar radiation model, based on Duffie, J.A., and
     Beckman, W. A., 1974, "Solar energy thermal processes"
 """
 
@@ -225,7 +225,7 @@ def theta_z(n, lat, hour, minute):
     return theta(n, lat, beta, surf_az, hour, minute)
 
 
-def solar_az(n, lat, hour, minute):
+def solar_azimuth(n, lat, hour, minute):
     """
     * Solar azimuth angle *
 
@@ -261,6 +261,34 @@ def solar_az(n, lat, hour, minute):
     return np.sign(w) * np.arccos(tmp)
 
 
+def solar_altitude(n, lat, hour, minute):
+    """
+    * Solar altitude angle *
+
+    Angle between the projection of the sun beam on a horizontal
+    surface wrt the beam, for a particular day of the year (nth),
+    latitude and hour-minute.
+
+    Parameters
+    ----------
+    n : integer
+        day of the year (1 to 365)
+    lat : float
+          latitude (-90 to 90) in degrees
+    hour : integer
+           hour of the day (0 to 23)
+    minute : integer
+             minutes (0 to 59)
+    Returns
+    -------
+    solar_altitude : float
+                     altitude angle in radians
+    """
+    th_z = theta_z(n, lat, hour, minute)
+
+    return np.arcsin(cos(th_z))
+
+
 def sunset_hour_angle(n, lat):
     """
     When theta_z = 90º
@@ -283,6 +311,33 @@ def sunset_hour_angle(n, lat):
     return np.arccos(cos_ws)
 
 
+def sunset_time(n, lat):
+    """
+    Calculates the time (hours, minutes) at sunset
+
+    Parameters
+    ----------
+    n : integer
+        day of the year (1 to 365)
+    lat : float
+          latitude (-90 to 90) in degrees
+    Returns
+    -------
+    sunset_hour : tuple-like
+                  time at sunset (hours, minutes)
+    """
+    ws = sunset_hour_angle(n, lat)  # degrees
+
+    aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
+    minutes, seconds = divmod(aux, 60)
+    hours, minutes = divmod(minutes, 60)
+
+    st = datetime(datetime.now().year, 1, 1) + \
+         timedelta(days=n, hours=(12+hours), minutes=minutes)
+
+    return (st.hour, st.minute)
+
+
 def sunrise_hour_angle(n, lat):
     """
     When theta_z = -90º
@@ -302,9 +357,36 @@ def sunrise_hour_angle(n, lat):
     return -sunset_hour_angle(n, lat)
 
 
+def sunrise_time(n, lat):
+    """
+    Calculates the time (hours, minutes) at sunrise
+
+    Parameters
+    ----------
+    n : integer
+        day of the year (1 to 365)
+    lat : float
+          latitude (-90 to 90) in degrees
+    Returns
+    -------
+    sunset_hour : tuple-like
+                  time at sunrise (hours, minutes)
+    """
+    ws = sunrise_hour_angle(n, lat)  # degrees
+
+    aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
+    minutes, seconds = divmod(aux, 60)
+    hours, minutes = divmod(minutes, 60)
+
+    st = datetime(datetime.now().year, 1, 1) + \
+         timedelta(days=n, hours=(12+hours), minutes=minutes)
+
+    return (st.hour, st.minute)
+
+
 def daylight_hours(n, lat):
     """
-    Nº of hours of light each day
+    Nº of hours of light for a particular day
 
     Parameters
     ----------
