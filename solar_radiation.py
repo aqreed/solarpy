@@ -332,7 +332,7 @@ def sunrise_hour_angle(n, lat):
     Returns
     -------
     sunrise_hour_angle : float
-                        hour angle at sunrise in radians
+                         hour angle at sunrise in radians
     Note
     ----
     Based on Duffie, J.A., and Beckman, W. A., 1974,
@@ -344,7 +344,7 @@ def sunrise_hour_angle(n, lat):
 
 def daylight_hours(n, lat):
     """
-    When theta_z = 90º
+    Nº of hours of light each day
 
     Parameters
     ----------
