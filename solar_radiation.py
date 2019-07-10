@@ -185,7 +185,7 @@ def theta(n, lat, beta, surf_az, hour, minute):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (0 to 90) in degrees
+          latitude (-90 to 90) in degrees
     beta : float
            slope angle of the surface wrt the local horizon
            in degrees (0 to 180)
@@ -233,7 +233,7 @@ def theta_z(n, lat, hour, minute):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (0 to 90) in degrees
+          latitude (-90 to 90) in degrees
     hour : integer
            hour of the day (0 to 23)
     minute : integer
@@ -266,7 +266,7 @@ def solar_az(n, lat, hour, minute):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (0 to 90) in degrees
+          latitude (-90 to 90) in degrees
     hour : integer
            hour of the day (0 to 23)
     minute : integer
@@ -302,7 +302,7 @@ def sunset_hour_angle(n, lat):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (0 to 90) in degrees
+          latitude (-90 to 90) in degrees
     Returns
     -------
     sunset_hour_angle : float
@@ -328,7 +328,7 @@ def sunrise_hour_angle(n, lat):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (0 to 90) in degrees
+          latitude (-90 to 90) in degrees
     Returns
     -------
     sunrise_hour_angle : float
@@ -351,7 +351,7 @@ def daylight_hours(n, lat):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (0 to 90) in degrees
+          latitude (-90 to 90) in degrees
     Returns
     -------
     day_hours : float
