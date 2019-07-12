@@ -248,9 +248,6 @@ def solar_azimuth(n, lat, hour, minute):
     solar_az : float
         azimuth angle in radians
     """
-    beta = 0
-    surf_az = 0
-
     w = hour_angle(hour, minute)
     dec = declination(n)
     th_z = theta_z(n, lat, hour, minute)
