@@ -255,6 +255,9 @@ def solar_azimuth(n, lat, hour, minute):
 
     tmp = (cos(th_z) * sin(lat) - sin(dec)) / (sin(th_z) * cos(lat))
 
+    if (abs(tmp) > 1):  # herculean fight against floating-point errors
+        tmp = int(tmp)  # TODO: improve
+
     return np.sign(w) * np.arccos(tmp)
 
 
