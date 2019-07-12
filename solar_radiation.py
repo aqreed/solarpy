@@ -17,13 +17,13 @@ def day_of_the_year(month, day):
     Parameters
     ----------
     month : integer
-            day of the year (1 to 12)
+        day of the year (1 to 12)
     day : integer
-          hour of the day (0 to 31)
+        hour of the day (0 to 31)
     Returns
     -------
     day : integer
-          day of the year(1 to 365)
+        day of the year(1 to 365)
     """
     t = datetime(datetime.now().year, month, day) - \
         datetime(datetime.now().year, 1, 1)
@@ -44,7 +44,7 @@ def Gon(n):
     Returns
     -------
     Gon : float
-          extraterrestrial radiation in W/m2
+        extraterrestrial radiation in W/m2
     """
     B = deg2rad((n - 1) * (360 / 365))
 
@@ -87,7 +87,7 @@ def declination(n):
     Returns
     -------
     declination : float
-                  declination in radians
+        declination in radians
     """
     B = deg2rad((n - 1) * (360 / 365))
 
@@ -106,15 +106,15 @@ def solar_time(n, hour, minute, long):
     n : integer
         day of the year (1 to 365)
     hour : integer
-           hour of the day (0 to 23)
+        hour of the day (0 to 23)
     minute : integer
-             minutes (0 to 59)
+        minutes (0 to 59)
     longitude : float
-                east-west position wrt the Prime Meridian in degrees
+        east-west position wrt the Prime Meridian in degrees
     Returns
     -------
     solar time : tuple-like
-                 local solar time (hour, minute, second)
+        local solar time (hour, minute, second)
     """
     # standard time
     t_std = datetime(datetime.now().year, 1, 1) + \
@@ -141,13 +141,13 @@ def hour_angle(hour, minute):
     Parameters
     ----------
     hour : integer
-           hour (solar time) of the day (0 to 23)
+        hour (solar time) of the day (0 to 23)
     minute : integer
-             solar (solar time) minutes (0 to 59)
+        solar (solar time) minutes (0 to 59)
     Returns
     -------
     hour angle : float
-                 local hour angle in radians
+        local hour angle in radians
     """
     w = ((hour + (minute / 60)) - 12) * 15
 
@@ -165,17 +165,17 @@ def theta(n, lat, beta, surf_az, hour, minute):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (-90 to 90) in degrees
+        latitude (-90 to 90) in degrees
     beta : float
-           slope angle of the surface wrt the local horizon
-           in degrees (0 to 180)
+        slope angle of the surface wrt the local horizon
+        in degrees (0 to 180)
     surf_az : float
-              azimuth angle of the surface in degrees wrt the local
-              meridian (-180 to 180). 0-> south, east negative
+        azimuth angle of the surface in degrees wrt the local
+        meridian (-180 to 180). 0-> south, east negative
     hour : integer
-           hour of the day (0 to 23)
+        hour of the day (0 to 23)
     minute : integer
-             minutes (0 to 59)
+        minutes (0 to 59)
     Returns
     -------
     theta : float
@@ -209,15 +209,15 @@ def theta_z(n, lat, hour, minute):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (-90 to 90) in degrees
+        latitude (-90 to 90) in degrees
     hour : integer
-           hour of the day (0 to 23)
+        hour of the day (0 to 23)
     minute : integer
-             minutes (0 to 59)
+        minutes (0 to 59)
     Returns
     -------
     theta_z : float
-              angle of incidence in radians
+        angle of incidence in radians
     """
     beta = 0
     surf_az = 0
@@ -238,15 +238,15 @@ def solar_azimuth(n, lat, hour, minute):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (-90 to 90) in degrees
+        latitude (-90 to 90) in degrees
     hour : integer
-           hour of the day (0 to 23)
+        hour of the day (0 to 23)
     minute : integer
-             minutes (0 to 59)
+        minutes (0 to 59)
     Returns
     -------
     solar_az : float
-               azimuth angle in radians
+        azimuth angle in radians
     """
     beta = 0
     surf_az = 0
@@ -274,15 +274,15 @@ def solar_altitude(n, lat, hour, minute):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (-90 to 90) in degrees
+        latitude (-90 to 90) in degrees
     hour : integer
-           hour of the day (0 to 23)
+        hour of the day (0 to 23)
     minute : integer
-             minutes (0 to 59)
+        minutes (0 to 59)
     Returns
     -------
     solar_altitude : float
-                     altitude angle in radians
+        altitude angle in radians
     """
     th_z = theta_z(n, lat, hour, minute)
 
@@ -298,11 +298,11 @@ def sunset_hour_angle(n, lat):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (-90 to 90) in degrees
+        latitude (-90 to 90) in degrees
     Returns
     -------
     sunset_hour_angle : float
-                        hour angle at sunset in radians
+        hour angle at sunset in radians
     """
     dec = declination(n)
     lat = deg2rad(lat)
@@ -320,11 +320,11 @@ def sunset_time(n, lat):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (-90 to 90) in degrees
+        latitude (-90 to 90) in degrees
     Returns
     -------
     sunset_hour : tuple-like
-                  time at sunset (hours, minutes)
+        time at sunset (hours, minutes)
     """
     ws = sunset_hour_angle(n, lat)  # degrees
 
@@ -347,11 +347,11 @@ def sunrise_hour_angle(n, lat):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (-90 to 90) in degrees
+        latitude (-90 to 90) in degrees
     Returns
     -------
     sunrise_hour_angle : float
-                         hour angle at sunrise in radians
+        hour angle at sunrise in radians
     """
 
     return -sunset_hour_angle(n, lat)
@@ -366,11 +366,11 @@ def sunrise_time(n, lat):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (-90 to 90) in degrees
+        latitude (-90 to 90) in degrees
     Returns
     -------
     sunset_hour : tuple-like
-                  time at sunrise (hours, minutes)
+        time at sunrise (hours, minutes)
     """
     ws = sunrise_hour_angle(n, lat)  # degrees
 
@@ -393,11 +393,11 @@ def daylight_hours(n, lat):
     n : integer
         day of the year (1 to 365)
     lat : float
-          latitude (-90 to 90) in degrees
+        latitude (-90 to 90) in degrees
     Returns
     -------
     day_hours : float
-                number of hours of light within the day
+        number of hours of light within the day
     Note
     ----
         http://mathforum.org/library/drmath/view/56478.html
