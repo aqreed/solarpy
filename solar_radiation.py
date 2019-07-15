@@ -452,7 +452,7 @@ def lla2ecef(lat, long, h):
     return np.array([x, y, z])
 
 
-def earth_solar_vector(n, lat, hour, minute):
+def solar_vector(n, lat, hour, minute):
     """
     Calculates solar vector (sun beam) from a point on
     the Earth surface at a defined time (day, hour, minute)
