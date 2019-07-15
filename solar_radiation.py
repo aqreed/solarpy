@@ -323,8 +323,8 @@ def sunset_time(n, lat):
         latitude (-90 to 90) in degrees
     Returns
     -------
-    sunset_hour : tuple-like
-        time at sunset (hours, minutes)
+    sunset_hour : datetime-like
+        time at sunset
     """
     ws = sunset_hour_angle(n, lat)  # degrees
 
@@ -335,7 +335,7 @@ def sunset_time(n, lat):
     st = datetime(datetime.now().year, 1, 1) + \
          timedelta(days=n, hours=(12+hours), minutes=minutes)
 
-    return (st.hour, st.minute)
+    return st
 
 
 def sunrise_hour_angle(n, lat):
@@ -369,8 +369,8 @@ def sunrise_time(n, lat):
         latitude (-90 to 90) in degrees
     Returns
     -------
-    sunset_hour : tuple-like
-        time at sunrise (hours, minutes)
+    sunset_hour : datetime-like
+        time at sunset
     """
     ws = sunrise_hour_angle(n, lat)  # degrees
 
@@ -381,7 +381,7 @@ def sunrise_time(n, lat):
     st = datetime(datetime.now().year, 1, 1) + \
          timedelta(days=n, hours=(12+hours), minutes=minutes)
 
-    return (st.hour, st.minute)
+    return st
 
 
 def daylight_hours(n, lat):
