@@ -415,3 +415,38 @@ def daylight_hours(n, lat):
     b[(tmp > 1.0)] = 0
 
     return b * 24
+
+
+def lla2ecef(lat, long, h):
+    """
+    Calculates geocentric coordinates (ECEF - Earth Centered, Earth Fixed)
+
+    Parameters
+    ----------
+    lat : float
+        latitude in degrees
+    long : float
+        longitude in degrees
+    h : float
+        altitude above sea level in feet
+
+    Returns
+    -------
+    array-like
+        ECEF coordinates in meters
+    """
+    a = 6378137  # [m] Earth equatorial axis
+    b = 6356752.3142  # [m] Earth polar axis
+    e = 0.081819190842622  # Earth eccentricity
+
+    lat = np.radians(lat)  # degrees to radians
+    long = np.radians(long)  # degrees to radians
+    h = h * 0.3048  # feets to meters
+
+    N = a / (1 - (e * np.sin(lat))**2)**(.5)
+
+    x = (N + h) * np.cos(lat) * np.cos(long)
+    y = (N + h) * np.cos(lat) * np.sin(long)
+    z = (((b/a)**2) * N + h) * np.sin(lat)
+
+    return np.array([x, y, z])
