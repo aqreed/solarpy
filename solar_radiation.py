@@ -450,3 +450,31 @@ def lla2ecef(lat, long, h):
     z = (((b/a)**2) * N + h) * np.sin(lat)
 
     return np.array([x, y, z])
+
+
+def earth_solar_vector(n, lat, hour, minute):
+    """
+    Calculates solar vector (sun beam) from a point on
+    the Earth surface at a defined time (day, hour, minute)
+
+    Parameters
+    ----------
+    n : integer
+        day of the year (1 to 365)
+    lat : float
+        latitude (-90 to 90) in degrees
+    hour : integer
+        hour of the day (0 to 23)
+    minute : integer
+        minutes (0 to 59)
+    Returns
+    -------
+    array-like
+        vector of the solar beam
+    """
+    solar_az = solar_azimuth(n, lat, hour, minute)
+    solar_alt = solar_altitude(n, lat, hour, minute)
+
+    return np.array([-cos(solar_az) * cos(solar_alt),
+                     -sin(solar_az) * cos(solar_alt),
+                     -sin(solar_alt)])
