@@ -452,10 +452,11 @@ def lla2ecef(lat, long, h):
     return np.array([x, y, z])
 
 
-def solar_vector(n, lat, hour, minute):
+def solar_vector_NED(n, lat, hour, minute):
     """
-    Calculates solar vector (sun beam) from a point on
-    the Earth surface at a defined time (day, hour, minute)
+    Calculates solar vector (sun beam) in local geodetic horizon reference
+    frame (NED - North, East, Down) of a point on the Earth surface at a
+    defined time (day, hour, minute) at a defined latitude.
 
     Parameters
     ----------
@@ -475,6 +476,11 @@ def solar_vector(n, lat, hour, minute):
     solar_az = solar_azimuth(n, lat, hour, minute)
     solar_alt = solar_altitude(n, lat, hour, minute)
 
-    return np.array([-cos(solar_az) * cos(solar_alt),
+    if lat == 0:
+        s = 1
+    else:
+        s = (-1) * np.sign(lat)
+
+    return np.array([s * cos(solar_az) * cos(solar_alt),
                      -sin(solar_az) * cos(solar_alt),
                      -sin(solar_alt)])
