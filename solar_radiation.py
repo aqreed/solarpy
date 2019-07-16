@@ -439,15 +439,15 @@ def lla2ecef(lat, long, h):
     b = 6356752.3142  # [m] Earth polar axis
     e = 0.081819190842622  # Earth eccentricity
 
-    lat = np.radians(lat)  # degrees to radians
-    long = np.radians(long)  # degrees to radians
+    lat = deg2rad(lat)  # degrees to radians
+    long = deg2rad(long)  # degrees to radians
     h = h * 0.3048  # feets to meters
 
-    N = a / (1 - (e * np.sin(lat))**2)**(.5)
+    N = a / (1 - (e * sin(lat))**2)**(.5)
 
-    x = (N + h) * np.cos(lat) * np.cos(long)
-    y = (N + h) * np.cos(lat) * np.sin(long)
-    z = (((b/a)**2) * N + h) * np.sin(lat)
+    x = (N + h) * cos(lat) * cos(long)
+    y = (N + h) * cos(lat) * sin(long)
+    z = (((b/a)**2) * N + h) * sin(lat)
 
     return np.array([x, y, z])
 
