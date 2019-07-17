@@ -256,11 +256,17 @@ def solar_azimuth(n, lat, hour, minute):
     th_z = theta_z(n, lat, hour, minute)
     lat = deg2rad(lat)
 
-    tmp = (cos(th_z) * sin(lat) - sin(dec)) / (sin(th_z) * cos(lat))
+    # to avoid undefined values at lat = 90º or lat = -90º
+    if abs(lat) == np.pi/2:
+        tmp = np.sign(lat) * np.pi/2
+    else:
+        tmp = (cos(th_z) * sin(lat) - sin(dec)) / (sin(th_z) * cos(lat))
 
-    if (abs(tmp) > 1):  # herculean fight against floating-point errors
+    # herculean fight against floating-point errors
+    if (abs(tmp) > 1):
         tmp = int(tmp)  # TODO: improve
 
+    # to avoid undefined values at noon
     if w == 0:
         s = 1
     else:
