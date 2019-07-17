@@ -484,11 +484,6 @@ def solar_vector_NED(n, lat, hour, minute):
     solar_az = solar_azimuth(n, lat, hour, minute)
     solar_alt = solar_altitude(n, lat, hour, minute)
 
-    if lat == 0:
-        s = 1
-    else:
-        s = (-1) * np.sign(lat)
-
-    return np.array([s * cos(solar_az) * cos(solar_alt),
+    return np.array([-cos(solar_az) * cos(solar_alt),
                      -sin(solar_az) * cos(solar_alt),
                      -sin(solar_alt)])
