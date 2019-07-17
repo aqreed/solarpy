@@ -219,10 +219,13 @@ def theta_z(n, lat, hour, minute):
     theta_z : float
         angle of incidence in radians
     """
-    beta = 0
-    surf_az = 0
+    dec = declination(n)
+    lat = deg2rad(lat)
+    w = hour_angle(hour, minute)
 
-    return theta(n, lat, beta, surf_az, hour, minute)
+    cos_theta_z = sin(dec) * sin(lat) + cos(dec) * cos(lat) * cos(w)
+
+    return np.arccos(cos_theta_z)
 
 
 def solar_azimuth(n, lat, hour, minute):
