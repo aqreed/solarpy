@@ -427,7 +427,8 @@ def daylight_hours(n, lat):
 
 def lla2ecef(lat, long, h):
     """
-    Calculates geocentric coordinates (ECEF - Earth Centered, Earth Fixed)
+    Calculates geocentric coordinates (ECEF - Earth Centered, Earth Fixed) for
+    a given set of latitude, longitude and altitude inputs.
 
     Parameters
     ----------
