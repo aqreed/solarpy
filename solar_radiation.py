@@ -261,7 +261,12 @@ def solar_azimuth(n, lat, hour, minute):
     if (abs(tmp) > 1):  # herculean fight against floating-point errors
         tmp = int(tmp)  # TODO: improve
 
-    return np.sign(w) * np.arccos(tmp)
+    if w == 0:
+        s = 1
+    else:
+        s = np.sign(w)
+
+    return s * np.arccos(tmp)
 
 
 def solar_altitude(n, lat, hour, minute):
