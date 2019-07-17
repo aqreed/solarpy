@@ -461,6 +461,39 @@ def lla2ecef(lat, long, h):
     return np.array([x, y, z])
 
 
+def ned2ecef(v_ned, lat, long):
+    """
+    Converts vector from local geodetic horizon reference frame (NED - North,
+    East, Down) at a given latitude and longitude to geocentric coordinates
+    (ECEF - Earth Centered, Earth Fixed).
+
+    Parameters
+    ----------
+    v_ned: array-like
+        vector expressed in NED coordinates
+    lat : float
+        latitude in degrees
+    long : float
+        longitude in degrees
+
+    Returns
+    -------
+    v_ecef : array-like
+        vector expressed in ECEF coordinates
+    """
+    lat = deg2rad(lat)
+    long = deg2rad(long)
+
+    Lne = np.array([[-sin(lat) * cos(long), -sin(lat) * sin(long), cos(lat)],
+                    [-sin(long), cos(long), 0],
+                    [-cos(lat) * cos(long), -cos(lat) * sin(long), -sin(lat)]])
+
+    Len = Lne.transpose()
+    v_ecef = Len.dot(v_ned)
+
+    return v_ecef
+
+
 def solar_vector_NED(n, lat, hour, minute):
     """
     Calculates solar vector (sun beam) in local geodetic horizon reference
