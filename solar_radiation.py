@@ -251,22 +251,24 @@ def solar_azimuth(n, lat, hour, minute):
     solar_az : float
         azimuth angle in radians
     """
+
+    # to avoid undefined values at lat = 90º or lat = -90º
+    # the error incurred is acceptable
+    if abs(lat) == 90:
+        lat = np.sign(lat) * 89.999
+
     w = hour_angle(hour, minute)
     dec = declination(n)
     th_z = theta_z(n, lat, hour, minute)
     lat = deg2rad(lat)
 
-    # to avoid undefined values at lat = 90º or lat = -90º
-    if abs(lat) == np.pi/2:
-        tmp = np.sign(lat) * np.pi/2
-    else:
-        tmp = (cos(th_z) * sin(lat) - sin(dec)) / (sin(th_z) * cos(lat))
+    tmp = (cos(th_z) * sin(lat) - sin(dec)) / (sin(th_z) * cos(lat))
 
     # herculean fight against floating-point errors
     if (abs(tmp) > 1):
         tmp = int(tmp)  # TODO: improve
 
-    # to avoid undefined values at noon
+    # to avoid undefined values at noon (12:00)
     if w == 0:
         s = 1
     else:
