@@ -181,6 +181,9 @@ def theta(n, lat, beta, surf_az, hour, minute):
     theta : float
             angle of incidence in radians
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
+
     dec = declination(n)
     lat = deg2rad(lat)
     beta = deg2rad(beta)
@@ -219,6 +222,9 @@ def theta_z(n, lat, hour, minute):
     theta_z : float
         angle of incidence in radians
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
+
     dec = declination(n)
     lat = deg2rad(lat)
     w = hour_angle(hour, minute)
@@ -251,6 +257,8 @@ def solar_azimuth(n, lat, hour, minute):
     solar_az : float
         azimuth angle in radians
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
 
     # to avoid undefined values at lat = 90º or lat = -90º
     # the error incurred is acceptable
@@ -300,6 +308,9 @@ def solar_altitude(n, lat, hour, minute):
     solar_altitude : float
         altitude angle in radians
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
+
     th_z = theta_z(n, lat, hour, minute)
 
     return np.arcsin(cos(th_z))
@@ -320,6 +331,9 @@ def sunset_hour_angle(n, lat):
     sunset_hour_angle : float
         hour angle at sunset in radians
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
+
     dec = declination(n)
     lat = deg2rad(lat)
     cos_ws = (-1) * tan(lat) * tan(dec)
@@ -342,6 +356,9 @@ def sunset_time(n, lat):
     sunset_hour : datetime-like
         time at sunset
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
+
     ws = sunset_hour_angle(n, lat)  # degrees
 
     aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
@@ -369,6 +386,8 @@ def sunrise_hour_angle(n, lat):
     sunrise_hour_angle : float
         hour angle at sunrise in radians
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
 
     return -sunset_hour_angle(n, lat)
 
@@ -388,6 +407,9 @@ def sunrise_time(n, lat):
     sunset_hour : datetime-like
         time at sunset
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
+
     ws = sunrise_hour_angle(n, lat)  # degrees
 
     aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
@@ -452,6 +474,9 @@ def lla2ecef(lat, long, h):
     array-like
         ECEF coordinates in meters
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
+
     a = 6378137  # [m] Earth equatorial axis
     b = 6356752.3142  # [m] Earth polar axis
     e = 0.081819190842622  # Earth eccentricity
@@ -489,6 +514,9 @@ def ned2ecef(v_ned, lat, long):
     v_ecef : array-like
         vector expressed in ECEF coordinates
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
+
     lat = deg2rad(lat)
     long = deg2rad(long)
 
@@ -523,6 +551,9 @@ def solar_vector_NED(n, lat, hour, minute):
     array-like
         vector of the solar beam
     """
+    if abs(lat) > 90:
+        raise ValueError('latitude should be -90 < lat < 90')
+
     solar_az = solar_azimuth(n, lat, hour, minute)
     solar_alt = solar_altitude(n, lat, hour, minute)
 
