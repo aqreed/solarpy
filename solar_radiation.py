@@ -31,6 +31,27 @@ def day_of_the_year(month, day):
     return t.days
 
 
+def B_nth_day(n):
+    """
+    Day of the year angle
+
+    Parameters
+    ----------
+    n : integer
+        day of the year (1 to 365)
+    Returns
+    -------
+    B : float
+        angle of the day of the year in radians
+    """
+    if isinstance(n, np.ndarray) and ((n < 1).any() or (n > 365).any()):
+            raise ValueError('n should be 1 <= lat <= 365')
+    elif isinstance(n, int) and ((n < 1) or (n > 365)):
+            raise ValueError('n should be 1 <= lat <= 365')
+
+    return deg2rad((n - 1) * (360 / 365))
+
+
 def Gon(n):
     """
     Extraterrestrial radiation on a plane normal to
@@ -46,14 +67,7 @@ def Gon(n):
     Gon : float
         extraterrestrial radiation in W/m2
     """
-    if isinstance(n, np.ndarray):
-        if (n < 1).any() or (n > 365).any():
-            raise ValueError('n should be 1 <= lat <= 365')
-    elif isinstance(n, int):
-        if (n < 1) or (n > 365):
-            raise ValueError('n should be 1 <= lat <= 365')
-
-    B = deg2rad((n - 1) * (360 / 365))
+    B = B_nth_day(n)
 
     return 1367 * (1.00011 + 0.034221 * cos(B) +
                    0.00128 * sin(B) + 0.000719 * cos(2 * B) +
@@ -74,14 +88,7 @@ def Eq_time(n):
     E : float
         equation of time in minutes
     """
-    if isinstance(n, np.ndarray):
-        if (n < 1).any() or (n > 365).any():
-            raise ValueError('n should be 1 <= lat <= 365')
-    elif isinstance(n, int):
-        if (n < 1) or (n > 365):
-            raise ValueError('n should be 1 <= lat <= 365')
-
-    B = deg2rad((n - 1) * (360 / 365))
+    B = B_nth_day(n)
 
     return 229.2 * (0.000075 + 0.001868 * cos(B) -
                     0.032077 * sin(B) - 0.014615 * cos(2 * B) -
@@ -103,14 +110,7 @@ def declination(n):
     declination : float
         declination in radians
     """
-    if isinstance(n, np.ndarray):
-        if (n < 1).any() or (n > 365).any():
-            raise ValueError('n should be 1 <= lat <= 365')
-    elif isinstance(n, int):
-        if (n < 1) or (n > 365):
-            raise ValueError('n should be 1 <= lat <= 365')
-
-    B = deg2rad((n - 1) * (360 / 365))
+    B = B_nth_day(n)
 
     return 0.006918 - 0.399912 * cos(B) + 0.070257 * sin(B) - \
            0.006758 * cos(2 * B) + 0.000907 * sin(2 * B) - \
