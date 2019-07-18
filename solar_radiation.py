@@ -45,9 +45,9 @@ def B_nth_day(n):
         angle of the day of the year in radians
     """
     if isinstance(n, np.ndarray) and ((n < 1).any() or (n > 365).any()):
-            raise ValueError('n should be 1 <= lat <= 365')
+            raise ValueError('n should be 1 <= n <= 365')
     elif isinstance(n, int) and ((n < 1) or (n > 365)):
-            raise ValueError('n should be 1 <= lat <= 365')
+            raise ValueError('n should be 1 <= n <= 365')
 
     return deg2rad((n - 1) * (360 / 365))
 
@@ -138,9 +138,9 @@ def solar_time(n, hour, minute, long):
         local solar time (hour, minute, second)
     """
     if isinstance(n, np.ndarray) and ((n < 1).any() or (n > 365).any()):
-            raise ValueError('n should be 1 <= lat <= 365')
+            raise ValueError('n should be 1 <= n <= 365')
     elif isinstance(n, int) and ((n < 1) or (n > 365)):
-            raise ValueError('n should be 1 <= lat <= 365')
+            raise ValueError('n should be 1 <= n <= 365')
 
     # standard time
     t_std = datetime(datetime.now().year, 1, 1) + \
