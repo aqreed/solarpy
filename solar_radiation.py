@@ -46,6 +46,13 @@ def Gon(n):
     Gon : float
         extraterrestrial radiation in W/m2
     """
+    if isinstance(n, np.ndarray):
+        if (n < 1).any() or (n > 365).any():
+            raise ValueError('n should be 1 <= lat <= 365')
+    elif isinstance(n, int):
+        if (n < 1) or (n > 365):
+            raise ValueError('n should be 1 <= lat <= 365')
+
     B = deg2rad((n - 1) * (360 / 365))
 
     return 1367 * (1.00011 + 0.034221 * cos(B) +
@@ -67,6 +74,13 @@ def Eq_time(n):
     E : float
         equation of time in minutes
     """
+    if isinstance(n, np.ndarray):
+        if (n < 1).any() or (n > 365).any():
+            raise ValueError('n should be 1 <= lat <= 365')
+    elif isinstance(n, int):
+        if (n < 1) or (n > 365):
+            raise ValueError('n should be 1 <= lat <= 365')
+
     B = deg2rad((n - 1) * (360 / 365))
 
     return 229.2 * (0.000075 + 0.001868 * cos(B) -
@@ -89,6 +103,13 @@ def declination(n):
     declination : float
         declination in radians
     """
+    if isinstance(n, np.ndarray):
+        if (n < 1).any() or (n > 365).any():
+            raise ValueError('n should be 1 <= lat <= 365')
+    elif isinstance(n, int):
+        if (n < 1) or (n > 365):
+            raise ValueError('n should be 1 <= lat <= 365')
+
     B = deg2rad((n - 1) * (360 / 365))
 
     return 0.006918 - 0.399912 * cos(B) + 0.070257 * sin(B) - \
@@ -116,6 +137,13 @@ def solar_time(n, hour, minute, long):
     solar time : tuple-like
         local solar time (hour, minute, second)
     """
+    if isinstance(n, np.ndarray):
+        if (n < 1).any() or (n > 365).any():
+            raise ValueError('n should be 1 <= lat <= 365')
+    elif isinstance(n, int):
+        if (n < 1) or (n > 365):
+            raise ValueError('n should be 1 <= lat <= 365')
+
     # standard time
     t_std = datetime(datetime.now().year, 1, 1) + \
             timedelta(days=(n-1),
