@@ -142,6 +142,11 @@ def solar_time(n, hour, minute, long):
     elif isinstance(n, int) and ((n < 1) or (n > 365)):
             raise ValueError('n should be 1 <= n <= 365')
 
+    if (hour < 0) or (hour > 23):
+        raise ValueError('hour should be 0 <= hour <= 23')
+    if (minute < 0) or (minute > 59):
+        raise ValueError('minute should be 0 <= minute <= 59')
+
     # standard time
     t_std = datetime(datetime.now().year, 1, 1) + \
             timedelta(days=(n-1),
@@ -175,6 +180,11 @@ def hour_angle(hour, minute):
     hour angle : float
         local hour angle in radians
     """
+    if (hour < 0) or (hour > 23):
+        raise ValueError('hour should be 0 <= hour <= 23')
+    if (minute < 0) or (minute > 59):
+        raise ValueError('minute should be 0 <= minute <= 59')
+
     w = ((hour + (minute / 60)) - 12) * 15
 
     return deg2rad(w)
