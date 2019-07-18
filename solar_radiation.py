@@ -137,11 +137,9 @@ def solar_time(n, hour, minute, long):
     solar time : tuple-like
         local solar time (hour, minute, second)
     """
-    if isinstance(n, np.ndarray):
-        if (n < 1).any() or (n > 365).any():
+    if isinstance(n, np.ndarray) and ((n < 1).any() or (n > 365).any()):
             raise ValueError('n should be 1 <= lat <= 365')
-    elif isinstance(n, int):
-        if (n < 1) or (n > 365):
+    elif isinstance(n, int) and ((n < 1) or (n > 365)):
             raise ValueError('n should be 1 <= lat <= 365')
 
     # standard time
