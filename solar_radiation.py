@@ -31,9 +31,29 @@ def day_of_the_year(month, day):
     return t.days
 
 
+def check_nth_day_range(n):
+    """
+    Checks whether the input nth_day of the year is within range
+
+    Parameters
+    ----------
+    lat : float
+        latitude (-90 to 90) in degrees
+    Returns
+    -------
+    None. Raises an exception in case
+    """
+    if isinstance(n, np.ndarray) and ((n < 1).any() or (n > 365).any()):
+            raise ValueError('n should be 1 <= n <= 365')
+    elif isinstance(n, int) and ((n < 1) or (n > 365)):
+            raise ValueError('n should be 1 <= n <= 365')
+
+    return None
+
+
 def check_latitude_range(lat):
     """
-    Checks whether the range of latitude is within its limits
+    Checks whether the input latitude is within range
 
     Parameters
     ----------
@@ -64,10 +84,7 @@ def B_nth_day(n):
     B : float
         angle of the day of the year in radians
     """
-    if isinstance(n, np.ndarray) and ((n < 1).any() or (n > 365).any()):
-            raise ValueError('n should be 1 <= n <= 365')
-    elif isinstance(n, int) and ((n < 1) or (n > 365)):
-            raise ValueError('n should be 1 <= n <= 365')
+    check_nth_day_range(n)
 
     return deg2rad((n - 1) * (360 / 365))
 
@@ -157,10 +174,7 @@ def solar_time(n, hour, minute, long):
     solar time : tuple-like
         local solar time (hour, minute, second)
     """
-    if isinstance(n, np.ndarray) and ((n < 1).any() or (n > 365).any()):
-            raise ValueError('n should be 1 <= n <= 365')
-    elif isinstance(n, int) and ((n < 1) or (n > 365)):
-            raise ValueError('n should be 1 <= n <= 365')
+    check_nth_day_range(n)
 
     if (hour < 0) or (hour > 23):
         raise ValueError('hour should be 0 <= hour <= 23')
