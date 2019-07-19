@@ -17,9 +17,9 @@ def day_of_the_year(month, day):
     Parameters
     ----------
     month : integer
-        day of the year (1 to 12)
+        month of the year (1 to 12)
     day : integer
-        hour of the day (0 to 31)
+        day of the month (0 to 31)
     Returns
     -------
     day : integer
@@ -28,7 +28,7 @@ def day_of_the_year(month, day):
     t = datetime(datetime.now().year, month, day) - \
         datetime(datetime.now().year, 1, 1)
 
-    return t.days
+    return t.days + 1
 
 
 def check_nth_day_range(n):
