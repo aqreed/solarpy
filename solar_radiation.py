@@ -31,6 +31,26 @@ def day_of_the_year(month, day):
     return t.days
 
 
+def check_latitude_range(lat):
+    """
+    Checks whether the range of latitude is within its limits
+
+    Parameters
+    ----------
+    lat : float
+        latitude (-90 to 90) in degrees
+    Returns
+    -------
+    None. Raises an exception in case
+    """
+    if isinstance(lat, np.ndarray) and ((abs(lat) > 90).any()):
+            raise ValueError('latitude should be -90 <= latitude <= 90')
+    elif isinstance(lat, int) and (abs(lat) > 90):
+            raise ValueError('latitude should be -90 <= latitude <= 90')
+
+    return None
+
+
 def B_nth_day(n):
     """
     Day of the year angle
@@ -217,8 +237,7 @@ def theta(n, lat, beta, surf_az, hour, minute):
     theta : float
             angle of incidence in radians
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
+    check_latitude_range(lat)
 
     dec = declination(n)
     lat = deg2rad(lat)
@@ -258,8 +277,7 @@ def theta_z(n, lat, hour, minute):
     theta_z : float
         angle of incidence in radians
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
+    check_latitude_range(lat)
 
     dec = declination(n)
     lat = deg2rad(lat)
@@ -293,9 +311,6 @@ def solar_azimuth(n, lat, hour, minute):
     solar_az : float
         azimuth angle in radians
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
-
     # to avoid undefined values at lat = 90º or lat = -90º
     # the error incurred is acceptable
     if abs(lat) == 90:
@@ -344,9 +359,6 @@ def solar_altitude(n, lat, hour, minute):
     solar_altitude : float
         altitude angle in radians
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
-
     th_z = theta_z(n, lat, hour, minute)
 
     return np.arcsin(cos(th_z))
@@ -367,8 +379,7 @@ def sunset_hour_angle(n, lat):
     sunset_hour_angle : float
         hour angle at sunset in radians
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
+    check_latitude_range(lat)
 
     dec = declination(n)
     lat = deg2rad(lat)
@@ -392,9 +403,6 @@ def sunset_time(n, lat):
     sunset_hour : datetime-like
         time at sunset
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
-
     ws = sunset_hour_angle(n, lat)  # degrees
 
     aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
@@ -422,8 +430,6 @@ def sunrise_hour_angle(n, lat):
     sunrise_hour_angle : float
         hour angle at sunrise in radians
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
 
     return -sunset_hour_angle(n, lat)
 
@@ -443,8 +449,7 @@ def sunrise_time(n, lat):
     sunset_hour : datetime-like
         time at sunset
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
+    check_latitude_range(lat)
 
     ws = sunrise_hour_angle(n, lat)  # degrees
 
@@ -476,6 +481,8 @@ def daylight_hours(n, lat):
     ----
         http://mathforum.org/library/drmath/view/56478.html
     """
+    check_latitude_range(lat)
+
     dec = declination(n)
     lat = deg2rad(lat)
 
@@ -510,8 +517,7 @@ def lla2ecef(lat, long, h):
     array-like
         ECEF coordinates in meters
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
+    check_latitude_range(lat)
 
     a = 6378137  # [m] Earth equatorial axis
     b = 6356752.3142  # [m] Earth polar axis
@@ -550,8 +556,7 @@ def ned2ecef(v_ned, lat, long):
     v_ecef : array-like
         vector expressed in ECEF coordinates
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
+    check_latitude_range(lat)
 
     lat = deg2rad(lat)
     long = deg2rad(long)
@@ -587,9 +592,6 @@ def solar_vector_NED(n, lat, hour, minute):
     array-like
         vector of the solar beam
     """
-    if abs(lat) > 90:
-        raise ValueError('latitude should be -90 < lat < 90')
-
     solar_az = solar_azimuth(n, lat, hour, minute)
     solar_alt = solar_altitude(n, lat, hour, minute)
 
