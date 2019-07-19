@@ -633,6 +633,18 @@ def solar_vector_NED(n, lat, hour, minute):
     solar_az = solar_azimuth(n, lat, hour, minute)
     solar_alt = solar_altitude(n, lat, hour, minute)
 
-    return np.array([-cos(solar_az) * cos(solar_alt),
-                     -sin(solar_az) * cos(solar_alt),
-                     -sin(solar_alt)])
+    w = hour_angle(hour, minute)
+    w_sr = sunrise_hour_angle(n, lat)
+    w_ss = sunset_hour_angle(n, lat)
+    lh = daylight_hours(n, lat)
+
+    if (np.isnan(w_ss)) and (lh == 0):
+        # the point on the earth surface is in permanent darkness
+        return np.array([0, 0, 0])
+    elif (w > w_ss) or (w < w_sr):
+        # the point on the earth surface is at night
+        return np.array([0, 0, 0])
+    else:
+        return np.array([-cos(solar_az) * cos(solar_alt),
+                         -sin(solar_az) * cos(solar_alt),
+                         -sin(solar_alt)])
