@@ -10,26 +10,6 @@ from numpy import sin, cos, tan, deg2rad, rad2deg
 from datetime import datetime, timedelta
 
 
-def day_of_the_year(month, day):
-    """
-    Returns the day of the year
-
-    Parameters
-    ----------
-    month : integer
-        month of the year (1 to 12)
-    day : integer
-        day of the month (0 to 31)
-    Returns
-    -------
-    day : integer
-        day of the year(1 to 365)
-    """
-    t = datetime(datetime.now().year, month, day) - \
-        datetime(datetime.now().year, 1, 1)
-
-    return t.days + 1
-
 
 def check_nth_day_range(n):
     """
@@ -69,6 +49,47 @@ def check_latitude_range(lat):
             raise ValueError('latitude should be -90 <= latitude <= 90')
 
     return None
+
+
+def check_longitude_range(lng):
+    """
+    Checks whether the input longitude is within range
+
+    Parameters
+    ----------
+    lng : float
+        longitude (0 to 359) in degrees
+    Returns
+    -------
+    None. Raises an exception in case
+    """
+    if isinstance(lng, np.ndarray) and ((lng < 0).any() or (lng > 359).any()):
+            raise ValueError('longitude should be 0 <= longitude <= 359')
+    elif isinstance(lng, int) and ((lng < 0) or (lng > 359)):
+            raise ValueError('longitude should be 0 <= longitude <= 359')
+
+    return None
+
+
+def day_of_the_year(month, day):
+    """
+    Returns the day of the year
+
+    Parameters
+    ----------
+    month : integer
+        month of the year (1 to 12)
+    day : integer
+        day of the month (0 to 31)
+    Returns
+    -------
+    day : integer
+        day of the year(1 to 365)
+    """
+    t = datetime(datetime.now().year, month, day) - \
+        datetime(datetime.now().year, 1, 1)
+
+    return t.days + 1
 
 
 def B_nth_day(n):
@@ -154,7 +175,7 @@ def declination(n):
            0.002679 * cos(3 * B) + 0.00148 * sin(3 * B)
 
 
-def solar_time(n, hour, minute, long):
+def solar_time(n, hour, minute, lng):
     """
     Solar time (local) for a particular day of the year (nth),
     hour-minute and longitude
@@ -167,8 +188,8 @@ def solar_time(n, hour, minute, long):
         hour of the day (0 to 23)
     minute : integer
         minutes (0 to 59)
-    longitude : float
-        east-west position wrt the Prime Meridian in degrees
+    lng : float
+        longitude, east-west position wrt the Prime Meridian in degrees
     Returns
     -------
     solar time : tuple-like
@@ -188,8 +209,8 @@ def solar_time(n, hour, minute, long):
                       minutes=minute)
 
     # displacement from standard meridian for that longitude
-    long_std = round(long / 15) * 15
-    delta_std_meridian = timedelta(minutes=(4 * (long_std - long)))
+    lng_std = round(lng / 15) * 15
+    delta_std_meridian = timedelta(minutes=(4 * (lng_std - lng)))
 
     # eq. of time for that day
     E = timedelta(minutes=Eq_time(n))
@@ -512,7 +533,7 @@ def daylight_hours(n, lat):
     return b * 24
 
 
-def lla2ecef(lat, long, h):
+def lla2ecef(lat, lng, h):
     """
     Calculates geocentric coordinates (ECEF - Earth Centered, Earth Fixed) for
     a given set of latitude, longitude and altitude inputs.
@@ -521,7 +542,7 @@ def lla2ecef(lat, long, h):
     ----------
     lat : float
         latitude in degrees
-    long : float
+    lng : float
         longitude in degrees
     h : float
         altitude above sea level in feet
@@ -532,25 +553,26 @@ def lla2ecef(lat, long, h):
         ECEF coordinates in meters
     """
     check_latitude_range(lat)
+    check_longitude_range(lng)
 
     a = 6378137  # [m] Earth equatorial axis
     b = 6356752.3142  # [m] Earth polar axis
     e = 0.081819190842622  # Earth eccentricity
 
     lat = deg2rad(lat)  # degrees to radians
-    long = deg2rad(long)  # degrees to radians
+    lng = deg2rad(lng)  # degrees to radians
     h = h * 0.3048  # feets to meters
 
     N = a / (1 - (e * sin(lat))**2)**(.5)
 
-    x = (N + h) * cos(lat) * cos(long)
-    y = (N + h) * cos(lat) * sin(long)
+    x = (N + h) * cos(lat) * cos(lng)
+    y = (N + h) * cos(lat) * sin(lng)
     z = (((b/a)**2) * N + h) * sin(lat)
 
     return np.array([x, y, z])
 
 
-def ned2ecef(v_ned, lat, long):
+def ned2ecef(v_ned, lat, lng):
     """
     Converts vector from local geodetic horizon reference frame (NED - North,
     East, Down) at a given latitude and longitude to geocentric coordinates
@@ -562,7 +584,7 @@ def ned2ecef(v_ned, lat, long):
         vector expressed in NED coordinates
     lat : float
         latitude in degrees
-    long : float
+    lng : float
         longitude in degrees
 
     Returns
@@ -571,13 +593,14 @@ def ned2ecef(v_ned, lat, long):
         vector expressed in ECEF coordinates
     """
     check_latitude_range(lat)
+    check_longitude_range(lng)
 
     lat = deg2rad(lat)
-    long = deg2rad(long)
+    lng = deg2rad(lng)
 
-    Lne = np.array([[-sin(lat) * cos(long), -sin(lat) * sin(long), cos(lat)],
-                    [-sin(long), cos(long), 0],
-                    [-cos(lat) * cos(long), -cos(lat) * sin(long), -sin(lat)]])
+    Lne = np.array([[-sin(lat) * cos(lng), -sin(lat) * sin(lng), cos(lat)],
+                    [-sin(lng), cos(lng), 0],
+                    [-cos(lat) * cos(lng), -cos(lat) * sin(lng), -sin(lat)]])
 
     Len = Lne.transpose()
     v_ecef = Len.dot(v_ned)
