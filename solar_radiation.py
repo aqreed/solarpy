@@ -196,6 +196,7 @@ def solar_time(n, hour, minute, lng):
         local solar time (hour, minute, second)
     """
     check_nth_day_range(n)
+    check_longitude_range(lng)
 
     if (hour < 0) or (hour > 23):
         raise ValueError('hour should be 0 <= hour <= 23')
