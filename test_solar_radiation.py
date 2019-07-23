@@ -165,6 +165,12 @@ def test_hour_angle():
     """
     Tests hour angle function. Values from Duffie and Beckman
     """
+    # noon
+    hour = 12
+    minute = 0
+    expected_value = np.deg2rad(0)
+    assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
+
     # Example 1.6.1
     hour = 10
     minute = 30
