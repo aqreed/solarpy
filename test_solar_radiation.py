@@ -153,8 +153,7 @@ def test_solar_time():
     Tests solar time function. Values from Duffie and Beckman example 1.5.1
     """
     n = 34
-    t_std_h = 10  # standard time (hour)
-    t_std_min = 30  # standard time (minute)
+    t_std_h, t_std_min = 10, 30  # standard time (hour, minute)
     lng = 89.4
 
     expected_value = (10, 18, 54)
@@ -166,38 +165,32 @@ def test_hour_angle():
     Tests hour angle function. Values from Duffie and Beckman
     """
     # noon
-    hour = 12
-    minute = 0
+    hour, minute = 12, 0
     expected_value = np.deg2rad(0)
     assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
 
     # Example 1.6.1
-    hour = 10
-    minute = 30
+    hour, minute = 10, 30
     expected_value = np.deg2rad(-22.5)
     assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
 
     # Example 1.6.2a
-    hour = 9
-    minute = 30
+    hour, minute = 9, 30
     expected_value = np.deg2rad(-37.5)
     assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
 
     # Example 1.6.2b
-    hour = 18
-    minute = 30
+    hour, minute = 18, 30
     expected_value = np.deg2rad(97.5)
     assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
 
     # Example 1.6.3
-    hour = 16
-    minute = 0
+    hour, minute = 16, 0
     expected_value = np.deg2rad(60)
     assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
 
     # Example 1.7.1
-    hour = 14
-    minute = 0
+    hour, minute = 14, 0
     expected_value = np.deg2rad(30)
     assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
 
@@ -211,8 +204,7 @@ def test_angle_of_incidence():
     lat = 43
     beta = 45
     surf_az = 15
-    hour = 10
-    minute = 30
+    hour, minute = 10, 30
 
     expected_value = np.deg2rad(35)
     assert_almost_equal(sr.theta(n, lat, beta, surf_az, hour, minute),
@@ -226,8 +218,7 @@ def test_zenith_angle():
     # noon at summer solstice and lat = 23.4º
     n = 171
     lat = 23.45
-    hour = 12
-    minute = 0
+    hour, minute = 12, 0
 
     expected_value = np.deg2rad(0)
     assert_almost_equal(sr.theta_z(n, lat, hour, minute),
@@ -236,8 +227,7 @@ def test_zenith_angle():
     # Example 1.6.2a
     n = 44
     lat = 43
-    hour = 9
-    minute = 30
+    hour, minute = 9, 30
 
     expected_value = np.deg2rad(66.5)
     assert_almost_equal(sr.theta_z(n, lat, hour, minute),
@@ -246,8 +236,7 @@ def test_zenith_angle():
     # Example 1.6.2b
     n = sr.day_of_the_year(7, 1)
     lat = 43
-    hour = 18
-    minute = 30
+    hour, minute = 18, 30
 
     expected_value = np.deg2rad(79.6)
     assert_almost_equal(sr.theta_z(n, lat, hour, minute),
@@ -256,8 +245,7 @@ def test_zenith_angle():
     # Example 1.6.3
     n = sr.day_of_the_year(3, 16)
     lat = 43
-    hour = 16
-    minute = 0
+    hour, minute = 16, 0
 
     expected_value = np.deg2rad(70.3)
     assert_almost_equal(sr.theta_z(n, lat, hour, minute),
@@ -271,8 +259,7 @@ def test_solar_azimuth():
     # Example 1.6.2a
     n = 44
     lat = 43
-    hour = 9
-    minute = 30
+    hour, minute = 9, 30
 
     expected_value = np.deg2rad(-40.0)
     assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
@@ -281,8 +268,7 @@ def test_solar_azimuth():
     # Example 1.6.2b
     n = sr.day_of_the_year(7, 1)
     lat = 43
-    hour = 18
-    minute = 30
+    hour, minute = 18, 30
 
     expected_value = np.deg2rad(112.0)
     assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
@@ -291,8 +277,7 @@ def test_solar_azimuth():
     # Example 1.6.3
     n = sr.day_of_the_year(3, 16)
     lat = 43
-    hour = 16
-    minute = 0
+    hour, minute = 16, 0
 
     expected_value = np.deg2rad(66.8)
     assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
@@ -306,8 +291,7 @@ def test_solar_altitude():
     # Example 1.6.3
     n = sr.day_of_the_year(3, 16)
     lat = 43
-    hour = 16
-    minute = 0
+    hour, minute = 16, 0
 
     expected_value = np.deg2rad(19.7)
     assert_almost_equal(sr.solar_altitude(n, lat, hour, minute),
