@@ -136,3 +136,103 @@ class Test_declination(ut.TestCase):
         n = 171  # July 21
         expected_value = np.deg2rad(23)
         self.assertAlmostEqual(sr.declination(n), expected_value, delta=1)
+
+
+def test_solar_time():
+    """
+    Tests solar time function. Values from Duffie and Beckman example 1.5.1
+    """
+    n = 34
+    t_std_h = 10  # standard time (hour)
+    t_std_min = 30  # standard time (minute)
+    lng = 89.4
+
+    expected_value = (10, 18, 54)
+    assert_equal(sr.solar_time(n, t_std_h, t_std_min, lng), expected_value)
+
+
+def test_hour_angle():
+    """
+    Tests hour angle function. Values from Duffie and Beckman
+    """
+    # Example 1.6.1
+    hour = 10
+    minute = 30
+    expected_value = np.deg2rad(-22.5)
+    assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
+
+    # Example 1.6.2a
+    hour = 9
+    minute = 30
+    expected_value = np.deg2rad(-37.5)
+    assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
+
+    # Example 1.6.2b
+    hour = 18
+    minute = 30
+    expected_value = np.deg2rad(97.5)
+    assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
+
+    # Example 1.6.3
+    hour = 16
+    minute = 0
+    expected_value = np.deg2rad(60)
+    assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
+
+    # Example 1.7.1
+    hour = 14
+    minute = 0
+    expected_value = np.deg2rad(30)
+    assert_almost_equal(sr.hour_angle(hour, minute), expected_value)
+
+
+def test_angle_of_incidence():
+    """
+    Tests angle of incidence function. Values from Duffie and Beckman
+    example 1.6.1
+    """
+    n = 44
+    lat = 43
+    beta = 45
+    surf_az = 15
+    hour = 10
+    minute = 30
+
+    expected_value = np.deg2rad(35)
+    assert_almost_equal(sr.theta(n, lat, beta, surf_az, hour, minute),
+                        expected_value, decimal=3)
+
+
+def test_zenith_angle():
+    """
+    Tests zenith angle function. Values from Duffie and Beckman
+    """
+    # Example 1.6.2a
+    n = 44
+    lat = 43
+    hour = 9
+    minute = 30
+
+    expected_value = np.deg2rad(66.5)
+    assert_almost_equal(sr.theta_z(n, lat, hour, minute),
+                        expected_value, decimal=2)
+
+    # Example 1.6.2b
+    n = sr.day_of_the_year(7, 1)
+    lat = 43
+    hour = 18
+    minute = 30
+
+    expected_value = np.deg2rad(79.6)
+    assert_almost_equal(sr.theta_z(n, lat, hour, minute),
+                        expected_value, decimal=2)
+
+    # Example 1.6.3
+    n = sr.day_of_the_year(3, 16)
+    lat = 43
+    hour = 16
+    minute = 0
+
+    expected_value = np.deg2rad(70.3)
+    assert_almost_equal(sr.theta_z(n, lat, hour, minute),
+                        expected_value, decimal=2)
