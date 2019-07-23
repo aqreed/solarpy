@@ -130,12 +130,22 @@ class Test_declination(ut.TestCase):
     def test_Jan1(self):
         n = 1  # January 1
         expected_value = np.deg2rad(-23)
-        self.assertAlmostEqual(sr.declination(n), expected_value, delta=1)
+        self.assertAlmostEqual(sr.declination(n), expected_value, 1)
 
     def test_summerSolstice(self):
         n = 171  # July 21
         expected_value = np.deg2rad(23)
-        self.assertAlmostEqual(sr.declination(n), expected_value, delta=1)
+        self.assertAlmostEqual(sr.declination(n), expected_value, 1)
+
+    def test_Feb13(self):  # Example 1.6.1
+        n = 44  # February 13
+        expected_value = np.deg2rad(-14)
+        self.assertAlmostEqual(sr.declination(n), expected_value, 1)
+
+    def test_Mar16(self):  # Example 1.6.3
+        n = sr.day_of_the_year(3, 16)  # March 16
+        expected_value = np.deg2rad(-2.4)
+        self.assertAlmostEqual(sr.declination(n), expected_value, 1)
 
 
 def test_solar_time():
