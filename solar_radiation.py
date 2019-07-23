@@ -10,15 +10,14 @@ from numpy import sin, cos, tan, deg2rad, rad2deg
 from datetime import datetime, timedelta
 
 
-
 def check_nth_day_range(n):
     """
     Checks whether the input nth_day of the year is within range
 
     Parameters
     ----------
-    lat : float
-        latitude (-90 to 90) in degrees
+    n : float
+        day of the year (1 to 365)
     Returns
     -------
     None. Raises an exception in case
@@ -98,7 +97,7 @@ def B_nth_day(n):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     Returns
     -------
@@ -117,7 +116,7 @@ def Gon(n):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
 
     Returns
@@ -138,7 +137,7 @@ def Eq_time(n):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
 
     Returns
@@ -160,7 +159,7 @@ def declination(n):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
 
     Returns
@@ -182,7 +181,7 @@ def solar_time(n, hour, minute, lng):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     hour : integer
         hour of the day (0 to 23)
@@ -254,7 +253,7 @@ def theta(n, lat, beta, surf_az, hour, minute):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
@@ -300,7 +299,7 @@ def theta_z(n, lat, hour, minute):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
@@ -334,7 +333,7 @@ def solar_azimuth(n, lat, hour, minute):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
@@ -382,7 +381,7 @@ def solar_altitude(n, lat, hour, minute):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
@@ -406,7 +405,7 @@ def sunset_hour_angle(n, lat):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
@@ -430,7 +429,7 @@ def sunset_time(n, lat):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
@@ -457,7 +456,7 @@ def sunrise_hour_angle(n, lat):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
@@ -476,7 +475,7 @@ def sunrise_time(n, lat):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
@@ -505,7 +504,7 @@ def daylight_hours(n, lat):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
@@ -617,7 +616,7 @@ def solar_vector_NED(n, lat, hour, minute):
 
     Parameters
     ----------
-    n : integer
+    n : float
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
