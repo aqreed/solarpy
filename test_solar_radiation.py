@@ -74,14 +74,12 @@ class Test_Gon(ut.TestCase):
     Tests radiation on a plane normal values.
     """
     def test_min(self):
-        n = fmin(sr.Gon, 150)[0]  # gets "n" for the min value
-        min_value = 1320
-        self.assertTrue(sr.Gon(n) > min_value)
+        a = np.arange(1, 366)  # array with all days
+        self.assertTrue((sr.Gon(a) > 1320).all())
 
     def test_max(self):
-        n = fmin(lambda x: -sr.Gon(x), 1)  # gets "n" for the max value
-        max_value = 1420
-        self.assertTrue(sr.Gon(n) < max_value)
+        a = np.arange(1, 366)  # array with all days
+        self.assertTrue((sr.Gon(a) < 1420).all())
 
     def test_Jan1(self):
         n = 1  # January 1
