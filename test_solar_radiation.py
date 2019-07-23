@@ -256,6 +256,34 @@ def test_solar_azimuth():
     """
     Tests solar azimuth angle function. Values from Duffie and Beckman
     """
+    # different values of (n, lat) at noon
+    hour, minute = 12, 0
+
+    expected_value = np.deg2rad(0)
+    n, lat = 1, 0
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+    n, lat = 90, 30
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+    n, lat = 180, 60
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+    n, lat = 270, 90
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+
+    expected_value = np.deg2rad(180)
+    n, lat = 90, -30
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+    n, lat = 180, -60
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+    n, lat = 270, -90
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+
     # Example 1.6.2a
     n = 44
     lat = 43
