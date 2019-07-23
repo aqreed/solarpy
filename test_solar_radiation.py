@@ -99,14 +99,12 @@ class Test_Eq_time(ut.TestCase):
     Tests equation of time values.
     """
     def test_min(self):
-        n = fmin(sr.Eq_time, 50)[0]  # gets "n" for the min value
-        min_value = -15
-        self.assertTrue(sr.Eq_time(n) > min_value)
+        a = np.arange(1, 366)  # array with all days
+        self.assertTrue((sr.Eq_time(a) > -15).all())
 
     def test_max(self):
-        n = fmin(lambda x: -sr.Eq_time(x), 300)  # gets "n" for the max value
-        max_value = 17
-        self.assertTrue(sr.Eq_time(n) < max_value)
+        a = np.arange(1, 366)  # array with all days
+        self.assertTrue((sr.Eq_time(a) < 17).all())
 
     def test_Jan1(self):
         n = 1  # January 1
