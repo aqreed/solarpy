@@ -117,3 +117,26 @@ class Test_Eq_time(ut.TestCase):
         n = 171  # July 21
         expected_value = -1
         self.assertAlmostEqual(sr.Eq_time(n), expected_value, delta=1)
+
+
+class Test_declination(ut.TestCase):
+    """
+    Tests equation of time values.
+    """
+    def test_min(self):
+        a = np.arange(1, 366)  # array with all days
+        self.assertTrue((np.rad2deg(sr.declination(a)) > -24).all())
+
+    def test_max(self):
+        a = np.arange(1, 366)  # array with all days
+        self.assertTrue((np.rad2deg(sr.declination(a)) < 24).all())
+
+    def test_Jan1(self):
+        n = 1  # January 1
+        expected_value = np.deg2rad(-23)
+        self.assertAlmostEqual(sr.declination(n), expected_value, delta=1)
+
+    def test_summerSolstice(self):
+        n = 171  # July 21
+        expected_value = np.deg2rad(23)
+        self.assertAlmostEqual(sr.declination(n), expected_value, delta=1)
