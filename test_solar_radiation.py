@@ -73,6 +73,16 @@ class Test_Gon(ut.TestCase):
     """
     Tests radiation on a plane normal values.
     """
+    def test_min(self):
+        n = fmin(sr.Gon, 150)[0]  # gets "n" for the min value
+        min_value = 1320
+        self.assertTrue(sr.Gon(n) > min_value)
+
+    def test_max(self):
+        n = fmin(lambda x: -sr.Gon(x), 1)  # gets "n" for the max value
+        max_value = 1420
+        self.assertTrue(sr.Gon(n) < max_value)
+
     def test_Jan1(self):
         n = 1  # January 1
         expected_value = 1415
@@ -84,16 +94,26 @@ class Test_Gon(ut.TestCase):
         self.assertAlmostEqual(sr.Gon(n), expected_value, delta=1)
 
 
-# class test_Eq_time(ut.TestCase):
-#      """
-#      Tests equation of time values.
-#      """
-#      def test_min(self):
-#          n = fmin(sr.Eq_time, 1)[0]
-#          min_value = -15
-#          self.assertTrue(sr.Eq_time(n) > min_value)
+class Test_Eq_time(ut.TestCase):
+    """
+    Tests equation of time values.
+    """
+    def test_min(self):
+        n = fmin(sr.Eq_time, 50)[0]  # gets "n" for the min value
+        min_value = -15
+        self.assertTrue(sr.Eq_time(n) > min_value)
 
-#      def test_max(self):
-#          n = fmin(lambda x: -sr.Eq_time(x), 1)
-#          max_value = 20
-#          self.assertTrue(sr.Eq_time(n) < max_value)
+    def test_max(self):
+        n = fmin(lambda x: -sr.Eq_time(x), 300)  # gets "n" for the max value
+        max_value = 17
+        self.assertTrue(sr.Eq_time(n) < max_value)
+
+    def test_Jan1(self):
+        n = 1  # January 1
+        expected_value = -3
+        self.assertAlmostEqual(sr.Eq_time(n), expected_value, delta=1)
+
+    def test_summerSolstice(self):
+        n = 171  # July 21
+        expected_value = -1
+        self.assertAlmostEqual(sr.Eq_time(n), expected_value, delta=1)
