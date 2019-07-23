@@ -223,6 +223,16 @@ def test_zenith_angle():
     """
     Tests zenith angle function. Values from Duffie and Beckman
     """
+    # noon at summer solstice and lat = 23.4º
+    n = 171
+    lat = 23.45
+    hour = 12
+    minute = 0
+
+    expected_value = np.deg2rad(0)
+    assert_almost_equal(sr.theta_z(n, lat, hour, minute),
+                        expected_value, decimal=2)
+
     # Example 1.6.2a
     n = 44
     lat = 43
