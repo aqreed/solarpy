@@ -246,3 +246,53 @@ def test_zenith_angle():
     expected_value = np.deg2rad(70.3)
     assert_almost_equal(sr.theta_z(n, lat, hour, minute),
                         expected_value, decimal=2)
+
+
+def test_solar_azimuth():
+    """
+    Tests solar azimuth angle function. Values from Duffie and Beckman
+    """
+    # Example 1.6.2a
+    n = 44
+    lat = 43
+    hour = 9
+    minute = 30
+
+    expected_value = np.deg2rad(-40.0)
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+
+    # Example 1.6.2b
+    n = sr.day_of_the_year(7, 1)
+    lat = 43
+    hour = 18
+    minute = 30
+
+    expected_value = np.deg2rad(112.0)
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+
+    # Example 1.6.3
+    n = sr.day_of_the_year(3, 16)
+    lat = 43
+    hour = 16
+    minute = 0
+
+    expected_value = np.deg2rad(66.8)
+    assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
+                        expected_value, decimal=2)
+
+
+def test_solar_altitude():
+    """
+    Tests solar azimuth angle function. Values from Duffie and Beckman
+    """
+    # Example 1.6.3
+    n = sr.day_of_the_year(3, 16)
+    lat = 43
+    hour = 16
+    minute = 0
+
+    expected_value = np.deg2rad(19.7)
+    assert_almost_equal(sr.solar_altitude(n, lat, hour, minute),
+                        expected_value, decimal=2)
