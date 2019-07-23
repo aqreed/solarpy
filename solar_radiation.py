@@ -484,8 +484,6 @@ def sunrise_time(n, lat):
     sunset_hour : datetime-like
         time at sunset
     """
-    check_latitude_range(lat)
-
     ws = sunrise_hour_angle(n, lat)  # degrees
 
     aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
