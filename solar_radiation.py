@@ -399,6 +399,17 @@ def solar_altitude(n, lat, hour, minute):
     return np.arcsin(cos(th_z))
 
 
+class NoSunsetNoSunrise(Exception):
+    """
+    Raised when the latitude in question is in permanent night or day
+    """
+    def __init__(self):
+        self.msg = "Permanent night (or day) on this latitude on this day"
+
+    def __str__(self):
+        return repr(self.msg)
+
+
 def sunset_hour_angle(n, lat):
     """
     When theta_z = 90º
