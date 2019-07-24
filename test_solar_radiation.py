@@ -407,3 +407,44 @@ class Test_sunrise_time(ut.TestCase):
         expected_value = 7  # diferent year than boook!
         self.assertAlmostEqual(sr.sunrise_time(n, lat).minute,
                                expected_value, 2)
+
+
+def test_daylight_hours():
+    """
+    Tests daylight hours function
+    """
+    # South Pole in the summer
+    n = 1
+    lat = -80
+    expected_value = 24
+    assert_almost_equal(sr.daylight_hours(n, lat), expected_value)
+
+    # South Pole in the winter
+    n = 180
+    lat = -85
+    expected_value = 0
+    assert_almost_equal(sr.daylight_hours(n, lat), expected_value)
+
+    # North Pole in the winter
+    n = 1
+    lat = 82
+    expected_value = 0
+    assert_almost_equal(sr.daylight_hours(n, lat), expected_value)
+
+    # North Pole in the summer
+    n = 180
+    lat = 78
+    expected_value = 24
+    assert_almost_equal(sr.daylight_hours(n, lat), expected_value)
+
+    # Equator in the summer
+    n = 185
+    lat = 0
+    expected_value = 12
+    assert_almost_equal(sr.daylight_hours(n, lat), expected_value)
+
+    # Equator in the winter
+    n = 350
+    lat = 0
+    expected_value = 12
+    assert_almost_equal(sr.daylight_hours(n, lat), expected_value)
