@@ -501,16 +501,19 @@ def sunrise_time(n, lat):
     sunset_hour : datetime-like
         time at sunset
     """
-    ws = sunrise_hour_angle(n, lat)  # degrees
+    try:
+        ws = sunrise_hour_angle(n, lat)  # degrees
 
-    aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
-    minutes, seconds = divmod(aux, 60)
-    hours, minutes = divmod(minutes, 60)
+        aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
+        minutes, seconds = divmod(aux, 60)
+        hours, minutes = divmod(minutes, 60)
 
-    st = datetime(datetime.now().year, 1, 1) + \
-         timedelta(days=n, hours=(12+hours), minutes=minutes)
+        st = datetime(datetime.now().year, 1, 1) + \
+             timedelta(days=n, hours=(12+hours), minutes=minutes)
+        return st
 
-    return st
+    except NoSunsetNoSunrise as e:
+        print(e.msg)
 
 
 def daylight_hours(n, lat):
