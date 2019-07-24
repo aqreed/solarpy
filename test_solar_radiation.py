@@ -6,6 +6,7 @@
 """
 
 import solar_radiation as sr
+from solar_radiation import NoSunsetNoSunrise
 
 import numpy as np
 from numpy.testing import (assert_equal, assert_almost_equal,
@@ -341,3 +342,19 @@ def test_solar_altitude():
     expected_value = np.deg2rad(19.7)
     assert_almost_equal(sr.solar_altitude(n, lat, hour, minute),
                         expected_value, decimal=2)
+
+
+class Test_sunset_hour_angle(ut.TestCase):
+    """
+    Tests sunset hour angle function. Values from Duffie and Beckman
+    """
+    def test_errors(self):
+        self.assertRaises(NoSunsetNoSunrise, sr.sunset_hour_angle, 1, 80)
+        self.assertRaises(NoSunsetNoSunrise, sr.sunset_hour_angle, 171, -75)
+
+    def test_examples(self):
+        # Example 1.6.3
+        n = sr.day_of_the_year(3, 16)
+        lat = 43
+        expected_value = np.deg2rad(87.8)
+        self.assertAlmostEqual(sr.sunset_hour_angle(n, lat), expected_value, 1)
