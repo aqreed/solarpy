@@ -431,7 +431,10 @@ def sunset_hour_angle(n, lat):
     lat = deg2rad(lat)
     cos_ws = (-1) * tan(lat) * tan(dec)
 
-    return np.arccos(cos_ws)
+    if abs(cos_ws) > 1:
+        raise NoSunsetNoSunrise
+    else:
+        return np.arccos(cos_ws)
 
 
 def sunset_time(n, lat):
