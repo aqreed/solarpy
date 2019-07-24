@@ -374,3 +374,20 @@ class Test_sunset_time(ut.TestCase):
         expected_value = 52  # diferent year than boook!
         self.assertAlmostEqual(sr.sunset_time(n, lat).minute,
                                expected_value, 2)
+
+
+class Test_sunrise_hour_angle(ut.TestCase):
+    """
+    Tests sunrise hour angle function. Values from Duffie and Beckman
+    """
+    def test_errors(self):
+        self.assertRaises(NoSunsetNoSunrise, sr.sunrise_hour_angle, 1, 80)
+        self.assertRaises(NoSunsetNoSunrise, sr.sunrise_hour_angle, 171, -75)
+
+    def test_examples(self):
+        # Example 1.6.3
+        n = sr.day_of_the_year(3, 16)
+        lat = 43
+        expected_value = np.deg2rad(-87.8)
+        self.assertAlmostEqual(sr.sunrise_hour_angle(n, lat),
+                               expected_value, 1)
