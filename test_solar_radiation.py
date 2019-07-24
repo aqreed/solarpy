@@ -148,16 +148,26 @@ class Test_declination(ut.TestCase):
         self.assertAlmostEqual(sr.declination(n), expected_value, 1)
 
 
-def test_solar_time():
+class Test_solar_time(ut.TestCase):
     """
     Tests solar time function. Values from Duffie and Beckman example 1.5.1
     """
-    n = 34
-    t_std_h, t_std_min = 10, 30  # standard time (hour, minute)
-    lng = 89.4
+    def test_errors(self):
+        n = 34
+        lng = 89.4
+        self.assertRaises(ValueError, sr.solar_time, n, -1, 0, lng)
+        self.assertRaises(ValueError, sr.solar_time, n, 24, 0, lng)
+        self.assertRaises(ValueError, sr.solar_time, n, 0, -1, lng)
+        self.assertRaises(ValueError, sr.solar_time, n, 0, 60, lng)
 
-    expected_value = (10, 18, 54)
-    assert_equal(sr.solar_time(n, t_std_h, t_std_min, lng), expected_value)
+    def test_Feb3(self):
+        n = 34
+        t_std_h, t_std_min = 10, 30  # standard time (hour, minute)
+        lng = 89.4
+
+        expected_value = (10, 18, 54)
+        self.assertEqual(sr.solar_time(n, t_std_h, t_std_min, lng),
+                         expected_value)
 
 
 def test_hour_angle():
