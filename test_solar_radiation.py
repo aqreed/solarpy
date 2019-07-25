@@ -495,3 +495,50 @@ def test_lla2ecef():
     h = 0
     expected_value = np.array([0, 0, -b])
     assert_array_almost_equal(sr.lla2ecef(lat, lng, h), expected_value, 4)
+
+
+def test_ned2ecef():
+    """
+    Test function that transforms ned-basis vectors to ecef-basis
+    """
+    lat, lng = 0, 0
+
+    v_ned = np.array([1, 0, 0])
+    expected_value = np.array([0, 0, 1])
+    assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
+
+    v_ned = np.array([0, 1, 0])
+    expected_value = np.array([0, 1, 0])
+    assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
+
+    v_ned = np.array([0, 0, 1])
+    expected_value = np.array([-1, 0, 0])
+    assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
+
+    lat, lng = 0, 90
+
+    v_ned = np.array([1, 0, 0])
+    expected_value = np.array([0, 0, 1])
+    assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
+
+    v_ned = np.array([0, 1, 0])
+    expected_value = np.array([-1, 0, 0])
+    assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
+
+    v_ned = np.array([0, 0, 1])
+    expected_value = np.array([0, -1, 0])
+    assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
+
+    lat, lng = 90, 0
+
+    v_ned = np.array([1, 0, 0])
+    expected_value = np.array([-1, 0, 0])
+    assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
+
+    v_ned = np.array([0, 1, 0])
+    expected_value = np.array([0, 1, 0])
+    assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
+
+    v_ned = np.array([0, 0, 1])
+    expected_value = np.array([0, 0, -1])
+    assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
