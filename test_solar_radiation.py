@@ -539,8 +539,8 @@ def test_solar_vector_NED():
     Test function that calculates solar vector in ned frame
     """
     # summer solstice, solar noon, lat=declination
-    n = 171  # June 20
-    lat = 23.45
+    n = sr.day_of_the_year(6, 21)   # June 21
+    lat = 23 + 26/60 + 14/3600 # obliquity in 2019
     hour, minute = 12, 0
     expected_value = np.array([0, 0, -1])
     assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
