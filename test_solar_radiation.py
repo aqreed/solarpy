@@ -448,3 +448,50 @@ def test_daylight_hours():
     lat = 0
     expected_value = 12
     assert_almost_equal(sr.daylight_hours(n, lat), expected_value)
+
+
+def test_lla2ecef():
+    """
+    Test function that returns ecef position from lat, long, altitude
+    """
+    a = 6378137  # [m] Earth equatorial axis
+    b = 6356752.3142  # [m] Earth polar axis
+
+    # OX-axis
+    lat = 0
+    lng = 0
+    h = 0
+    expected_value = np.array([a, 0, 0])
+    assert_array_almost_equal(sr.lla2ecef(lat, lng, h), expected_value, 4)
+
+    lat = 0
+    lng = 180
+    h = 0
+    expected_value = np.array([-a, 0, 0])
+    assert_array_almost_equal(sr.lla2ecef(lat, lng, h), expected_value, 4)
+
+    # OY-axis
+    lat = 0
+    lng = 90
+    h = 0
+    expected_value = np.array([0, a, 0])
+    assert_array_almost_equal(sr.lla2ecef(lat, lng, h), expected_value, 4)
+
+    lat = 0
+    lng = 270
+    h = 0
+    expected_value = np.array([0, -a, 0])
+    assert_array_almost_equal(sr.lla2ecef(lat, lng, h), expected_value, 4)
+
+    # OZ-axis
+    lat = 90
+    lng = 0
+    h = 0
+    expected_value = np.array([0, 0, b])
+    assert_array_almost_equal(sr.lla2ecef(lat, lng, h), expected_value, 4)
+
+    lat = -90
+    lng = 0
+    h = 0
+    expected_value = np.array([0, 0, -b])
+    assert_array_almost_equal(sr.lla2ecef(lat, lng, h), expected_value, 4)
