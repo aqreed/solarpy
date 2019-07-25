@@ -10,8 +10,7 @@ from solar_radiation import NoSunsetNoSunrise
 
 import numpy as np
 from numpy.testing import (assert_equal, assert_almost_equal,
-                           assert_array_equal, assert_array_almost_equal)
-from scipy.optimize import fmin
+                           assert_array_almost_equal)
 import unittest as ut
 
 
