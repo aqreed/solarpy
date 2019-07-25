@@ -165,7 +165,6 @@ class Test_solar_time(ut.TestCase):
         n = 34
         t_std_h, t_std_min = 10, 30  # standard time (hour, minute)
         lng = 89.4
-
         expected_value = (10, 18, 54)
         self.assertEqual(sr.solar_time(n, t_std_h, t_std_min, lng),
                          expected_value)
@@ -223,7 +222,6 @@ def test_angle_of_incidence():
     beta = 45
     surf_az = 15
     hour, minute = 10, 30
-
     expected_value = np.deg2rad(35)
     assert_almost_equal(sr.theta(n, lat, beta, surf_az, hour, minute),
                         expected_value, decimal=3)
@@ -237,7 +235,6 @@ def test_zenith_angle():
     n = 171
     lat = 23.45
     hour, minute = 12, 0
-
     expected_value = np.deg2rad(0)
     assert_almost_equal(sr.theta_z(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -246,7 +243,6 @@ def test_zenith_angle():
     n = 44
     lat = 43
     hour, minute = 9, 30
-
     expected_value = np.deg2rad(66.5)
     assert_almost_equal(sr.theta_z(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -255,7 +251,6 @@ def test_zenith_angle():
     n = sr.day_of_the_year(7, 1)
     lat = 43
     hour, minute = 18, 30
-
     expected_value = np.deg2rad(79.6)
     assert_almost_equal(sr.theta_z(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -264,7 +259,6 @@ def test_zenith_angle():
     n = sr.day_of_the_year(3, 16)
     lat = 43
     hour, minute = 16, 0
-
     expected_value = np.deg2rad(70.3)
     assert_almost_equal(sr.theta_z(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -306,7 +300,6 @@ def test_solar_azimuth():
     n = 44
     lat = 43
     hour, minute = 9, 30
-
     expected_value = np.deg2rad(-40.0)
     assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -315,7 +308,6 @@ def test_solar_azimuth():
     n = sr.day_of_the_year(7, 1)
     lat = 43
     hour, minute = 18, 30
-
     expected_value = np.deg2rad(112.0)
     assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -324,7 +316,6 @@ def test_solar_azimuth():
     n = sr.day_of_the_year(3, 16)
     lat = 43
     hour, minute = 16, 0
-
     expected_value = np.deg2rad(66.8)
     assert_almost_equal(sr.solar_azimuth(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -338,7 +329,6 @@ def test_solar_altitude():
     n = sr.day_of_the_year(3, 16)
     lat = 43
     hour, minute = 16, 0
-
     expected_value = np.deg2rad(19.7)
     assert_almost_equal(sr.solar_altitude(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -542,3 +532,80 @@ def test_ned2ecef():
     v_ned = np.array([0, 0, 1])
     expected_value = np.array([0, 0, -1])
     assert_array_almost_equal(sr.ned2ecef(v_ned, lat, lng), expected_value)
+
+
+def test_solar_vector_NED():
+    """
+    Test function that calculates solar vector in ned frame
+    """
+    # summer solstice, solar noon, lat=declination
+    n = 171  # June 20
+    lat = 23.45
+    hour, minute = 12, 0
+    expected_value = np.array([0, 0, -1])
+    assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
+
+    # permanent darkness: south pole in winter
+    n = 165
+    lat = -80
+    hour, minute = 12, 0
+    expected_value = np.array([0, 0, 0])
+    assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
+
+    n = 200
+    lat = -70
+    hour, minute = 17, 0
+    expected_value = np.array([0, 0, 0])
+    assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
+
+    # permanent darkness: north pole in winter
+    n = 1
+    lat = 83
+    hour, minute = 10, 0
+    expected_value = np.array([0, 0, 0])
+    assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
+
+    n = 300
+    lat = 76
+    hour, minute = 19, 0
+    expected_value = np.array([0, 0, 0])
+    assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
+
+    # night: north hemisphere
+    n = 5
+    lat = 33
+    ss_t = sr.sunset_time(n, lat)
+    hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
+    expected_value = np.array([0, 0, 0])
+    assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
+
+    n = 210
+    lat = 15
+    sr_t = sr.sunrise_time(n, lat)
+    hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
+    expected_value = np.array([0, 0, 0])
+    assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
+
+    # night: south hemisphere
+    n = 34
+    lat = -63
+    ss_t = sr.sunset_time(n, lat)
+    hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
+    expected_value = np.array([0, 0, 0])
+    assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
+
+    n = 264
+    lat = -15
+    sr_t = sr.sunrise_time(n, lat)
+    hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
+    expected_value = np.array([0, 0, 0])
+    assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
