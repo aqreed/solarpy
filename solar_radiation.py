@@ -718,8 +718,14 @@ def air_mass_KastenYoung1989(theta_z, h):
     if h < 0:
         raise ValueError("altitude (h) must be > 0")
 
-    theta_z_rad = deg2rad(theta_z)
-    m = np.exp(-0.0001184 * h) / (cos(theta_z_rad) +
+    # this conditional is needed to avoid KY1989 model limitations beyond 90º
+    if theta_z < 91.5:
+        theta_z_rad = deg2rad(theta_z)
+        m = np.exp(-0.0001184 * h) / (cos(theta_z_rad) +
                                   0.50572 * (96.07995 - theta_z) ** (-1.634))
+    else:
+        theta_z_rad = deg2rad(91.5)
+        m = np.exp(-0.0001184 * h) / (cos(theta_z_rad) +
+                                  0.50572 * (96.07995 - 91.5) ** (-1.634))
 
     return m

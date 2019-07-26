@@ -640,3 +640,10 @@ class Test_air_mass_KY1989(ut.TestCase):
         expected_value = 0
         self.assertAlmostEqual(sr.air_mass_KastenYoung1989(theta_z, h),
                                expected_value)
+
+        # model limits (zenith=91.5)
+        theta_z = 94
+        h = 0
+        expected_value = sr.air_mass_KastenYoung1989(91.5, h)
+        self.assertEqual(sr.air_mass_KastenYoung1989(theta_z, h),
+                         expected_value)
