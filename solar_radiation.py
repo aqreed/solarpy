@@ -18,6 +18,7 @@ def check_nth_day_range(n):
     ----------
     n : float
         day of the year (1 to 365)
+
     Returns
     -------
     None. Raises an exception in case
@@ -38,6 +39,7 @@ def check_latitude_range(lat):
     ----------
     lat : float
         latitude (-90 to 90) in degrees
+
     Returns
     -------
     None. Raises an exception in case
@@ -58,6 +60,7 @@ def check_longitude_range(lng):
     ----------
     lng : float
         longitude (0 to 359) in degrees
+
     Returns
     -------
     None. Raises an exception in case
@@ -80,6 +83,7 @@ def day_of_the_year(month, day):
         month of the year (1 to 12)
     day : integer
         day of the month (0 to 31)
+
     Returns
     -------
     day : integer
@@ -99,6 +103,7 @@ def B_nth_day(n):
     ----------
     n : float
         day of the year (1 to 365)
+
     Returns
     -------
     B : float
@@ -189,6 +194,7 @@ def solar_time(n, hour, minute, lng):
         minutes (0 to 59)
     lng : float
         longitude, east-west position wrt the Prime Meridian in degrees
+
     Returns
     -------
     solar time : tuple-like
@@ -230,6 +236,7 @@ def hour_angle(hour, minute):
         hour (solar time) of the day (0 to 23)
     minute : integer
         solar (solar time) minutes (0 to 59)
+
     Returns
     -------
     hour angle : float
@@ -267,6 +274,7 @@ def theta(n, lat, beta, surf_az, hour, minute):
         hour of the day (0 to 23)
     minute : integer
         minutes (0 to 59)
+
     Returns
     -------
     theta : float
@@ -307,10 +315,11 @@ def theta_z(n, lat, hour, minute):
         hour of the day (0 to 23)
     minute : integer
         minutes (0 to 59)
+
     Returns
     -------
     theta_z : float
-        angle of incidence in radians
+        zenith angle of incidence in radians
     """
     check_latitude_range(lat)
 
@@ -341,6 +350,7 @@ def solar_azimuth(n, lat, hour, minute):
         hour of the day (0 to 23)
     minute : integer
         minutes (0 to 59)
+
     Returns
     -------
     solar_az : float
@@ -389,6 +399,7 @@ def solar_altitude(n, lat, hour, minute):
         hour of the day (0 to 23)
     minute : integer
         minutes (0 to 59)
+
     Returns
     -------
     solar_altitude : float
@@ -420,6 +431,7 @@ def sunset_hour_angle(n, lat):
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
+
     Returns
     -------
     sunset_hour_angle : float
@@ -447,6 +459,7 @@ def sunset_time(n, lat):
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
+
     Returns
     -------
     sunset_hour : datetime-like
@@ -477,6 +490,7 @@ def sunrise_hour_angle(n, lat):
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
+
     Returns
     -------
     sunrise_hour_angle : float
@@ -496,6 +510,7 @@ def sunrise_time(n, lat):
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
+
     Returns
     -------
     sunset_hour : datetime-like
@@ -526,6 +541,7 @@ def daylight_hours(n, lat):
         day of the year (1 to 365)
     lat : float
         latitude (-90 to 90) in degrees
+
     Returns
     -------
     day_hours : float
@@ -642,6 +658,7 @@ def solar_vector_NED(n, lat, hour, minute):
         hour of the day (0 to 23)
     minute : integer
         minutes (0 to 59)
+
     Returns
     -------
     array-like
