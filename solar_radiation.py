@@ -8,6 +8,7 @@
 import numpy as np
 from numpy import sin, cos, tan, deg2rad, rad2deg
 from datetime import datetime, timedelta
+from skaero.atmosphere import coesa
 
 
 def check_nth_day_range(n):
@@ -729,3 +730,51 @@ def air_mass_KastenYoung1989(theta_z, h):
                                   0.50572 * (96.07995 - 91.5) ** (-1.634))
 
     return m
+
+
+def beam_irradiance(h, n, lat, hour, minute):
+    """
+    Returns the solar beam irradiance on a plane normal to the sun vector (not
+    taking into account the diffuse component) at a certain altitude, day,
+    latitude and time of the day (hour and minute).
+
+    Parameters
+    ----------
+    h : float
+        altitude above sea level in meters
+    n : integer
+        day of the year (1 to 365)
+    lat : float
+        latitude (-90 to 90) in degrees
+    hour : integer
+        hour of the day (0 to 23)
+    minute : integer
+        minutes (0 to 59)
+
+    Returns
+    -------
+    G : float
+        beam irradiance in W/m2
+
+    Notes
+    -----
+    Aglietti, G.S., Redi, S., Tatnall,A.R., Markvart, T., (2009) "Harnessing
+    High-Altitude Solar Power"
+    """
+    alpha_int = 0.32  # atmospheric extinction. TODO: improve, as it changes
+                      # throughout the year. Visible light? 4000-7000A
+    prel = coesa.pressure(h) / coesa.pressure(0)  # pressure relation
+
+    # the maximum zenith angle is the one that points to the horizon
+    a = 6378137  # [m] Earth equatorial axis
+    theta_lim = (1 / 2) * np.pi + np.arccos(a / (a + h))  # radians
+
+    theta_zenith = theta_z(n, lat, hour, minute)  # radians
+
+    if theta_zenith < theta_lim:
+        m = air_mass_KastenYoung1989(rad2deg(theta_zenith), h)
+        G = Gon(n) * np.exp(-prel * m * alpha_int)
+    else:
+        G = 0
+
+    return G
