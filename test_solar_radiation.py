@@ -35,6 +35,15 @@ class Test_day_of_the_year(ut.TestCase):
     """
     Tests day of the year values.
     """
+    def test_month_range(self):
+        self.assertRaises(ValueError, sr.day_of_the_year, 0, 1)
+        self.assertRaises(ValueError, sr.day_of_the_year, 13, 1)
+
+    def test_day_range(self):
+        self.assertRaises(ValueError, sr.day_of_the_year, 1, 0)  # Jan 0?
+        self.assertRaises(ValueError, sr.day_of_the_year, 1, 32)  # Jan 32?
+        self.assertRaises(ValueError, sr.day_of_the_year, 2, 31)  # Feb 31?
+
     def test_Jan1(self):
         month, day = 1, 1
         expected_value = 1  # January 1
@@ -539,7 +548,7 @@ def test_solar_vector_NED():
     """
     # summer solstice, solar noon, lat=declination
     n = sr.day_of_the_year(6, 21)   # June 21
-    lat = 23 + 26/60 + 14/3600 # obliquity in 2019
+    lat = 23 + 26/60 + 14/3600  # obliquity in 2019
     hour, minute = 12, 0
     expected_value = np.array([0, 0, -1])
     assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),

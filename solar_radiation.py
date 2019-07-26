@@ -546,6 +546,7 @@ def daylight_hours(n, lat):
     -------
     day_hours : float
         number of hours of light within the day
+
     Note
     ----
         http://mathforum.org/library/drmath/view/56478.html
