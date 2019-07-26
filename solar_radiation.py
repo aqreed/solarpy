@@ -691,3 +691,35 @@ def solar_vector_NED(n, lat, hour, minute):
             return np.array([-cos(solar_az) * cos(solar_alt),
                              -sin(solar_az) * cos(solar_alt),
                              -sin(solar_alt)])
+
+
+def air_mass_KastenYoung1989(theta_z, h):
+    """
+    Returns the ratio obetween air mass crossed by a sun beam to the mass
+    it would pass if the sun were in the zenith.
+
+    Parameters
+    ----------
+    theta_z : float
+        zenith angle of incidence in degrees
+    h : float
+        altitude above sea level in meters
+
+    Returns
+    -------
+    m : float
+        vector expressed in ECEF coordinates
+
+    Notes
+    -----
+    Kasten, F.H., Young, A.T. (1989) "Revised optical air mass tables and
+    approximation formula"
+    """
+    if h < 0:
+        raise ValueError("altitude (h) must be > 0")
+
+    theta_z_rad = np.deg2rad(theta_z)
+    m = np.exp(-0.0001184 * h) / (np.cos(theta_z_rad) +
+                                  0.50572 * (96.07995 - theta_z) ** (-1.634))
+
+    return m

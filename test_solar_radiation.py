@@ -617,3 +617,26 @@ def test_solar_vector_NED():
     expected_value = np.array([0, 0, 0])
     assert_array_almost_equal(sr.solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
+
+
+class Test_air_mass_KY1989(ut.TestCase):
+    """
+    Tests air mass function based on the work of Kasten and Young (1989)
+    """
+    def test_errors(self):
+        self.assertRaises(ValueError, sr.air_mass_KastenYoung1989, 0, -1)
+
+    def test_limit_values(self):
+        # air mass through zenit direction at sea level
+        theta_z = 0
+        h = 0
+        expected_value = 1
+        self.assertAlmostEqual(sr.air_mass_KastenYoung1989(theta_z, h),
+                               expected_value, 3)
+
+        # air mass through zenit direction at exosphere
+        theta_z = 0
+        h = 1e8  # 10.000 km
+        expected_value = 0
+        self.assertAlmostEqual(sr.air_mass_KastenYoung1989(theta_z, h),
+                               expected_value)
