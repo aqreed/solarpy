@@ -647,3 +647,71 @@ class Test_air_mass_KY1989(ut.TestCase):
         expected_value = sr.air_mass_KastenYoung1989(91.5, h)
         self.assertEqual(sr.air_mass_KastenYoung1989(theta_z, h),
                          expected_value)
+
+
+class Test_beam_irradiance(ut.TestCase):
+    """
+    Tests beam_irradiance function based on the work of Aglietti et al (2009)
+    """
+    def test_errors(self):
+        # erroneus altitud
+        h = -10
+        n = 171
+        lat = -63
+        hour, minute = 10, 0
+        self.assertRaises(ValueError, sr.beam_irradiance, h, n, lat,
+                                                          hour, minute)
+
+        # erroneus day of the year
+        h = 0
+        n = 367
+        lat = -63
+        hour, minute = 10, 0
+        self.assertRaises(ValueError, sr.beam_irradiance, h, n, lat,
+                                                          hour, minute)
+
+        # erroneus latitude
+        h = 0
+        n = 171
+        lat = -91
+        hour, minute = 10, 0
+        self.assertRaises(ValueError, sr.beam_irradiance, h, n, lat,
+                                                          hour, minute)
+
+    def test_limit_values(self):
+        # sun below the horizon
+        h = 0
+        n = 171
+        lat = -67
+        hour, minute = 12, 0
+        expected_value = 0
+        self.assertEqual(sr.beam_irradiance(h, n, lat, hour, minute),
+                         expected_value)
+
+        h = 10000
+        n = 1
+        lat = 87
+        hour, minute = 12, 0
+        expected_value = 0
+        self.assertEqual(sr.beam_irradiance(h, n, lat, hour, minute),
+                         expected_value)
+
+        # north pole winter nigth
+        h = 1000
+        n = 320
+        lat = 80
+        hour, minute = 5, 0
+        expected_value = 0
+        self.assertEqual(sr.beam_irradiance(h, n, lat, hour, minute),
+                         expected_value)
+
+        # south pole winter nigth
+        h = 5000
+        n = 150
+        lat = -85
+        hour, minute = 22, 0
+        expected_value = 0
+        self.assertEqual(sr.beam_irradiance(h, n, lat, hour, minute),
+                         expected_value)
+
+        # TODO: more test!
