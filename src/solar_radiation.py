@@ -10,8 +10,8 @@ from numpy import sin, cos, tan, deg2rad, rad2deg
 from datetime import datetime, timedelta
 from skaero.atmosphere import coesa
 from utils import NoSunsetNoSunrise, lla2ecef, ned2ecef,\
-                  check_latitude_range, check_longitude_range,\
-                  check_nth_day_range
+                  check_lat_range, check_long_range,\
+                  check_day_range
 
 
 def day_of_the_year(month, day):
@@ -50,7 +50,7 @@ def B_nth_day(n):
     B : float
         angle of the day of the year in radians
     """
-    check_nth_day_range(n)
+    check_day_range(n)
 
     return deg2rad((n - 1) * (360 / 365))
 
@@ -141,8 +141,8 @@ def solar_time(n, hour, minute, lng):
     solar time : tuple-like
         local solar time (hour, minute, second)
     """
-    check_nth_day_range(n)
-    check_longitude_range(lng)
+    check_day_range(n)
+    check_long_range(lng)
 
     if (hour < 0) or (hour > 23):
         raise ValueError('hour should be 0 <= hour <= 23')
@@ -221,7 +221,7 @@ def theta(n, lat, beta, surf_az, hour, minute):
     theta : float
             angle of incidence in radians
     """
-    check_latitude_range(lat)
+    check_lat_range(lat)
 
     dec = declination(n)
     lat = deg2rad(lat)
@@ -262,7 +262,7 @@ def theta_z(n, lat, hour, minute):
     theta_z : float
         zenith angle of incidence in radians
     """
-    check_latitude_range(lat)
+    check_lat_range(lat)
 
     dec = declination(n)
     lat = deg2rad(lat)
@@ -367,7 +367,7 @@ def sunset_hour_angle(n, lat):
     sunset_hour_angle : float
         hour angle at sunset in radians
     """
-    check_latitude_range(lat)
+    check_lat_range(lat)
 
     dec = declination(n)
     lat = deg2rad(lat)
@@ -481,7 +481,7 @@ def daylight_hours(n, lat):
     ----
         http://mathforum.org/library/drmath/view/56478.html
     """
-    check_latitude_range(lat)
+    check_lat_range(lat)
 
     dec = declination(n)
     lat = deg2rad(lat)

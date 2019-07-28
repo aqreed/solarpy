@@ -9,7 +9,7 @@ import numpy as np
 from numpy import sin, cos, tan, deg2rad
 
 
-def check_nth_day_range(n):
+def check_day_range(n):
     """
     Checks whether the input nth_day of the year is within range
 
@@ -30,7 +30,7 @@ def check_nth_day_range(n):
     return None
 
 
-def check_latitude_range(lat):
+def check_lat_range(lat):
     """
     Checks whether the input latitude is within range
 
@@ -51,7 +51,7 @@ def check_latitude_range(lat):
     return None
 
 
-def check_longitude_range(lng):
+def check_long_range(lng):
     """
     Checks whether the input longitude is within range
 
@@ -102,8 +102,8 @@ def lla2ecef(lat, lng, h):
     array-like
         ECEF coordinates in meters
     """
-    check_latitude_range(lat)
-    check_longitude_range(lng)
+    check_lat_range(lat)
+    check_long_range(lng)
 
     a = 6378137  # [m] Earth equatorial axis
     b = 6356752.3142  # [m] Earth polar axis
@@ -142,8 +142,8 @@ def ned2ecef(v_ned, lat, lng):
     v_ecef : array-like
         vector expressed in ECEF coordinates
     """
-    check_latitude_range(lat)
-    check_longitude_range(lng)
+    check_lat_range(lat)
+    check_long_range(lng)
 
     lat = deg2rad(lat)
     lng = deg2rad(lng)

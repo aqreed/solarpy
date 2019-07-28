@@ -19,16 +19,16 @@ class Test_Ranges(ut.TestCase):
     Tests ranges checks
     """
     def test_nth_day_range(self):
-        self.assertRaises(ValueError, check_nth_day_range, 0)
-        self.assertRaises(ValueError, check_nth_day_range, 366)
+        self.assertRaises(ValueError, check_day_range, 0)
+        self.assertRaises(ValueError, check_day_range, 366)
 
     def test_latitude_range(self):
-        self.assertRaises(ValueError, check_latitude_range, -91)
-        self.assertRaises(ValueError, check_latitude_range, 91)
+        self.assertRaises(ValueError, check_lat_range, -91)
+        self.assertRaises(ValueError, check_lat_range, 91)
 
     def test_longitude_range(self):
-        self.assertRaises(ValueError, check_longitude_range, -1)
-        self.assertRaises(ValueError, check_longitude_range, 360)
+        self.assertRaises(ValueError, check_long_range, -1)
+        self.assertRaises(ValueError, check_long_range, 360)
 
 
 class Test_day_of_the_year(ut.TestCase):
