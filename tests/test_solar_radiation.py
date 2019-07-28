@@ -660,7 +660,7 @@ class Test_beam_irradiance(ut.TestCase):
         lat = -63
         hour, minute = 10, 0
         self.assertRaises(ValueError, beam_irradiance, h, n, lat,
-                                                          hour, minute)
+                          hour, minute)
 
         # erroneus day of the year
         h = 0
@@ -668,7 +668,7 @@ class Test_beam_irradiance(ut.TestCase):
         lat = -63
         hour, minute = 10, 0
         self.assertRaises(ValueError, beam_irradiance, h, n, lat,
-                                                          hour, minute)
+                          hour, minute)
 
         # erroneus latitude
         h = 0
@@ -676,7 +676,7 @@ class Test_beam_irradiance(ut.TestCase):
         lat = -91
         hour, minute = 10, 0
         self.assertRaises(ValueError, beam_irradiance, h, n, lat,
-                                                          hour, minute)
+                          hour, minute)
 
     def test_limit_values(self):
         # sun below the horizon
