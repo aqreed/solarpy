@@ -7,7 +7,7 @@
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib, scikit-aero |
 
-This packages aims to provide with a reliable solar radiation model, mainly based on the work of Duffie and Beckman "Solar energy thermal processes" (1974). 
+This packages aims to provide with a reliable solar radiation model, mainly based on the work of Duffie, J.A., and Beckman, W. A., 1974, "Solar energy thermal processes".
 
 The main objective is generate a **solar beam irradiance** (W/m2) prediction on:
 * **any plane**, thanks to the calculation of the solar vector in NED (North East Down) coordinates, suitable for its use in flight dynamics simulations...
@@ -34,7 +34,7 @@ You will also need skaero:
 
 ```sh
 $ git clone https://github.com/AeroPython/scikit-aero.git
-$ cd pysolarRadiation
+$ cd scikit-aero
 $ pip install -e .
 ```
 
