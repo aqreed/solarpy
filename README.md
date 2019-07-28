@@ -7,9 +7,9 @@
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib, scikit-aero |
 
-This packages aims to provide with a reliable solar radiation model, mainly based on the work of Duffie, J.A., and Beckman, W. A., 1974, "Solar energy thermal processes".
+This packages aims to provide a reliable solar radiation model, mainly based on the work of Duffie, J.A., and Beckman, W. A., 1974, "Solar energy thermal processes".
 
-The main objective is generate a **solar beam irradiance** (W/m2) prediction on:
+The main purpose is to generate a **solar beam irradiance** (W/m2) prediction on:
 * **any plane**, thanks to the calculation of the solar vector in NED (North East Down) coordinates, suitable for its use in flight dynamics simulations...
 * **any place of the earth**, taking into account the solar time wrt the standard time, the latitude effect on solar azimuth and altitude as well as sunset/sunrise time and hour angle, etc.
 * **any day of the year**, taking into account the variations of the extraterrestrial radiation, the equation of time, the declination, etc., throughout the year
