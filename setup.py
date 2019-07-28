@@ -6,6 +6,6 @@ setup(
     version="0.1dev0",
     packages=find_packages('src'),
     package_dir={'': 'src'},
-    install_requires=['numpy', 'matplotlib'],
+    install_requires=['numpy', 'matplotlib', 'scikit-aero'],
     tests_requires=['pytest']
     )
