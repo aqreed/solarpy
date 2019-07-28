@@ -45,6 +45,22 @@ pysolarRadiation recommends py.test for running the test suite. Running from the
 ```sh
 $ pytest
 ```
+
+### Usage
+
+Solar [declination](https://en.wikipedia.org/wiki/Position_of_the_Sun#Declination_of_the_Sun_as_seen_from_Earth) on August 5?
+
+```
+import solar_radiation as sr
+
+n = sr.day_of_the_year(8, 5)  # August 5
+dec = sr.declination(n)
+
+print(dec)
+```
+
+Please find some Jupyter Notebooks on the 'examples' folder.
+
 ### License
 
 MIT (see `COPYING`)
