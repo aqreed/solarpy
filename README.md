@@ -2,7 +2,7 @@
 |  |  |
 | ------ | ------ |
 | Description | Python Solar Radiation model |
-| Author | AeroPython Team <aeropython@groups.io> |
+| Author | aqreed |
 | Version | 0.1.dev0 |
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib, scikit-aero |
