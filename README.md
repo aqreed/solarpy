@@ -14,7 +14,7 @@ The main purpose is to generate a **solar beam irradiance** (W/m2) prediction on
 * **any place of the earth**, taking into account the solar time wrt the standard time, the latitude effect on solar azimuth and altitude as well as sunset/sunrise time and hour angle, etc.
 * **any day of the year**, taking into account the variations of the extraterrestrial radiation, the equation of time, the declination, etc., throughout the year
 
-Solar [irradiance](https://en.wikipedia.org/wiki/Solar_irradiance) on the southern hemisphere on October 17, at sea-level 13.10UTC (plane pointing upwards)?
+Solar [irradiance](https://en.wikipedia.org/wiki/Solar_irradiance) on the southern hemisphere on October 17, at sea-level 13.01UTC (plane pointing upwards)?
 
 ```
 import solar_radiation as sr
@@ -25,7 +25,7 @@ n = sr.day_of_the_year(10, 17)  # October 17
 lat = -13.1  # southern hemisphere
 hour, minute = 13, 1  # midday
 
-i = sr. irradiance_on_plane(vnorm, h, n, lat, hour, minute)
+i = sr.irradiance_on_plane(vnorm, h, n, lat, hour, minute)
 
 print(i)
 ```
