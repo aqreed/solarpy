@@ -715,3 +715,192 @@ class Test_beam_irradiance(ut.TestCase):
                          expected_value)
 
         # TODO: more test!
+
+
+def test_irradiance_on_plane():
+    """
+    Test function that calculates solar irradiance in a plane defined
+    by its normal vector
+    """
+
+    ### Northern Hemisphere ###
+    # summer solstice, solar noon, lat=declination, plane right-side-up
+    vnorm = np.array([0, 0, -1])
+    h = 20000
+    n = day_of_the_year(6, 20)
+    lat = 23 + 26/60 + 14/3600
+    hour, minute = 12, 0
+    expected_value = beam_irradiance(h, n, lat, hour, minute)
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # summer solstice, solar noon, lat=declination, plane upside-down
+    vnorm = np.array([0, 0, 1])
+    h = 20000
+    n = day_of_the_year(6, 20)
+    lat = 23 + 26/60 + 14/3600
+    hour, minute = 12, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # summer solstice, night, lat=declination, plane right-side-up
+    vnorm = np.array([0, 0, -1])
+    h = 20000
+    n = day_of_the_year(6, 20)
+    lat = 23 + 26/60 + 14/3600
+    hour, minute = 0, 0
+    expected_value = beam_irradiance(h, n, lat, hour, minute)
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # summer solstice, night, lat=declination, plane upside-down
+    vnorm = np.array([0, 0, 1])
+    h = 20000
+    n = day_of_the_year(6, 20)
+    lat = 23 + 26/60 + 14/3600
+    hour, minute = 0, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # winter solstice, permanent darkness, plane right-side-up
+    vnorm = np.array([0, 0, -1])
+    h = 20000
+    n = day_of_the_year(12, 22)
+    lat = 70
+    hour, minute = 12, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # winter solstice, permanent darkness, plane upside-down
+    vnorm = np.array([0, 0, 1])
+    h = 20000
+    n = day_of_the_year(12, 22)
+    lat = 70
+    hour, minute = 12, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # winter solstice, night, plane right-side-up
+    vnorm = np.array([0, 0, -1])
+    h = 20000
+    n = day_of_the_year(12, 22)
+    lat = 40
+    hour, minute = 3, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # winter solstice, night, plane upside-down
+    vnorm = np.array([0, 0, 1])
+    h = 20000
+    n = day_of_the_year(12, 22)
+    lat = 40
+    hour, minute = 3, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # any day, solar noon, any latitude, plane sideways
+    vnorm = np.array([0, 1, 0])
+    h = 0
+    n = day_of_the_year(4, 1)
+    lat = 47.3
+    hour, minute = 12, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    ### Southern Hemisphere ###
+    # summer solstice, solar noon, lat=declination, plane right-side-up
+    vnorm = np.array([0, 0, -1])
+    h = 20000
+    n = day_of_the_year(12, 22)
+    lat = -(23 + 26/60 + 14/3600)
+    hour, minute = 12, 0
+    expected_value = beam_irradiance(h, n, lat, hour, minute)
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # summer solstice, solar noon, lat=declination, plane upside-down
+    vnorm = np.array([0, 0, 1])
+    h = 20000
+    n = day_of_the_year(12, 22)
+    lat = -(23 + 26/60 + 14/3600)
+    hour, minute = 12, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # summer solstice, night, lat=declination, plane right-side-up
+    vnorm = np.array([0, 0, -1])
+    h = 20000
+    n = day_of_the_year(12, 22)
+    lat = -(23 + 26/60 + 14/3600)
+    hour, minute = 0, 0
+    expected_value = beam_irradiance(h, n, lat, hour, minute)
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # summer solstice, night, lat=declination, plane upside-down
+    vnorm = np.array([0, 0, 1])
+    h = 20000
+    n = day_of_the_year(12, 22)
+    lat = -(23 + 26/60 + 14/3600)
+    hour, minute = 0, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # winter solstice, permanent darkness, plane right-side-up
+    vnorm = np.array([0, 0, -1])
+    h = 20000
+    n = day_of_the_year(6, 20)
+    lat = -70
+    hour, minute = 12, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # winter solstice, permanent darkness, plane upside-down
+    vnorm = np.array([0, 0, 1])
+    h = 20000
+    n = day_of_the_year(6, 20)
+    lat = -70
+    hour, minute = 12, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # winter solstice, night, plane right-side-up
+    vnorm = np.array([0, 0, -1])
+    h = 20000
+    n = day_of_the_year(6, 20)
+    lat = -40
+    hour, minute = 3, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # winter solstice, night, plane upside-down
+    vnorm = np.array([0, 0, 1])
+    h = 20000
+    n = day_of_the_year(6, 20)
+    lat = -40
+    hour, minute = 3, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)
+
+    # any day, solar noon, any latitude, plane sideways
+    vnorm = np.array([0, 1, 0])
+    h = 0
+    n = day_of_the_year(10, 5)
+    lat = -13.1
+    hour, minute = 12, 0
+    expected_value = 0
+    assert_almost_equal(irradiance_on_plane(vnorm, h, n, lat, hour, minute),
+                        expected_value, 3)

@@ -632,3 +632,50 @@ def beam_irradiance(h, n, lat, hour, minute):
         G = 0
 
     return G
+
+
+def irradiance_on_plane(vnorm, h, n, lat, hour, minute):
+    """
+    Returns the solar beam irradiance on a plane (not taking into account the
+    diffuse component) defined by its unit normal vector in NED frame at a
+    certain altitude, day, latitude and time of the day (hour and minute).
+
+    Parameters
+    ----------
+    vnorm : array-like
+        unit vector normal to plane
+    h : float
+        altitude above sea level in meters
+    n : integer
+        day of the year (1 to 365)
+    lat : float
+        latitude (-90 to 90) in degrees
+    hour : integer
+        hour of the day (0 to 23)
+    minute : integer
+        minutes (0 to 59)
+
+    Returns
+    -------
+    G : float
+        beam irradiance in W/m2
+    """
+    vsol = solar_vector_NED(n, lat, hour, minute)
+
+    if (vsol == np.array([0, 0, 0])).all():
+        # in case there is no sun (night or permanent darkness)
+        G = 0
+        theta = np.nan
+    else:
+        vnorm_abs = np.linalg.norm(vnorm)
+        vsol_abs = np.linalg.norm(vsol)
+
+        theta = np.arccos(np.dot(vnorm, vsol) / (vnorm_abs * vsol_abs))
+
+        # for future solar panel applications: only one side of it has cells
+        if cos(theta) > 0:
+            G = beam_irradiance(h, n, lat, hour, minute) * cos(theta)
+        else:
+            G = 0
+
+    return G
