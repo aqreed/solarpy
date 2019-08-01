@@ -32,3 +32,10 @@ install:
 
 script:
   - pytest
+
+after_success:
+  # Uninstall to test coverage against sources
+  - pip uninstall solar_radiation -y
+  - pip install --no-deps -e .
+  - py.test --cov
+  - codecov
