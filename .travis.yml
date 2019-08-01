@@ -15,14 +15,14 @@ before_install:
   - conda info -a
   - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION
   - source activate test-environment
-  - conda install numpy scipy matplotlib pandas tqdm
+  - conda install numpy scipy 
   - pip install coverage pytest pytest-cov codecov
 
   - cd ..
   - git clone https://github.com/AeroPython/scikit-aero.git
   - cd scikit-aero
   - pip install -e .
-  - cd -
+  - cd pySolarRadiation
 
 install:
   - pip install -e .
