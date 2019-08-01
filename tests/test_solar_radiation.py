@@ -12,6 +12,8 @@ import numpy as np
 from numpy.testing import (assert_equal, assert_almost_equal,
                            assert_array_almost_equal)
 import unittest as ut
+import io
+import sys
 
 
 class Test_day_of_the_year(ut.TestCase):
@@ -356,6 +358,16 @@ class Test_sunset_time(ut.TestCase):
         self.assertAlmostEqual(sunset_time(n, lat).minute,
                                expected_value, 2)
 
+    def test_NoSunsetNoSunrise(self):
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput
+
+        n = day_of_the_year(8, 1)  # summer
+        lat = 89  # North-Pole
+        msg = "Permanent night (or day) on this latitude on this day\n"
+        sunset_time(n, lat)
+        self.assertEqual(capturedOutput.getvalue(), msg)
+
 
 class Test_sunrise_hour_angle(ut.TestCase):
     """
@@ -388,6 +400,16 @@ class Test_sunrise_time(ut.TestCase):
         expected_value = 7  # diferent year than boook!
         self.assertAlmostEqual(sunrise_time(n, lat).minute,
                                expected_value, 2)
+
+    def test_NoSunsetNoSunrise(self):
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput
+
+        n = day_of_the_year(8, 1)  # summer
+        lat = 89  # North-Pole
+        msg = "Permanent night (or day) on this latitude on this day\n"
+        sunrise_time(n, lat)
+        self.assertEqual(capturedOutput.getvalue(), msg)
 
 
 def test_daylight_hours():
@@ -504,6 +526,15 @@ def test_solar_vector_NED():
     sr_t = sunrise_time(n, lat)
     hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
     expected_value = np.array([0, 0, 0])
+    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
+                              expected_value, 3)
+
+    # permanent light
+    n = day_of_the_year(6, 20)  # summer solstice
+    lat = 90
+    hour, minute = 12, 0  # solar noon
+    alt = np.deg2rad(23 + 26/60 + 14/3600)
+    expected_value = np.array([-np.cos(alt), 0, -np.sin(alt)])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
