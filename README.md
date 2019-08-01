@@ -35,6 +35,8 @@ i = sr.irradiance_on_plane(vnorm, h, n, lat, hour, minute)
 print(i)
 ```
 
+A dedicated Jupyter Notebook on beam irradiance can be found [here](https://github.com/aqreed/pysolarRadiation/blob/master/examples/solar_irradiance.ipynb).
+
 Solar [declination](https://en.wikipedia.org/wiki/Position_of_the_Sun#Declination_of_the_Sun_as_seen_from_Earth) on August 5?
 
 ```
@@ -46,7 +48,7 @@ dec = sr.declination(n)
 print(dec)
 ```
 
-Please find some Jupyter Notebooks on the 'examples' folder.
+Please find more notebooks on the 'examples' folder.
 
 ### Dependencies
 
