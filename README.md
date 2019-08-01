@@ -1,6 +1,7 @@
 # pysolarRadiation
 
 [![Build Status](https://travis-ci.com/aqreed/pysolarRadiation.svg?branch=travis-ci)](https://travis-ci.com/aqreed/pysolarRadiation)
+[![codecov.io](https://codecov.io/gh/aqreed/pysolarRadiation/branch/travis-ci/graph/badge.svg)](https://codecov.io/gh/aqreed/pysolarRadiation/branch/travis-ci)
 
 |  |  |
 | ------ | ------ |
