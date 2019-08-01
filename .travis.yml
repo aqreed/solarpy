@@ -23,7 +23,7 @@ before_install:
   - cd scikit-aero
   - pip install -e .
   - cd -
-  - cd pySolarRadiation
+  - cd aqreed/pySolarRadiation
 
 install:
   - pip install -e .
