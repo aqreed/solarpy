@@ -1,4 +1,7 @@
 # pysolarRadiation
+
+[![Build Status](https://travis-ci.com/aqreed/pysolarRadiation.svg?branch=travis-ci)](https://travis-ci.com/aqreed/pysolarRadiation)
+
 |  |  |
 | ------ | ------ |
 | Description | Python Solar Radiation model |
