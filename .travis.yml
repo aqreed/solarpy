@@ -22,6 +22,7 @@ before_install:
   - git clone https://github.com/AeroPython/scikit-aero.git
   - cd scikit-aero
   - pip install -e .
+  - cd -
   - cd pySolarRadiation
 
 install:
