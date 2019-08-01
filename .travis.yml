@@ -34,5 +34,5 @@ script:
   - pytest
 
 after_success:
-  - py.test --cov
+  - pytest --cov
   - codecov
