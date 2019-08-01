@@ -3,6 +3,12 @@ language: python
 python:
   - "3.6"
 
+before_install:
+  - git clone https://github.com/AeroPython/scikit-aero.git
+  - cd scikit-aero
+  - pip install -e .
+  - cd -
+
 install:
   - pip install -e .
 
