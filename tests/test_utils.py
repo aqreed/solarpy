@@ -5,29 +5,46 @@
 """
 
 
-from solar_radiation import *
+from utils import (check_lat_range, check_long_range,
+                   NoSunsetNoSunrise, check_day_range,
+                   lla2ecef, ned2ecef)
 
 import numpy as np
-from numpy.testing import (assert_equal, assert_almost_equal,
-                           assert_array_almost_equal)
+from numpy.testing import assert_array_almost_equal
 import unittest as ut
 
 
-class Test_Ranges(ut.TestCase):
+class Test_ranges(ut.TestCase):
     """
     Tests ranges checks
     """
     def test_nth_day_range(self):
         self.assertRaises(ValueError, check_day_range, 0)
         self.assertRaises(ValueError, check_day_range, 366)
+        self.assertRaises(ValueError, check_day_range, np.array([1, 2, 526]))
 
     def test_latitude_range(self):
         self.assertRaises(ValueError, check_lat_range, -91)
         self.assertRaises(ValueError, check_lat_range, 91)
+        self.assertRaises(ValueError, check_lat_range, np.array([-115, 2, 55]))
 
     def test_longitude_range(self):
         self.assertRaises(ValueError, check_long_range, -1)
         self.assertRaises(ValueError, check_long_range, 360)
+        self.assertRaises(ValueError, check_long_range, np.array([326, -180]))
+
+
+class Test_exception(ut.TestCase):
+    """
+    Tests customised exception
+    """
+    def test_msg(self):
+        with self.assertRaises(NoSunsetNoSunrise) as error:
+            raise NoSunsetNoSunrise
+
+        self.assertEqual(
+            "Permanent night (or day) on this latitude on this day",
+            error.exception.msg)
 
 
 def test_lla2ecef():
