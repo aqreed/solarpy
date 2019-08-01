@@ -18,6 +18,7 @@ before_install:
   - conda install numpy scipy matplotlib pandas tqdm
   - pip install coverage pytest pytest-cov codecov
 
+  - cd ..
   - git clone https://github.com/AeroPython/scikit-aero.git
   - cd scikit-aero
   - pip install -e .
