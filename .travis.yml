@@ -18,12 +18,12 @@ before_install:
   - conda install numpy scipy 
   - pip install coverage pytest pytest-cov codecov
 
+  - mydir="$PWD"
   - cd ..
   - git clone https://github.com/AeroPython/scikit-aero.git
   - cd scikit-aero
   - pip install -e .
-  - cd -
-  - cd aqreed/pySolarRadiation
+  - cd "$mydir"
 
 install:
   - pip install -e .
