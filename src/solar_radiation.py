@@ -543,7 +543,7 @@ def solar_vector_NED(n, lat, hour, minute):
             # the point on the earth surface is in permanent darkness
             return np.array([0, 0, 0])
         else:
-        	# the point on the earth surface is in permanent light
+            # the point on the earth surface is in permanent light
             return np.array([-cos(solar_az) * cos(solar_alt),
                              -sin(solar_az) * cos(solar_alt),
                              -sin(solar_alt)])
