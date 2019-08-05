@@ -5,9 +5,7 @@
 """
 
 
-from utils import (check_lat_range, check_long_range,
-                   NoSunsetNoSunrise, check_day_range,
-                   lla2ecef, ned2ecef)
+from pysolar.utils import *
 
 import numpy as np
 from numpy.testing import assert_array_almost_equal

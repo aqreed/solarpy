@@ -6,7 +6,7 @@
 """
 
 
-from solar_radiation import *
+from pysolar.radiation import *
 
 import numpy as np
 from numpy.testing import (assert_equal, assert_almost_equal,

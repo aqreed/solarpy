@@ -9,9 +9,9 @@ import numpy as np
 from numpy import sin, cos, tan, deg2rad, rad2deg
 from datetime import datetime, timedelta
 from skaero.atmosphere import coesa
-from utils import NoSunsetNoSunrise, lla2ecef, ned2ecef,\
-                  check_lat_range, check_long_range,\
-                  check_day_range
+from pysolar.utils import NoSunsetNoSunrise, lla2ecef, ned2ecef,\
+                          check_lat_range, check_long_range,\
+                          check_day_range
 
 
 def day_of_the_year(month, day):
