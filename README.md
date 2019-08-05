@@ -63,15 +63,7 @@ pysolarRadiation has been written in Python3
 ```sh
 $ git clone https://github.com/aqreed/pysolarRadiation.git
 $ cd pysolarRadiation
-$ pip install -e .
-```
-
-You will also need skaero:
-
-```sh
-$ git clone https://github.com/AeroPython/scikit-aero.git
-$ cd scikit-aero
-$ pip install -e .
+$ pip install -e . -r requirements.txt
 ```
 
 ### Testing
