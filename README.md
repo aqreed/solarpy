@@ -23,10 +23,11 @@ Solar [irradiance](https://en.wikipedia.org/wiki/Solar_irradiance) on the southe
 
 ```
 import pysolar.radiation as psr
+import pysolar.utils as psu
 
 vnorm = np.array([0, 0, -1])  # plane pointing zenith
 h = 0  # sea-level
-n = psr.day_of_the_year(10, 17)  # October 17
+n = psu.day_of_the_year(10, 17)  # October 17
 lat = -13.1  # southern hemisphere
 hour, minute = 13, 1  # midday
 
@@ -41,8 +42,9 @@ Solar [declination](https://en.wikipedia.org/wiki/Position_of_the_Sun#Declinatio
 
 ```
 import pysolar.radiation as psr
+import pysolar.utils as psu
 
-n = psr.day_of_the_year(8, 5)  # August 5
+n = psu.day_of_the_year(8, 5)  # August 5
 dec = psr.declination(n)
 
 print(dec)
