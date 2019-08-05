@@ -16,40 +16,6 @@ import io
 import sys
 
 
-class Test_day_of_the_year(ut.TestCase):
-    """
-    Tests day of the year values.
-    """
-    def test_month_range(self):
-        self.assertRaises(ValueError, day_of_the_year, 0, 1)
-        self.assertRaises(ValueError, day_of_the_year, 13, 1)
-
-    def test_day_range(self):
-        self.assertRaises(ValueError, day_of_the_year, 1, 0)  # Jan 0?
-        self.assertRaises(ValueError, day_of_the_year, 1, 32)  # Jan 32?
-        self.assertRaises(ValueError, day_of_the_year, 2, 31)  # Feb 31?
-
-    def test_Jan1(self):
-        month, day = 1, 1
-        expected_value = 1  # January 1
-        self.assertEqual(day_of_the_year(month, day), expected_value)
-
-    def test_Feb1(self):
-        month, day = 2, 1
-        expected_value = 32  # February 1
-        self.assertEqual(day_of_the_year(month, day), expected_value)
-
-    def test_summerSolstice(self):
-        month, day = 6, 20
-        expected_value = 171  # summer solstice
-        self.assertEqual(day_of_the_year(month, day), expected_value)
-
-    def test_Dec31(self):
-        month, day = 12, 31
-        expected_value = 365  # December 31
-        self.assertEqual(day_of_the_year(month, day), expected_value)
-
-
 def test_B_nth_day():
     """
     Tests B(n) values.

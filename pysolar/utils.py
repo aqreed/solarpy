@@ -7,6 +7,7 @@
 
 import numpy as np
 from numpy import sin, cos, tan, deg2rad
+from datetime import datetime, timedelta
 
 
 def check_day_range(n):
@@ -70,6 +71,28 @@ def check_long_range(lng):
             raise ValueError('longitude should be 0 <= longitude <= 359')
 
     return None
+
+
+def day_of_the_year(month, day):
+    """
+    Returns the day of the year
+
+    Parameters
+    ----------
+    month : integer
+        month of the year (1 to 12)
+    day : integer
+        day of the month (0 to 31)
+
+    Returns
+    -------
+    day : integer
+        day of the year(1 to 365)
+    """
+    t = datetime(datetime.now().year, month, day) - \
+        datetime(datetime.now().year, 1, 1)
+
+    return t.days + 1
 
 
 class NoSunsetNoSunrise(Exception):
