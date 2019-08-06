@@ -1,8 +1,8 @@
 # pysolarRadiation
 
-[![Build Status](https://travis-ci.com/aqreed/pysolarRadiation.svg?branch=master)](https://travis-ci.com/aqreed/pysolarRadiation)
-[![codecov.io](https://codecov.io/gh/aqreed/pysolarRadiation/branch/master/graph/badge.svg)](https://codecov.io/gh/aqreed/pysolarRadiation/branch/master)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/aqreed/pysolarRadiation/raw/master/COPYING)
+[![Build Status](https://travis-ci.com/aqreed/pysolarRadiation.svg?branch=develop)](https://travis-ci.com/aqreed/pysolarRadiation)
+[![codecov.io](https://codecov.io/gh/aqreed/pysolarRadiation/branch/develop/graph/badge.svg)](https://codecov.io/gh/aqreed/pysolarRadiation/branch/develop)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/aqreed/pysolarRadiation/raw/develop/COPYING)
 
 |  |  |
 | ------ | ------ |
