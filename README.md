@@ -66,7 +66,7 @@ solarpy has been written in Python3
 ```sh
 $ git clone https://github.com/aqreed/solarpy.git
 $ cd solarpy
-$ pip install -e . -r requirements.txt
+$ pip install -e .
 ```
 
 ### Testing
