@@ -1,8 +1,8 @@
 # solarpy
 
-[![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=develop)](https://travis-ci.com/aqreed/solarpy)
-[![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/develop/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/develop)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/aqreed/solarpy/raw/develop/COPYING)
+[![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=master)](https://travis-ci.com/aqreed/solarpy)
+[![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/master/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/master)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/aqreed/solarpy/raw/master/COPYING)
 
 |  |  |
 | ------ | ------ |
