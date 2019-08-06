@@ -20,7 +20,7 @@ before_install:
   - pip install coverage pytest pytest-cov codecov
 
 install:
-  - pip install -e . -r requirements.txt
+  - pip install -e .
 
 script:
   - pytest
