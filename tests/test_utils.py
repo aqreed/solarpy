@@ -5,7 +5,7 @@
 """
 
 
-from pysolar.utils import *
+from solarpy.utils import *
 
 import numpy as np
 from numpy.testing import assert_array_almost_equal

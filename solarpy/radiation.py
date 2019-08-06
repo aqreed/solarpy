@@ -8,7 +8,7 @@
 import numpy as np
 from numpy import sin, cos, tan, deg2rad, rad2deg
 from datetime import datetime, timedelta
-from pysolar.utils import *
+from solarpy.utils import *
 
 
 def B_nth_day(n):

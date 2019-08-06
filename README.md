@@ -1,14 +1,14 @@
-# pysolarRadiation
+# solarpy
 
-[![Build Status](https://travis-ci.com/aqreed/pysolarRadiation.svg?branch=develop)](https://travis-ci.com/aqreed/pysolarRadiation)
-[![codecov.io](https://codecov.io/gh/aqreed/pysolarRadiation/branch/develop/graph/badge.svg)](https://codecov.io/gh/aqreed/pysolarRadiation/branch/develop)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/aqreed/pysolarRadiation/raw/develop/COPYING)
+[![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=develop)](https://travis-ci.com/aqreed/solarpy)
+[![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/develop/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/develop)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/aqreed/solarpy/raw/develop/COPYING)
 
 |  |  |
 | ------ | ------ |
 | Description | Python Solar Radiation model |
 | Author | aqreed |
-| Version | 0.2.dev1 |
+| Version | 0.1dev1 |
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib |
 
@@ -22,8 +22,8 @@ The main purpose is to generate a **solar beam irradiance** (W/m2) prediction on
 Solar [irradiance](https://en.wikipedia.org/wiki/Solar_irradiance) on the southern hemisphere on October 17, at sea-level 13.01UTC (plane pointing upwards)?
 
 ```
-from pysolar.radiation import irradiance_on_plane
-from pysolar.utils import day_of_the_year
+from solarpy.radiation import irradiance_on_plane
+from solarpy.utils import day_of_the_year
 import numpy as np
 
 vnorm = np.array([0, 0, -1])  # plane pointing zenith
@@ -37,13 +37,13 @@ i = irradiance_on_plane(vnorm, h, n, lat, hour, minute)
 print(i)
 ```
 
-A dedicated Jupyter Notebook on beam irradiance can be found [here](https://github.com/aqreed/pysolarRadiation/blob/master/examples/solar_irradiance.ipynb).
+A dedicated Jupyter Notebook on beam irradiance can be found [here](https://github.com/aqreed/solarpy/blob/master/examples/solar_irradiance.ipynb).
 
 Solar [declination](https://en.wikipedia.org/wiki/Position_of_the_Sun#Declination_of_the_Sun_as_seen_from_Earth) on August 5?
 
 ```
-from pysolar.radiation import declination
-from pysolar.utils import day_of_the_year
+from solarpy.radiation import declination
+from solarpy.utils import day_of_the_year
 
 n = day_of_the_year(8, 5)  # August 5
 dec = declination(n)
@@ -61,17 +61,17 @@ Python 3.6, NumPy 1.16, Matplotlib 3.0
 
 ### Installation
 
-pysolarRadiation has been written in Python3
+solarpy has been written in Python3
 
 ```sh
-$ git clone https://github.com/aqreed/pysolarRadiation.git
-$ cd pysolarRadiation
+$ git clone https://github.com/aqreed/solarpy.git
+$ cd solarpy
 $ pip install -e . -r requirements.txt
 ```
 
 ### Testing
 
-pysolarRadiation recommends py.test for running the test suite. Running from the top directory:
+solarpy recommends py.test for running the test suite. Running from the top directory:
 
 ```sh
 $ pytest
