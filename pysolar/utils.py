@@ -179,3 +179,33 @@ def ned2ecef(v_ned, lat, lng):
     v_ecef = Len.dot(v_ned)
 
     return v_ecef
+
+
+def pressure(h):
+    """
+    Interim function that returns ISA standard day pressure at a desired
+    altitud. A new release of https://github.com/AeroPython/scikit-aero
+    that includes the COESA atmospheric model (which would allow its
+    installation with pip) will substitute this function.
+
+    Parameters
+    ----------
+    h : float
+        altitude above sea level in meters
+
+    Returns
+    -------
+    p : float
+        pressure in Pa
+
+    Notes
+    -----
+    http://www.pdas.com/atmosTable2SI.html until 20km
+    http://www.pdas.com/atmosTable1SI.html until 24km
+    """
+    alt_ = np.append(np.linspace(0, 20e3, 21), np.linspace(22e3, 24e3, 2))
+    p_ = np.array([101325, 89876, 79501, 70121, 61660, 54048, 47217, 41105,
+                   35651, 30800, 26499, 22699, 19399, 16579, 14170, 12111,
+                   10352, 8849, 7565, 6467, 5529, 4047, 2972])
+
+    return np.interp(h, alt_, p_)
