@@ -176,3 +176,16 @@ def test_ned2ecef():
     v_ned = np.array([0, 0, 1])
     expected_value = np.array([0, 0, -1])
     assert_array_almost_equal(ned2ecef(v_ned, lat, lng), expected_value)
+
+
+def test_pressure():
+    """
+    Test pressure function
+    """
+    h = 0
+    expected_value = 101325
+    assert_array_almost_equal(pressure(h), expected_value)
+
+    h = 20e3
+    expected_value = 5529
+    assert_array_almost_equal(pressure(h), expected_value)
