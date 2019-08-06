@@ -10,7 +10,7 @@
 | Author | aqreed |
 | Version | 0.2.dev1 |
 | Python Version | 3.6 |
-| Requires | Numpy, Matplotlib, scikit-aero |
+| Requires | Numpy, Matplotlib |
 
 This packages aims to provide a reliable solar radiation model, mainly based on the work of Duffie, J.A., and Beckman, W. A., 1974, "Solar energy thermal processes".
 
@@ -55,9 +55,9 @@ Please find more notebooks on the 'examples' folder.
 
 ### Dependencies
 
-This package depends on Python, NumPy and scikit-aero and is usually tested on Linux with the following versions:
+This package depends on Python, NumPy and Matplotlib and is usually tested on Linux with the following versions:
 
-Python 3.6, NumPy 1.16, scikit-aero0.2.dev0
+Python 3.6, NumPy 1.16, Matplotlib 3.0
 
 ### Installation
 

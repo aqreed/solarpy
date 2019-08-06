@@ -8,7 +8,6 @@ setup(
     version="0.2.dev1",
     url='https://github.com/aqreed/pysolarRadiation',
     packages=['pysolar'],
-    install_requires=['numpy', 'matplotlib', 'scipy',
-                      'scikit-aero@git+https://git@github.com/AeroPython/scikit-aero@master'],
+    install_requires=['numpy', 'matplotlib'],
     tests_requires=['pytest']
     )

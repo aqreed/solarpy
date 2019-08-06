@@ -8,7 +8,6 @@
 import numpy as np
 from numpy import sin, cos, tan, deg2rad, rad2deg
 from datetime import datetime, timedelta
-from skaero.atmosphere import coesa
 from pysolar.utils import *
 
 
@@ -593,7 +592,7 @@ def beam_irradiance(h, n, lat, hour, minute):
     """
     alpha_int = 0.32  # atmospheric extinction. TODO: improve, as it changes
                       # throughout the year. Visible light? 4000-7000A
-    prel = coesa.pressure(h) / coesa.pressure(0)  # pressure relation
+    prel = pressure(h) / pressure(0)  # pressure relation
 
     # the maximum zenith angle is the one that points to the horizon
     a = 6378137  # [m] Earth equatorial axis
