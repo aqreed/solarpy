@@ -31,6 +31,11 @@ class Test_ranges(ut.TestCase):
         self.assertRaises(ValueError, check_long_range, 360)
         self.assertRaises(ValueError, check_long_range, np.array([326, -180]))
 
+    def test_altitude_range(self):
+        self.assertRaises(ValueError, check_alt_range, -1)
+        self.assertRaises(ValueError, check_alt_range, 24001)
+        self.assertRaises(ValueError, check_alt_range, np.array([150, 101800]))
+
 
 class Test_day_of_the_year(ut.TestCase):
     """
