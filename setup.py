@@ -5,7 +5,7 @@ setup(
     author='aqreed',
     description='Solar radiation model based on Duffie & Beckman\
                 "Solar energy thermal processes" (1974)',
-    version="0.2.dev0",
+    version="0.2.dev1",
     url='https://github.com/aqreed/pysolarRadiation',
     packages=['pysolar'],
     install_requires=['numpy', 'matplotlib', 'scipy',
