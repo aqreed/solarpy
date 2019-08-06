@@ -148,6 +148,7 @@ def lla2ecef(lat, lng, h):
     """
     check_lat_range(lat)
     check_long_range(lng)
+    check_alt_range(h)
 
     a = 6378137  # [m] Earth equatorial axis
     b = 6356752.3142  # [m] Earth polar axis
@@ -224,6 +225,8 @@ def pressure(h):
     http://www.pdas.com/atmosTable2SI.html until 20km
     http://www.pdas.com/atmosTable1SI.html until 24km
     """
+    check_alt_range(h)
+
     alt_ = np.append(np.linspace(0, 20e3, 21), np.linspace(22e3, 24e3, 2))
     p_ = np.array([101325, 89876, 79501, 70121, 61660, 54048, 47217, 41105,
                    35651, 30800, 26499, 22699, 19399, 16579, 14170, 12111,

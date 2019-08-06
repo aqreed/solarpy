@@ -547,8 +547,7 @@ def air_mass_KastenYoung1989(theta_z, h):
     Kasten, F.H., Young, A.T. (1989) "Revised optical air mass tables and
     approximation formula"
     """
-    if h < 0:
-        raise ValueError("altitude (h) must be > 0")
+    check_alt_range(h)
 
     # this conditional is needed to avoid KY1989 model limitations beyond 90º
     if theta_z < 91.5:
