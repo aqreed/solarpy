@@ -73,6 +73,27 @@ def check_long_range(lng):
     return None
 
 
+def check_alt_range(h):
+    """
+    Checks whether the input altitude is within range
+
+    Parameters
+    ----------
+    h : float
+        altitude (0 to 24k) in meters
+
+    Returns
+    -------
+    None. Raises an exception in case
+    """
+    if isinstance(h, np.ndarray) and ((h < 0).any() or (h > 24000).any()):
+            raise ValueError('pressure model is only valid if 0 <= h <= 24000')
+    elif isinstance(h, int) and ((h < 0) or (h > 24000)):
+            raise ValueError('pressure model is only valid if 0 <= h <= 24000')
+
+    return None
+
+
 def day_of_the_year(month, day):
     """
     Returns the day of the year
