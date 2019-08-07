@@ -64,7 +64,13 @@ Python 3.6, NumPy 1.16, Matplotlib 3.0
 
 ### Installation
 
-solarpy has been written in Python3
+solarpy has been written in Python3, and its version v0.1 is available in PyPi. It can be installed using:
+
+```
+$ pip install solarpy
+```
+
+To install in development mode:
 
 ```sh
 $ git clone https://github.com/aqreed/solarpy.git
