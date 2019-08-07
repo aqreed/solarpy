@@ -526,8 +526,8 @@ def solar_vector_NED(n, lat, hour, minute):
 
 def air_mass_KastenYoung1989(theta_z, h):
     """
-    Returns the ratio obetween air mass crossed by a sun beam to the mass
-    it would pass if the sun were in the zenith.
+    Returns the ratio between air mass crossed by a sun beam to the mass
+    it would pass if the sun were in the zenith at any altitude.
 
     Parameters
     ----------
@@ -565,7 +565,7 @@ def air_mass_KastenYoung1989(theta_z, h):
 def air_mass_Young1994(theta_z):
     """
     Returns the ratio between air mass crossed by a sun beam to the mass
-    it would pass if the sun were in the zenith.
+    it would pass if the sun were in the zenith at sea level.
 
     Parameters
     ----------
@@ -585,7 +585,7 @@ def air_mass_Young1994(theta_z):
     co_thz = cos(th_z)
 
     a = 1.002432 * co_thz**2 + 0.148386 * co_thz + 0.0096467
-    b = co_thz**3 + 0.149864 * co_thz**2 + 0.0102963 * cos(th_z) + 0.000303978
+    b = co_thz**3 + 0.149864 * co_thz**2 + 0.0102963 * co_thz + 0.000303978
     m = a / b
 
     return m
