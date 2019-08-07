@@ -8,7 +8,7 @@
 | ------ | ------ |
 | Description | Python Solar Radiation model |
 | Author | aqreed <aqreed@protonmail.com> |
-| Version | 0.1 |
+| Version | 0.1.1dev0 |
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib |
 
