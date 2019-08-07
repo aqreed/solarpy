@@ -562,6 +562,35 @@ def air_mass_KastenYoung1989(theta_z, h):
     return m
 
 
+def air_mass_Young1994(theta_z):
+    """
+    Returns the ratio between air mass crossed by a sun beam to the mass
+    it would pass if the sun were in the zenith.
+
+    Parameters
+    ----------
+    theta_z : float
+        zenith angle of incidence in degrees
+
+    Returns
+    -------
+    m : float
+        ratio
+
+    Notes
+    -----
+    Kasten, F.H. (1994) "Air mass and refraction"
+    """
+    th_z = deg2rad(theta_z)
+    co_thz = cos(th_z)
+
+    a = 1.002432 * co_thz**2 + 0.148386 * co_thz + 0.0096467
+    b = co_thz**3 + 0.149864 * co_thz**2 + 0.0102963 * cos(th_z) + 0.000303978
+    m = a / b
+
+    return m
+
+
 def beam_irradiance(h, n, lat, hour, minute):
     """
     Returns the solar beam irradiance on a plane normal to the sun vector (not
