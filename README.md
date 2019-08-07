@@ -7,7 +7,7 @@
 |  |  |
 | ------ | ------ |
 | Description | Python Solar Radiation model |
-| Author | aqreed |
+| Author | aqreed <aqreed@protonmail.com> |
 | Version | 0.1dev2 |
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib |
@@ -50,6 +50,12 @@ declination(n)
 
 Please find more notebooks on the 'examples' folder.
 
+---
+**NOTE**:
+solarpy is under development and might change in the near future.
+
+---
+
 ### Dependencies
 
 This package depends on Python, NumPy and Matplotlib and is usually tested on Linux with the following versions:
@@ -73,6 +79,16 @@ solarpy recommends py.test for running the test suite. Running from the top dire
 ```sh
 $ pytest
 ```
+
+To test coverage (also from the top directory):
+
+```sh
+$ pytest --cov
+```
+
+### Bug reporting
+
+Please feel free to open an [issue](https://github.com/aqreed/solarpy/issues) on GitHub!
 
 ### License
 
