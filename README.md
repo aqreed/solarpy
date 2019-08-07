@@ -8,7 +8,7 @@
 | ------ | ------ |
 | Description | Python Solar Radiation model |
 | Author | aqreed |
-| Version | 0.1dev1 |
+| Version | 0.1dev2 |
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib |
 
@@ -16,7 +16,7 @@ This packages aims to provide a reliable solar radiation model, mainly based on 
 
 The main purpose is to generate a **solar beam irradiance** (W/m2) prediction on:
 * **any plane**, thanks to the calculation of the solar vector in NED (North East Down) coordinates, suitable for its use in flight dynamics simulations...
-* **any place of the earth**, taking into account the solar time wrt the standard time, the latitude effect on solar azimuth and altitude as well as sunset/sunrise time and hour angle, etc.
+* **any place of the earth**, taking into account the solar time wrt the standard time, geometric altitude, the latitude influence on solar azimuth and solar altitude as well as sunset/sunrise time and hour angle, etc.
 * **any day of the year**, taking into account the variations of the extraterrestrial radiation, the equation of time, the declination, etc., throughout the year
 
 Solar [irradiance](https://en.wikipedia.org/wiki/Solar_irradiance) on the southern hemisphere on October 17, at sea-level 13.01UTC (plane pointing upwards)?
@@ -29,12 +29,10 @@ import numpy as np
 vnorm = np.array([0, 0, -1])  # plane pointing zenith
 h = 0  # sea-level
 n = day_of_the_year(10, 17)  # October 17
-lat = -13.1  # southern hemisphere
+lat = -23.5  # southern hemisphere
 hour, minute = 13, 1  # midday
 
-i = irradiance_on_plane(vnorm, h, n, lat, hour, minute)
-
-print(i)
+irradiance_on_plane(vnorm, h, n, lat, hour, minute)
 ```
 
 A dedicated Jupyter Notebook on beam irradiance can be found [here](https://github.com/aqreed/solarpy/blob/master/examples/solar_irradiance.ipynb).
@@ -46,9 +44,8 @@ from solarpy.radiation import declination
 from solarpy.utils import day_of_the_year
 
 n = day_of_the_year(8, 5)  # August 5
-dec = declination(n)
 
-print(dec)
+declination(n)
 ```
 
 Please find more notebooks on the 'examples' folder.
