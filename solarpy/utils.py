@@ -139,7 +139,7 @@ def lla2ecef(lat, lng, h):
     lng : float
         longitude in degrees
     h : float
-        altitude above sea level in feet
+        geometric altitude above sea level in meters
 
     Returns
     -------
@@ -156,7 +156,6 @@ def lla2ecef(lat, lng, h):
 
     lat = deg2rad(lat)  # degrees to radians
     lng = deg2rad(lng)  # degrees to radians
-    h = h * 0.3048  # feets to meters
 
     N = a / (1 - (e * sin(lat))**2)**(.5)
 
