@@ -539,7 +539,7 @@ def air_mass_KastenYoung1989(theta_z, h):
     Returns
     -------
     m : float
-        vector expressed in ECEF coordinates
+        ratio
 
     Notes
     -----
@@ -548,7 +548,8 @@ def air_mass_KastenYoung1989(theta_z, h):
     """
     check_alt_range(h)
 
-    # this conditional is needed to avoid KY1989 model limitations beyond 90º
+    # this saturation is an interim solution needed to avoid KY1989 model
+    # limitations beyond 90º. TODO: improve
     if theta_z < 91.5:
         theta_z_rad = deg2rad(theta_z)
         m = np.exp(-0.0001184 * h) / (cos(theta_z_rad) +
