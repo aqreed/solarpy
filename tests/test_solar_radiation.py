@@ -535,6 +535,17 @@ class Test_air_mass_KY1989(ut.TestCase):
                          expected_value)
 
 
+class Test_air_mass_Y1994(ut.TestCase):
+    """
+    Tests air mass function based on the work of Young (1994)
+    """
+    def test_limit_values(self):
+        # air mass through zenit direction at sea level
+        theta_z = 0
+        expected_value = 1
+        self.assertAlmostEqual(air_mass_Young1994(theta_z), expected_value, 4)
+
+
 class Test_beam_irradiance(ut.TestCase):
     """
     Tests beam_irradiance function based on the work of Aglietti et al (2009)
