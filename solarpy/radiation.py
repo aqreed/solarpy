@@ -11,20 +11,24 @@ from datetime import datetime, timedelta
 from solarpy.utils import *
 
 
-def B_nth_day(n):
+def B_nth_day(date):
     """
     Day of the year angle
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime-object
+        date of interest
 
     Returns
     -------
     B : float
         angle of the day of the year in radians
     """
+    if not isinstance(date, datetime):
+        raise TypeError("date must be a datetime object")
+    else:
+        n = (date - datetime(date.now().year, 1, 1)).days + 1
 
     return deg2rad((n - 1) * (360 / 365))
 

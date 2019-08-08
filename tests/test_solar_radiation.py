@@ -11,6 +11,7 @@ from solarpy.radiation import *
 import numpy as np
 from numpy.testing import (assert_equal, assert_almost_equal,
                            assert_array_almost_equal)
+from datetime import datetime
 import unittest as ut
 import io
 import sys
@@ -20,13 +21,13 @@ def test_B_nth_day():
     """
     Tests B(n) values.
     """
-    n = 1
+    date = datetime(2019, 1, 1)  # Jan 1
     expected_value = 0
-    assert_equal(B_nth_day(n), expected_value)
+    assert_equal(B_nth_day(date), expected_value)
 
-    n = 365
+    date = datetime(2019, 12, 31)  # Dec 31
     expected_value = 6.2659711
-    assert_almost_equal(B_nth_day(n), expected_value, 6)
+    assert_almost_equal(B_nth_day(date), expected_value, 6)
 
 
 class Test_Gon(ut.TestCase):
