@@ -521,10 +521,11 @@ class Test_air_mass_KY1989(ut.TestCase):
                                expected_value, 3)
 
         # air mass through zenit direction at exosphere
+        # requieres deactivation of limit parameter
         theta_z = 0
         h = 1e8  # 10.000 km
         expected_value = 0
-        self.assertAlmostEqual(air_mass_KastenYoung1989(theta_z, h),
+        self.assertAlmostEqual(air_mass_KastenYoung1989(theta_z, h, False),
                                expected_value)
 
         # model limits (zenith=91.5)
