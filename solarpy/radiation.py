@@ -524,7 +524,7 @@ def solar_vector_NED(n, lat, hour, minute):
                              -sin(solar_alt)])
 
 
-def air_mass_KastenYoung1989(theta_z, h):
+def air_mass_KastenYoung1989(theta_z, h, limit=True):
     """
     Returns the ratio between air mass crossed by a sun beam to the mass
     it would pass if the sun were in the zenith at any altitude.
@@ -535,6 +535,8 @@ def air_mass_KastenYoung1989(theta_z, h):
         zenith angle of incidence in degrees
     h : float
         altitude above sea level in meters
+    limit : boolean
+        activates or deaactivates altitude limit
 
     Returns
     -------
@@ -546,7 +548,11 @@ def air_mass_KastenYoung1989(theta_z, h):
     Kasten, F.H., Young, A.T. (1989) "Revised optical air mass tables and
     approximation formula"
     """
-    check_alt_range(h)
+    # needed until the atmosphere (pressure) model is extended beyond 24km
+    if limit:
+        check_alt_range(h)
+    else:
+        pass
 
     # this saturation is an interim solution needed to avoid KY1989 model
     # limitations beyond 90º. TODO: improve
