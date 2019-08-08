@@ -48,6 +48,8 @@ def check_lat_range(lat):
             raise ValueError('latitude should be -90 <= latitude <= 90')
     elif isinstance(lat, int) and (abs(lat) > 90):
             raise ValueError('latitude should be -90 <= latitude <= 90')
+    elif isinstance(lat, float) and (abs(lat) > 90):
+            raise ValueError('latitude should be -90 <= latitude <= 90')
 
     return None
 
@@ -69,6 +71,8 @@ def check_long_range(lng):
             raise ValueError('longitude should be 0 <= longitude <= 359')
     elif isinstance(lng, int) and ((lng < 0) or (lng > 359)):
             raise ValueError('longitude should be 0 <= longitude <= 359')
+    elif isinstance(lng, float) and ((lng < 0) or (lng > 359)):
+            raise ValueError('longitude should be 0 <= longitude <= 359')
 
     return None
 
@@ -89,6 +93,8 @@ def check_alt_range(h):
     if isinstance(h, np.ndarray) and ((h < 0).any() or (h > 24000).any()):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
     elif isinstance(h, int) and ((h < 0) or (h > 24000)):
+            raise ValueError('pressure model is only valid if 0 <= h <= 24000')
+    elif isinstance(h, float) and ((h < 0) or (h > 24000)):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
 
     return None
