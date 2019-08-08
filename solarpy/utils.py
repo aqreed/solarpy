@@ -10,27 +10,6 @@ from numpy import sin, cos, tan, deg2rad
 from datetime import datetime, timedelta
 
 
-def check_day_range(n):
-    """
-    Checks whether the input nth_day of the year is within range
-
-    Parameters
-    ----------
-    n : integer
-        day of the year (1 to 365)
-
-    Returns
-    -------
-    None. Raises an exception in case
-    """
-    if isinstance(n, np.ndarray) and ((n < 1).any() or (n > 365).any()):
-            raise ValueError('n should be 1 <= n <= 365')
-    elif isinstance(n, int) and ((n < 1) or (n > 365)):
-            raise ValueError('n should be 1 <= n <= 365')
-
-    return None
-
-
 def check_lat_range(lat):
     """
     Checks whether the input latitude is within range
@@ -100,26 +79,26 @@ def check_alt_range(h):
     return None
 
 
-def day_of_the_year(month, day):
+def day_of_the_year(date):
     """
     Returns the day of the year
 
     Parameters
     ----------
-    month : integer
-        month of the year (1 to 12)
-    day : integer
-        day of the month (0 to 31)
+    date : datetime-object
+        date in question
 
     Returns
     -------
     day : integer
         day of the year(1 to 365)
     """
-    t = datetime(datetime.now().year, month, day) - \
-        datetime(datetime.now().year, 1, 1)
+    if not isinstance(date, datetime):
+        raise TypeError("password must be a string")
+    else:
+        day = (date - datetime(date.now().year, 1, 1)).days + 1
 
-    return t.days + 1
+    return day
 
 
 class NoSunsetNoSunrise(Exception):
