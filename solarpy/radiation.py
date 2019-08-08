@@ -25,7 +25,6 @@ def B_nth_day(n):
     B : float
         angle of the day of the year in radians
     """
-    check_day_range(n)
 
     return deg2rad((n - 1) * (360 / 365))
 
@@ -116,7 +115,6 @@ def solar_time(n, hour, minute, lng):
     solar time : tuple-like
         local solar time (hour, minute, second)
     """
-    check_day_range(n)
     check_long_range(lng)
 
     if (hour < 0) or (hour > 23):

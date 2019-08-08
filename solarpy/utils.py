@@ -94,7 +94,7 @@ def day_of_the_year(date):
         day of the year(1 to 365)
     """
     if not isinstance(date, datetime):
-        raise TypeError("password must be a string")
+        raise TypeError("date must be a datetime object")
     else:
         day = (date - datetime(date.now().year, 1, 1)).days + 1
 
