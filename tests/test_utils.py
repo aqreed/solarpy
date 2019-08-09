@@ -38,7 +38,7 @@ class Test_day_of_the_year(ut.TestCase):
     """
     def test_type(self):
         self.assertRaises(TypeError, day_of_the_year, 1)
-        self.assertRaises(TypeError, day_of_the_year, np.array([1.2]))
+        self.assertRaises(TypeError, day_of_the_year, [1, 2])
         self.assertRaises(TypeError, day_of_the_year, 'a')
 
     def test_Jan1(self):
@@ -60,6 +60,13 @@ class Test_day_of_the_year(ut.TestCase):
         date = datetime(2019, 12, 31)
         expected_value = 365  # December 31
         self.assertEqual(day_of_the_year(date), expected_value)
+
+    def test_array(self):
+        date = np.array([datetime(2019, 12, 29),
+                        datetime(2019, 12, 30),
+                        datetime(2019, 12, 31)])
+        expected_value = np.array([363, 364, 365])  # December 31
+        self.assertTrue((day_of_the_year(date) == expected_value).all())
 
 
 class Test_exception(ut.TestCase):

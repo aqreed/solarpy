@@ -85,20 +85,28 @@ def day_of_the_year(date):
 
     Parameters
     ----------
-    date : datetime-object
-        date in question
+    date : datetime object or array-like (datetime objects inside)
+        date of interest
 
     Returns
     -------
-    day : integer
-        day of the year(1 to 365)
+    day : int or array-like (int inside)
+        day of the year (1 to 365)
     """
-    if not isinstance(date, datetime):
-        raise TypeError("date must be a datetime object")
-    else:
-        day = (date - datetime(date.now().year, 1, 1)).days + 1
+    if isinstance(date, np.ndarray) and all(isinstance(i, datetime) for i in date):
+        # the parameter is an array of datetime objects
+        day = [(date[i] - datetime(date[i].now().year, 1, 1)).days + 1
+                for i in range(len(date))]
+        return np.array(day)
 
-    return day
+    elif isinstance(date, datetime):
+        # the parameter is a datetime object
+        day = (date - datetime(date.now().year, 1, 1)).days + 1
+        return day
+
+    else:
+        msg = "date must be a datetime object or array of datetime objects"
+        raise TypeError(msg)
 
 
 class NoSunsetNoSunrise(Exception):
