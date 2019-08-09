@@ -150,6 +150,9 @@ class Test_solar_time(ut.TestCase):
         self.assertEqual(solar_time(date, lng).replace(microsecond=0),
                          expected_value)
 
+    def test_exception(self):
+        self.assertRaises(TypeError, solar_time, 12, 8.3)
+
 
 class Test_hour_angle(ut.TestCase):
     """

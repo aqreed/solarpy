@@ -167,18 +167,21 @@ def solar_time(date, lng):
     """
     check_long_range(lng)
 
-    # standard time
-    t_std = date
+    if isinstance(date, datetime):
+        # standard time
+        t_std = date
 
-    # displacement from standard meridian for that longitude
-    lng_std = round(lng / 15) * 15
-    delta_std_meridian = timedelta(minutes=(4 * (lng_std - lng)))
+        # displacement from standard meridian for that longitude
+        lng_std = round(lng / 15) * 15
+        delta_std_meridian = timedelta(minutes=(4 * (lng_std - lng)))
 
-    # eq. of time for that day
-    E = timedelta(minutes=Eq_time(date))
-    t_solar = t_std + delta_std_meridian + E
+        # eq. of time for that day
+        E = timedelta(minutes=Eq_time(date))
+        t_solar = t_std + delta_std_meridian + E
 
-    return t_solar
+        return t_solar
+    else:
+        raise TypeError('date must be a datetime object')
 
 
 def hour_angle(hour, minute):
