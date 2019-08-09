@@ -13,7 +13,7 @@ from solarpy.utils import *
 
 def B_nth_day(date):
     """
-    Day of the year angle
+    Day of the year angle on a desired date and time.
 
     Parameters
     ----------
@@ -44,7 +44,7 @@ def B_nth_day(date):
 def Gon(date):
     """
     Extraterrestrial radiation on a plane normal to
-    the radiation on the nth day of the year.
+    the radiation on a desired date and time.
 
     Parameters
     ----------
@@ -63,8 +63,8 @@ def Gon(date):
             all(isinstance(i, datetime) for i in date)):
             # the parameter is an array of datetime objects
             return np.array([1367 * (1.00011 + 0.034221 * cos(B) +
-                             0.00128 * sin(B) + 0.000719 * cos(2 * B) +
-                             0.000077 * sin(2 * B)) for i in B])
+                                     0.00128 * sin(B) + 0.000719 * cos(2 * B) +
+                                     0.000077 * sin(2 * B)) for i in B])
 
         elif isinstance(date, datetime):
             # the parameter is a datetime object
