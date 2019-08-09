@@ -17,38 +17,47 @@ def B_nth_day(date):
 
     Parameters
     ----------
-    date : datetime-object
+    date : datetime object or array-like (datetime objects inside)
         date of interest
 
     Returns
     -------
-    B : float
+    B : float or array-like (float inside)
         angle of the day of the year in radians
     """
-    if not isinstance(date, datetime):
-        raise TypeError("date must be a datetime object")
+    if isinstance(date, np.ndarray) and all(isinstance(i, datetime) for i in date):
+        # the parameter is an array of datetime objects
+        n = day_of_the_year(date)
+
+        return np.array([deg2rad((i - 1) * (360 / 365)) for i in n])
+
+    elif isinstance(date, datetime):
+        # the parameter is a datetime object
+        n = day_of_the_year(date)
+
+        return deg2rad((n - 1) * (360 / 365))
+
     else:
-        n = (date - datetime(date.now().year, 1, 1)).days + 1
+        msg = "date must be a datetime object or array of datetime objects"
+        raise TypeError(msg)
 
-    return deg2rad((n - 1) * (360 / 365))
 
-
-def Gon(n):
+def Gon(date):
     """
     Extraterrestrial radiation on a plane normal to
     the radiation on the nth day of the year.
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime-object
+        date of interest
 
     Returns
     -------
     Gon : float
         extraterrestrial radiation in W/m2
     """
-    B = B_nth_day(n)
+    B = B_nth_day(date)
 
     return 1367 * (1.00011 + 0.034221 * cos(B) +
                    0.00128 * sin(B) + 0.000719 * cos(2 * B) +

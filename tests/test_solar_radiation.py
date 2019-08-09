@@ -29,6 +29,10 @@ def test_B_nth_day():
     expected_value = 6.2659711
     assert_almost_equal(B_nth_day(date), expected_value, 6)
 
+    date = np.array([datetime(2019, 1, 1), datetime(2019, 12, 31)])
+    expected_value = np.array([0, 6.2659711])
+    assert_almost_equal(B_nth_day(date), expected_value, 6)
+
 
 class Test_Gon(ut.TestCase):
     """
