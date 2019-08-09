@@ -7,8 +7,7 @@
 
 
 from solarpy.radiation import *
-
-import numpy as np
+from numpy import sin, cos, deg2rad, rad2deg, array
 from numpy.testing import (assert_equal, assert_almost_equal,
                            assert_array_almost_equal)
 from datetime import datetime
@@ -31,8 +30,8 @@ class Test_B_nth_day(ut.TestCase):
         assert_almost_equal(B_nth_day(date), expected_value, 6)
 
     def test_array(self):
-        date = np.array([datetime(2019, 1, 1), datetime(2019, 12, 31)])
-        expected_value = np.array([0, 6.2659711])
+        date = array([datetime(2019, 1, 1), datetime(2019, 12, 31)])
+        expected_value = array([0, 6.2659711])
         assert_almost_equal(B_nth_day(date), expected_value, 6)
 
     def test_exception(self):
@@ -45,14 +44,14 @@ class Test_Gon(ut.TestCase):
     """
     def test_min(self):
         # array with all days
-        dates = np.array([datetime(datetime.now().year, 1, 1) +
-                          timedelta(days=i) for i in range(365)])
+        dates = array([datetime(datetime.now().year, 1, 1) +
+                       timedelta(days=i) for i in range(365)])
         self.assertTrue((Gon(dates) > 1320).all())
 
     def test_max(self):
         # array with all days
-        dates = np.array([datetime(datetime.now().year, 1, 1) +
-                          timedelta(days=i) for i in range(365)])
+        dates = array([datetime(datetime.now().year, 1, 1) +
+                       timedelta(days=i) for i in range(365)])
         self.assertTrue((Gon(dates) < 1420).all())
 
     def test_Jan1(self):
@@ -75,14 +74,14 @@ class Test_Eq_time(ut.TestCase):
     """
     def test_min(self):
         # array with all days
-        dates = np.array([datetime(datetime.now().year, 1, 1) +
-                          timedelta(days=i) for i in range(365)])
+        dates = array([datetime(datetime.now().year, 1, 1) +
+                       timedelta(days=i) for i in range(365)])
         self.assertTrue((Eq_time(dates) > -15).all())
 
     def test_max(self):
         # array with all days
-        dates = np.array([datetime(datetime.now().year, 1, 1) +
-                          timedelta(days=i) for i in range(365)])
+        dates = array([datetime(datetime.now().year, 1, 1) +
+                       timedelta(days=i) for i in range(365)])
         self.assertTrue((Eq_time(dates) < 17).all())
 
     def test_Jan1(self):
@@ -105,34 +104,34 @@ class Test_declination(ut.TestCase):
     """
     def test_min(self):
         # array with all days
-        dates = np.array([datetime(datetime.now().year, 1, 1) +
-                          timedelta(days=i) for i in range(365)])
-        self.assertTrue((np.rad2deg(declination(dates)) > -24).all())
+        dates = array([datetime(datetime.now().year, 1, 1) +
+                       timedelta(days=i) for i in range(365)])
+        self.assertTrue((rad2deg(declination(dates)) > -24).all())
 
     def test_max(self):
         # array with all days
-        dates = np.array([datetime(datetime.now().year, 1, 1) +
-                          timedelta(days=i) for i in range(365)])
-        self.assertTrue((np.rad2deg(declination(dates)) < 24).all())
+        dates = array([datetime(datetime.now().year, 1, 1) +
+                       timedelta(days=i) for i in range(365)])
+        self.assertTrue((rad2deg(declination(dates)) < 24).all())
 
     def test_Jan1(self):
         date = datetime(2019, 1, 1)  # January 1
-        expected_value = np.deg2rad(-23)
+        expected_value = deg2rad(-23)
         self.assertAlmostEqual(declination(date), expected_value, 1)
 
     def test_summerSolstice(self):
         date = datetime(2019, 6, 20)  # June 20
-        expected_value = np.deg2rad(23)
+        expected_value = deg2rad(23)
         self.assertAlmostEqual(declination(date), expected_value, 1)
 
     def test_Feb13(self):  # Example 1.6.1
         date = datetime(2019, 2, 13)  # Feb 13
-        expected_value = np.deg2rad(-14)
+        expected_value = deg2rad(-14)
         self.assertAlmostEqual(declination(date), expected_value, 1)
 
     def test_Mar16(self):  # Example 1.6.3
         date = datetime(2019, 3, 16)  # March 16
-        expected_value = np.deg2rad(-2.4)
+        expected_value = deg2rad(-2.4)
         self.assertAlmostEqual(declination(date), expected_value, 1)
 
     def test_exception(self):
@@ -173,32 +172,32 @@ class Test_hour_angle(ut.TestCase):
     def test_examples(self):
         # noon
         hour, minute = 12, 0
-        expected_value = np.deg2rad(0)
+        expected_value = deg2rad(0)
         self.assertEqual(hour_angle(hour, minute), expected_value)
 
         # Example 1.6.1
         hour, minute = 10, 30
-        expected_value = np.deg2rad(-22.5)
+        expected_value = deg2rad(-22.5)
         self.assertEqual(hour_angle(hour, minute), expected_value)
 
         # Example 1.6.2a
         hour, minute = 9, 30
-        expected_value = np.deg2rad(-37.5)
+        expected_value = deg2rad(-37.5)
         self.assertEqual(hour_angle(hour, minute), expected_value)
 
         # Example 1.6.2b
         hour, minute = 18, 30
-        expected_value = np.deg2rad(97.5)
+        expected_value = deg2rad(97.5)
         self.assertEqual(hour_angle(hour, minute), expected_value)
 
         # Example 1.6.3
         hour, minute = 16, 0
-        expected_value = np.deg2rad(60)
+        expected_value = deg2rad(60)
         self.assertEqual(hour_angle(hour, minute), expected_value)
 
         # Example 1.7.1
         hour, minute = 14, 0
-        expected_value = np.deg2rad(30)
+        expected_value = deg2rad(30)
         self.assertEqual(hour_angle(hour, minute), expected_value)
 
 
@@ -212,7 +211,7 @@ def test_angle_of_incidence():
     beta = 45
     surf_az = 15
     hour, minute = 10, 30
-    expected_value = np.deg2rad(35)
+    expected_value = deg2rad(35)
     assert_almost_equal(theta(n, lat, beta, surf_az, hour, minute),
                         expected_value, decimal=3)
 
@@ -225,7 +224,7 @@ def test_zenith_angle():
     n = 171
     lat = 23.45
     hour, minute = 12, 0
-    expected_value = np.deg2rad(0)
+    expected_value = deg2rad(0)
     assert_almost_equal(theta_z(n, lat, hour, minute),
                         expected_value, decimal=2)
 
@@ -233,7 +232,7 @@ def test_zenith_angle():
     n = 44
     lat = 43
     hour, minute = 9, 30
-    expected_value = np.deg2rad(66.5)
+    expected_value = deg2rad(66.5)
     assert_almost_equal(theta_z(n, lat, hour, minute),
                         expected_value, decimal=2)
 
@@ -241,7 +240,7 @@ def test_zenith_angle():
     n = day_of_the_year(7, 1)
     lat = 43
     hour, minute = 18, 30
-    expected_value = np.deg2rad(79.6)
+    expected_value = deg2rad(79.6)
     assert_almost_equal(theta_z(n, lat, hour, minute),
                         expected_value, decimal=2)
 
@@ -249,7 +248,7 @@ def test_zenith_angle():
     n = day_of_the_year(3, 16)
     lat = 43
     hour, minute = 16, 0
-    expected_value = np.deg2rad(70.3)
+    expected_value = deg2rad(70.3)
     assert_almost_equal(theta_z(n, lat, hour, minute),
                         expected_value, decimal=2)
 
@@ -261,7 +260,7 @@ def test_solar_azimuth():
     # different values of (n, lat) at noon
     hour, minute = 12, 0
 
-    expected_value = np.deg2rad(0)
+    expected_value = deg2rad(0)
     n, lat = 1, 0
     assert_almost_equal(solar_azimuth(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -275,7 +274,7 @@ def test_solar_azimuth():
     assert_almost_equal(solar_azimuth(n, lat, hour, minute),
                         expected_value, decimal=2)
 
-    expected_value = np.deg2rad(180)
+    expected_value = deg2rad(180)
     n, lat = 90, -30
     assert_almost_equal(solar_azimuth(n, lat, hour, minute),
                         expected_value, decimal=2)
@@ -290,7 +289,7 @@ def test_solar_azimuth():
     n = 44
     lat = 43
     hour, minute = 9, 30
-    expected_value = np.deg2rad(-40.0)
+    expected_value = deg2rad(-40.0)
     assert_almost_equal(solar_azimuth(n, lat, hour, minute),
                         expected_value, decimal=2)
 
@@ -298,7 +297,7 @@ def test_solar_azimuth():
     n = day_of_the_year(7, 1)
     lat = 43
     hour, minute = 18, 30
-    expected_value = np.deg2rad(112.0)
+    expected_value = deg2rad(112.0)
     assert_almost_equal(solar_azimuth(n, lat, hour, minute),
                         expected_value, decimal=2)
 
@@ -306,7 +305,7 @@ def test_solar_azimuth():
     n = day_of_the_year(3, 16)
     lat = 43
     hour, minute = 16, 0
-    expected_value = np.deg2rad(66.8)
+    expected_value = deg2rad(66.8)
     assert_almost_equal(solar_azimuth(n, lat, hour, minute),
                         expected_value, decimal=2)
 
@@ -319,7 +318,7 @@ def test_solar_altitude():
     n = day_of_the_year(3, 16)
     lat = 43
     hour, minute = 16, 0
-    expected_value = np.deg2rad(19.7)
+    expected_value = deg2rad(19.7)
     assert_almost_equal(solar_altitude(n, lat, hour, minute),
                         expected_value, decimal=2)
 
@@ -336,7 +335,7 @@ class Test_sunset_hour_angle(ut.TestCase):
         # Example 1.6.3
         n = day_of_the_year(3, 16)
         lat = 43
-        expected_value = np.deg2rad(87.8)
+        expected_value = deg2rad(87.8)
         self.assertAlmostEqual(sunset_hour_angle(n, lat), expected_value, 1)
 
 
@@ -378,7 +377,7 @@ class Test_sunrise_hour_angle(ut.TestCase):
         # Example 1.6.3
         n = day_of_the_year(3, 16)
         lat = 43
-        expected_value = np.deg2rad(-87.8)
+        expected_value = deg2rad(-87.8)
         self.assertAlmostEqual(sunrise_hour_angle(n, lat),
                                expected_value, 1)
 
@@ -458,7 +457,7 @@ def test_solar_vector_NED():
     n = day_of_the_year(6, 21)   # June 21
     lat = 23 + 26/60 + 14/3600  # obliquity in 2019
     hour, minute = 12, 0
-    expected_value = np.array([0, 0, -1])
+    expected_value = array([0, 0, -1])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
@@ -466,14 +465,14 @@ def test_solar_vector_NED():
     n = 165
     lat = -80
     hour, minute = 12, 0
-    expected_value = np.array([0, 0, 0])
+    expected_value = array([0, 0, 0])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
     n = 200
     lat = -70
     hour, minute = 17, 0
-    expected_value = np.array([0, 0, 0])
+    expected_value = array([0, 0, 0])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
@@ -481,14 +480,14 @@ def test_solar_vector_NED():
     n = 1
     lat = 83
     hour, minute = 10, 0
-    expected_value = np.array([0, 0, 0])
+    expected_value = array([0, 0, 0])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
     n = 300
     lat = 76
     hour, minute = 19, 0
-    expected_value = np.array([0, 0, 0])
+    expected_value = array([0, 0, 0])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
@@ -497,7 +496,7 @@ def test_solar_vector_NED():
     lat = 33
     ss_t = sunset_time(n, lat)
     hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
-    expected_value = np.array([0, 0, 0])
+    expected_value = array([0, 0, 0])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
@@ -505,7 +504,7 @@ def test_solar_vector_NED():
     lat = 15
     sr_t = sunrise_time(n, lat)
     hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
-    expected_value = np.array([0, 0, 0])
+    expected_value = array([0, 0, 0])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
@@ -514,7 +513,7 @@ def test_solar_vector_NED():
     lat = -63
     ss_t = sunset_time(n, lat)
     hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
-    expected_value = np.array([0, 0, 0])
+    expected_value = array([0, 0, 0])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
@@ -522,7 +521,7 @@ def test_solar_vector_NED():
     lat = -15
     sr_t = sunrise_time(n, lat)
     hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
-    expected_value = np.array([0, 0, 0])
+    expected_value = array([0, 0, 0])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
@@ -530,8 +529,8 @@ def test_solar_vector_NED():
     n = day_of_the_year(6, 20)  # summer solstice
     lat = 90
     hour, minute = 12, 0  # solar noon
-    alt = np.deg2rad(23 + 26/60 + 14/3600)
-    expected_value = np.array([-np.cos(alt), 0, -np.sin(alt)])
+    alt = deg2rad(23 + 26/60 + 14/3600)
+    expected_value = array([-cos(alt), 0, -sin(alt)])
     assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
                               expected_value, 3)
 
@@ -654,7 +653,7 @@ def test_irradiance_on_plane():
 
     # Northern Hemisphere #
     # summer solstice, solar noon, lat=declination, plane right-side-up
-    vnorm = np.array([0, 0, -1])
+    vnorm = array([0, 0, -1])
     h = 20000
     n = day_of_the_year(6, 20)
     lat = 23 + 26/60 + 14/3600
@@ -664,7 +663,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # summer solstice, solar noon, lat=declination, plane upside-down
-    vnorm = np.array([0, 0, 1])
+    vnorm = array([0, 0, 1])
     h = 20000
     n = day_of_the_year(6, 20)
     lat = 23 + 26/60 + 14/3600
@@ -674,7 +673,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # summer solstice, night, lat=declination, plane right-side-up
-    vnorm = np.array([0, 0, -1])
+    vnorm = array([0, 0, -1])
     h = 20000
     n = day_of_the_year(6, 20)
     lat = 23 + 26/60 + 14/3600
@@ -684,7 +683,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # summer solstice, night, lat=declination, plane upside-down
-    vnorm = np.array([0, 0, 1])
+    vnorm = array([0, 0, 1])
     h = 20000
     n = day_of_the_year(6, 20)
     lat = 23 + 26/60 + 14/3600
@@ -694,7 +693,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # winter solstice, permanent darkness, plane right-side-up
-    vnorm = np.array([0, 0, -1])
+    vnorm = array([0, 0, -1])
     h = 20000
     n = day_of_the_year(12, 22)
     lat = 70
@@ -704,7 +703,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # winter solstice, permanent darkness, plane upside-down
-    vnorm = np.array([0, 0, 1])
+    vnorm = array([0, 0, 1])
     h = 20000
     n = day_of_the_year(12, 22)
     lat = 70
@@ -714,7 +713,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # winter solstice, night, plane right-side-up
-    vnorm = np.array([0, 0, -1])
+    vnorm = array([0, 0, -1])
     h = 20000
     n = day_of_the_year(12, 22)
     lat = 40
@@ -724,7 +723,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # winter solstice, night, plane upside-down
-    vnorm = np.array([0, 0, 1])
+    vnorm = array([0, 0, 1])
     h = 20000
     n = day_of_the_year(12, 22)
     lat = 40
@@ -734,7 +733,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # any day, solar noon, any latitude, plane sideways
-    vnorm = np.array([0, 1, 0])
+    vnorm = array([0, 1, 0])
     h = 0
     n = day_of_the_year(4, 1)
     lat = 47.3
@@ -745,7 +744,7 @@ def test_irradiance_on_plane():
 
     # Southern Hemisphere #
     # summer solstice, solar noon, lat=declination, plane right-side-up
-    vnorm = np.array([0, 0, -1])
+    vnorm = array([0, 0, -1])
     h = 20000
     n = day_of_the_year(12, 22)
     lat = -(23 + 26/60 + 14/3600)
@@ -755,7 +754,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # summer solstice, solar noon, lat=declination, plane upside-down
-    vnorm = np.array([0, 0, 1])
+    vnorm = array([0, 0, 1])
     h = 20000
     n = day_of_the_year(12, 22)
     lat = -(23 + 26/60 + 14/3600)
@@ -765,7 +764,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # summer solstice, night, lat=declination, plane right-side-up
-    vnorm = np.array([0, 0, -1])
+    vnorm = array([0, 0, -1])
     h = 20000
     n = day_of_the_year(12, 22)
     lat = -(23 + 26/60 + 14/3600)
@@ -775,7 +774,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # summer solstice, night, lat=declination, plane upside-down
-    vnorm = np.array([0, 0, 1])
+    vnorm = array([0, 0, 1])
     h = 20000
     n = day_of_the_year(12, 22)
     lat = -(23 + 26/60 + 14/3600)
@@ -785,7 +784,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # winter solstice, permanent darkness, plane right-side-up
-    vnorm = np.array([0, 0, -1])
+    vnorm = array([0, 0, -1])
     h = 20000
     n = day_of_the_year(6, 20)
     lat = -70
@@ -795,7 +794,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # winter solstice, permanent darkness, plane upside-down
-    vnorm = np.array([0, 0, 1])
+    vnorm = array([0, 0, 1])
     h = 20000
     n = day_of_the_year(6, 20)
     lat = -70
@@ -805,7 +804,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # winter solstice, night, plane right-side-up
-    vnorm = np.array([0, 0, -1])
+    vnorm = array([0, 0, -1])
     h = 20000
     n = day_of_the_year(6, 20)
     lat = -40
@@ -815,7 +814,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # winter solstice, night, plane upside-down
-    vnorm = np.array([0, 0, 1])
+    vnorm = array([0, 0, 1])
     h = 20000
     n = day_of_the_year(6, 20)
     lat = -40
@@ -825,7 +824,7 @@ def test_irradiance_on_plane():
                         expected_value, 3)
 
     # any day, solar noon, any latitude, plane sideways
-    vnorm = np.array([0, 1, 0])
+    vnorm = array([0, 1, 0])
     h = 0
     n = day_of_the_year(10, 5)
     lat = -13.1

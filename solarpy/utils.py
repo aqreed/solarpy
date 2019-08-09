@@ -6,7 +6,7 @@
 """
 
 import numpy as np
-from numpy import sin, cos, tan, deg2rad
+from numpy import sin, cos, tan, deg2rad, array, ndarray
 from datetime import datetime, timedelta
 
 
@@ -23,7 +23,7 @@ def check_lat_range(lat):
     -------
     None. Raises an exception in case
     """
-    if isinstance(lat, np.ndarray) and ((abs(lat) > 90).any()):
+    if isinstance(lat, ndarray) and ((abs(lat) > 90).any()):
             raise ValueError('latitude should be -90 <= latitude <= 90')
     elif isinstance(lat, int) and (abs(lat) > 90):
             raise ValueError('latitude should be -90 <= latitude <= 90')
@@ -46,7 +46,7 @@ def check_long_range(lng):
     -------
     None. Raises an exception in case
     """
-    if isinstance(lng, np.ndarray) and ((lng < 0).any() or (lng > 359).any()):
+    if isinstance(lng, ndarray) and ((lng < 0).any() or (lng > 359).any()):
             raise ValueError('longitude should be 0 <= longitude <= 359')
     elif isinstance(lng, int) and ((lng < 0) or (lng > 359)):
             raise ValueError('longitude should be 0 <= longitude <= 359')
@@ -69,7 +69,7 @@ def check_alt_range(h):
     -------
     None. Raises an exception in case
     """
-    if isinstance(h, np.ndarray) and ((h < 0).any() or (h > 24000).any()):
+    if isinstance(h, ndarray) and ((h < 0).any() or (h > 24000).any()):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
     elif isinstance(h, int) and ((h < 0) or (h > 24000)):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
@@ -93,11 +93,11 @@ def day_of_the_year(date):
     day : int or array-like (int inside)
         day of the year (1 to 365)
     """
-    if isinstance(date, np.ndarray) and all(isinstance(i, datetime) for i in date):
+    if isinstance(date, ndarray) and all(isinstance(i, datetime) for i in date):
         # the parameter is an array of datetime objects
         day = [(date[i] - datetime(date[i].now().year, 1, 1)).days + 1
-                for i in range(len(date))]
-        return np.array(day)
+               for i in range(len(date))]
+        return array(day)
 
     elif isinstance(date, datetime):
         # the parameter is a datetime object
@@ -156,7 +156,7 @@ def lla2ecef(lat, lng, h):
     y = (N + h) * cos(lat) * sin(lng)
     z = (((b/a)**2) * N + h) * sin(lat)
 
-    return np.array([x, y, z])
+    return array([x, y, z])
 
 
 def ned2ecef(v_ned, lat, lng):
@@ -185,9 +185,9 @@ def ned2ecef(v_ned, lat, lng):
     lat = deg2rad(lat)
     lng = deg2rad(lng)
 
-    Lne = np.array([[-sin(lat) * cos(lng), -sin(lat) * sin(lng), cos(lat)],
-                    [-sin(lng), cos(lng), 0],
-                    [-cos(lat) * cos(lng), -cos(lat) * sin(lng), -sin(lat)]])
+    Lne = array([[-sin(lat) * cos(lng), -sin(lat) * sin(lng), cos(lat)],
+                 [-sin(lng), cos(lng), 0],
+                 [-cos(lat) * cos(lng), -cos(lat) * sin(lng), -sin(lat)]])
 
     Len = Lne.transpose()
     v_ecef = Len.dot(v_ned)
@@ -219,9 +219,11 @@ def pressure(h):
     """
     check_alt_range(h)
 
-    alt_ = np.append(np.linspace(0, 20e3, 21), np.linspace(22e3, 24e3, 2))
-    p_ = np.array([101325, 89876, 79501, 70121, 61660, 54048, 47217, 41105,
-                   35651, 30800, 26499, 22699, 19399, 16579, 14170, 12111,
-                   10352, 8849, 7565, 6467, 5529, 4047, 2972])
+    alt_ = np.append(np.linspace(0, 20e3, 21),
+                     np.linspace(22e3, 24e3, 2))
+
+    p_ = array([101325, 89876, 79501, 70121, 61660, 54048, 47217, 41105,
+                35651, 30800, 26499, 22699, 19399, 16579, 14170, 12111,
+                10352, 8849, 7565, 6467, 5529, 4047, 2972])
 
     return np.interp(h, alt_, p_)

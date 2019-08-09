@@ -6,7 +6,8 @@
 """
 
 import numpy as np
-from numpy import sin, cos, tan, deg2rad, rad2deg
+from numpy import sin, cos, tan, deg2rad, rad2deg,\
+                  array, arccos, exp, ndarray
 from datetime import datetime, timedelta
 from solarpy.utils import *
 
@@ -28,10 +29,10 @@ def B_nth_day(date):
     try:
         n = day_of_the_year(date)
 
-        if (isinstance(date, np.ndarray) and
+        if (isinstance(date, ndarray) and
             all(isinstance(i, datetime) for i in date)):
             # the parameter is an array of datetime objects
-            return np.array([deg2rad((i - 1) * (360 / 365)) for i in n])
+            return array([deg2rad((i - 1) * (360 / 365)) for i in n])
 
         elif isinstance(date, datetime):
             # the parameter is a datetime object
@@ -59,12 +60,12 @@ def Gon(date):
     try:
         B = B_nth_day(date)
 
-        if (isinstance(date, np.ndarray) and
+        if (isinstance(date, ndarray) and
             all(isinstance(i, datetime) for i in date)):
             # the parameter is an array of datetime objects
-            return np.array([1367 * (1.00011 + 0.034221 * cos(i) +
-                                     0.00128 * sin(i) + 0.000719 * cos(2 * i) +
-                                     0.000077 * sin(2 * i)) for i in B])
+            return array([1367 * (1.00011 + 0.034221 * cos(i) +
+                                  0.00128 * sin(i) + 0.000719 * cos(2 * i) +
+                                  0.000077 * sin(2 * i)) for i in B])
 
         elif isinstance(date, datetime):
             # the parameter is a datetime object
@@ -93,13 +94,13 @@ def Eq_time(date):
     try:
         B = B_nth_day(date)
 
-        if (isinstance(date, np.ndarray) and
+        if (isinstance(date, ndarray) and
             all(isinstance(i, datetime) for i in date)):
             # the parameter is an array of datetime objects
-            return np.array([229.2 * (0.000075 + 0.001868 * cos(i) -
-                                      0.032077 * sin(i) -
-                                      0.014615 * cos(2 * i) -
-                                      0.04089 * sin(2 * i)) for i in B])
+            return array([229.2 * (0.000075 + 0.001868 * cos(i) -
+                                   0.032077 * sin(i) -
+                                   0.014615 * cos(2 * i) -
+                                   0.04089 * sin(2 * i)) for i in B])
 
         elif isinstance(date, datetime):
             # the parameter is a datetime object
@@ -130,13 +131,13 @@ def declination(date):
     try:
         B = B_nth_day(date)
 
-        if (isinstance(date, np.ndarray) and
+        if (isinstance(date, ndarray) and
             all(isinstance(i, datetime) for i in date)):
             # the parameter is an array of datetime objects
-            return np.array([0.006918 - 0.399912 * cos(i) + 0.070257 * sin(i) -
-                             0.006758 * cos(2 * i) + 0.000907 * sin(2 * i) -
-                             0.002679 * cos(3 * i) + 0.00148 * sin(3 * i)
-                             for i in B])
+            return array([0.006918 - 0.399912 * cos(i) + 0.070257 * sin(i) -
+                          0.006758 * cos(2 * i) + 0.000907 * sin(2 * i) -
+                          0.002679 * cos(3 * i) + 0.00148 * sin(3 * i)
+                          for i in B])
 
         elif isinstance(date, datetime):
             # the parameter is a datetime object
@@ -262,7 +263,7 @@ def theta(n, lat, beta, surf_az, hour, minute):
                 cos(dec) * sin(lat) * sin(beta) * cos(surf_az) * cos(w) + \
                 cos(dec) *            sin(beta) * sin(surf_az) * sin(w)
 
-    return np.arccos(cos_theta)
+    return arccos(cos_theta)
 
 
 def theta_z(n, lat, hour, minute):
@@ -297,7 +298,7 @@ def theta_z(n, lat, hour, minute):
 
     cos_theta_z = sin(dec) * sin(lat) + cos(dec) * cos(lat) * cos(w)
 
-    return np.arccos(cos_theta_z)
+    return arccos(cos_theta_z)
 
 
 def solar_azimuth(n, lat, hour, minute):
@@ -346,7 +347,7 @@ def solar_azimuth(n, lat, hour, minute):
     else:
         s = np.sign(w)
 
-    return s * np.arccos(tmp)
+    return s * arccos(tmp)
 
 
 def solar_altitude(n, lat, hour, minute):
@@ -403,7 +404,7 @@ def sunset_hour_angle(n, lat):
     if abs(cos_ws) > 1:
         raise NoSunsetNoSunrise
     else:
-        return np.arccos(cos_ws)
+        return arccos(cos_ws)
 
 
 def sunset_time(n, lat):
@@ -519,7 +520,7 @@ def daylight_hours(n, lat):
     b = np.zeros(tmp.shape)
 
     b[(tmp < -1.0)] = 1
-    b[(abs(tmp) < 1.0)] = (2 * np.arccos(tmp[(abs(tmp) < 1.0)]) / (2 * np.pi))
+    b[(abs(tmp) < 1.0)] = (2 * arccos(tmp[(abs(tmp) < 1.0)]) / (2 * np.pi))
     b[(tmp > 1.0)] = 0
 
     return b * 24
@@ -559,21 +560,21 @@ def solar_vector_NED(n, lat, hour, minute):
 
         if (w > w_ss) or (w < w_sr):
             # the point on the earth surface is at night
-            return np.array([0, 0, 0])
+            return array([0, 0, 0])
         else:
-            return np.array([-cos(solar_az) * cos(solar_alt),
-                             -sin(solar_az) * cos(solar_alt),
-                             -sin(solar_alt)])
+            return array([-cos(solar_az) * cos(solar_alt),
+                          -sin(solar_az) * cos(solar_alt),
+                          -sin(solar_alt)])
 
     except NoSunsetNoSunrise:
         if (lh == 0):
             # the point on the earth surface is in permanent darkness
-            return np.array([0, 0, 0])
+            return array([0, 0, 0])
         else:
             # the point on the earth surface is in permanent light
-            return np.array([-cos(solar_az) * cos(solar_alt),
-                             -sin(solar_az) * cos(solar_alt),
-                             -sin(solar_alt)])
+            return array([-cos(solar_az) * cos(solar_alt),
+                          -sin(solar_az) * cos(solar_alt),
+                          -sin(solar_alt)])
 
 
 def air_mass_KastenYoung1989(theta_z, h, limit=True):
@@ -610,12 +611,12 @@ def air_mass_KastenYoung1989(theta_z, h, limit=True):
     # limitations beyond 90º. TODO: improve
     if theta_z < 91.5:
         theta_z_rad = deg2rad(theta_z)
-        m = np.exp(-0.0001184 * h) / (cos(theta_z_rad) +
-                                  0.50572 * (96.07995 - theta_z) ** (-1.634))
+        m = exp(-0.0001184 * h) / (cos(theta_z_rad) +
+                                   0.50572 * (96.07995 - theta_z) ** (-1.634))
     else:
         theta_z_rad = deg2rad(91.5)
-        m = np.exp(-0.0001184 * h) / (cos(theta_z_rad) +
-                                  0.50572 * (96.07995 - 91.5) ** (-1.634))
+        m = exp(-0.0001184 * h) / (cos(theta_z_rad) +
+                                   0.50572 * (96.07995 - 91.5) ** (-1.634))
 
     return m
 
@@ -684,13 +685,13 @@ def beam_irradiance(h, n, lat, hour, minute):
 
     # the maximum zenith angle is the one that points to the horizon
     a = 6378137  # [m] Earth equatorial axis
-    theta_lim = (1 / 2) * np.pi + np.arccos(a / (a + h))  # radians
+    theta_lim = (1 / 2) * np.pi + arccos(a / (a + h))  # radians
 
     theta_zenith = theta_z(n, lat, hour, minute)  # radians
 
     if theta_zenith < theta_lim:
         m = air_mass_KastenYoung1989(rad2deg(theta_zenith), h)
-        G = Gon(n) * np.exp(-prel * m * alpha_int)
+        G = Gon(n) * exp(-prel * m * alpha_int)
     else:
         G = 0
 
@@ -725,7 +726,7 @@ def irradiance_on_plane(vnorm, h, n, lat, hour, minute):
     """
     vsol = solar_vector_NED(n, lat, hour, minute)
 
-    if (vsol == np.array([0, 0, 0])).all():
+    if (vsol == array([0, 0, 0])).all():
         # in case there is no sun (night or permanent darkness)
         G = 0
         theta = np.nan
@@ -733,7 +734,7 @@ def irradiance_on_plane(vnorm, h, n, lat, hour, minute):
         vnorm_abs = np.linalg.norm(vnorm)
         vsol_abs = np.linalg.norm(vsol)
 
-        theta = np.arccos(np.dot(vnorm, vsol) / (vnorm_abs * vsol_abs))
+        theta = arccos(np.dot(vnorm, vsol) / (vnorm_abs * vsol_abs))
 
         # for future solar panel applications: only one side of it has cells
         if cos(theta) > 0:
