@@ -25,21 +25,20 @@ def B_nth_day(date):
     B : float or array-like (float inside)
         angle of the day of the year in radians
     """
-    if isinstance(date, np.ndarray) and all(isinstance(i, datetime) for i in date):
-        # the parameter is an array of datetime objects
+    try:
         n = day_of_the_year(date)
 
-        return np.array([deg2rad((i - 1) * (360 / 365)) for i in n])
+        if (isinstance(date, np.ndarray) and
+            all(isinstance(i, datetime) for i in date)):
+            # the parameter is an array of datetime objects
+            return np.array([deg2rad((i - 1) * (360 / 365)) for i in n])
 
-    elif isinstance(date, datetime):
-        # the parameter is a datetime object
-        n = day_of_the_year(date)
+        elif isinstance(date, datetime):
+            # the parameter is a datetime object
+            return deg2rad((n - 1) * (360 / 365))
 
-        return deg2rad((n - 1) * (360 / 365))
-
-    else:
-        msg = "date must be a datetime object or array of datetime objects"
-        raise TypeError(msg)
+    except TypeError as e:
+        raise e
 
 
 def Gon(date):

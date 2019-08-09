@@ -17,21 +17,26 @@ import io
 import sys
 
 
-def test_B_nth_day():
+class Test_B_nth_day(ut.TestCase):
     """
     Tests B(n) values.
     """
-    date = datetime(2019, 1, 1)  # Jan 1
-    expected_value = 0
-    assert_equal(B_nth_day(date), expected_value)
+    def test_single_days(self):
+        date = datetime(2019, 1, 1)  # Jan 1
+        expected_value = 0
+        assert_equal(B_nth_day(date), expected_value)
 
-    date = datetime(2019, 12, 31)  # Dec 31
-    expected_value = 6.2659711
-    assert_almost_equal(B_nth_day(date), expected_value, 6)
+        date = datetime(2019, 12, 31)  # Dec 31
+        expected_value = 6.2659711
+        assert_almost_equal(B_nth_day(date), expected_value, 6)
 
-    date = np.array([datetime(2019, 1, 1), datetime(2019, 12, 31)])
-    expected_value = np.array([0, 6.2659711])
-    assert_almost_equal(B_nth_day(date), expected_value, 6)
+    def test_array(self):
+        date = np.array([datetime(2019, 1, 1), datetime(2019, 12, 31)])
+        expected_value = np.array([0, 6.2659711])
+        assert_almost_equal(B_nth_day(date), expected_value, 6)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, B_nth_day, 6)
 
 
 class Test_Gon(ut.TestCase):
