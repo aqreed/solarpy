@@ -104,32 +104,39 @@ class Test_declination(ut.TestCase):
     Tests equation of time values.
     """
     def test_min(self):
-        a = np.arange(1, 366)  # array with all days
-        self.assertTrue((np.rad2deg(declination(a)) > -24).all())
+        # array with all days
+        dates = np.array([datetime(datetime.now().year, 1, 1) +
+                          timedelta(days=i) for i in range(365)])
+        self.assertTrue((np.rad2deg(declination(dates)) > -24).all())
 
     def test_max(self):
-        a = np.arange(1, 366)  # array with all days
-        self.assertTrue((np.rad2deg(declination(a)) < 24).all())
+        # array with all days
+        dates = np.array([datetime(datetime.now().year, 1, 1) +
+                          timedelta(days=i) for i in range(365)])
+        self.assertTrue((np.rad2deg(declination(dates)) < 24).all())
 
     def test_Jan1(self):
-        n = 1  # January 1
+        date = datetime(2019, 1, 1)  # January 1
         expected_value = np.deg2rad(-23)
-        self.assertAlmostEqual(declination(n), expected_value, 1)
+        self.assertAlmostEqual(declination(date), expected_value, 1)
 
     def test_summerSolstice(self):
-        n = 171  # July 21
+        date = datetime(2019, 6, 20)  # June 20
         expected_value = np.deg2rad(23)
-        self.assertAlmostEqual(declination(n), expected_value, 1)
+        self.assertAlmostEqual(declination(date), expected_value, 1)
 
     def test_Feb13(self):  # Example 1.6.1
-        n = 44  # February 13
+        date = datetime(2019, 2, 13)  # Feb 13
         expected_value = np.deg2rad(-14)
-        self.assertAlmostEqual(declination(n), expected_value, 1)
+        self.assertAlmostEqual(declination(date), expected_value, 1)
 
     def test_Mar16(self):  # Example 1.6.3
-        n = day_of_the_year(3, 16)  # March 16
+        date = datetime(2019, 3, 16)  # March 16
         expected_value = np.deg2rad(-2.4)
-        self.assertAlmostEqual(declination(n), expected_value, 1)
+        self.assertAlmostEqual(declination(date), expected_value, 1)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, declination, 12)
 
 
 class Test_solar_time(ut.TestCase):
