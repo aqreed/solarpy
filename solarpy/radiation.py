@@ -149,49 +149,36 @@ def declination(date):
         raise e
 
 
-def solar_time(n, hour, minute, lng):
+def solar_time(date, lng):
     """
-    Solar time (local) for a particular day of the year (nth),
-    hour-minute and longitude
+    Solar time for a particular longitude, date and time.
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
-    hour : integer
-        hour of the day (0 to 23)
-    minute : integer
-        minutes (0 to 59)
+    date : datetime object
+        standard (or local) time
     lng : float
         longitude, east-west position wrt the Prime Meridian in degrees
 
     Returns
     -------
-    solar time : tuple-like
-        local solar time (hour, minute, second)
+    solar time : datetime object
+        solar time
     """
     check_long_range(lng)
 
-    if (hour < 0) or (hour > 23):
-        raise ValueError('hour should be 0 <= hour <= 23')
-    if (minute < 0) or (minute > 59):
-        raise ValueError('minute should be 0 <= minute <= 59')
-
     # standard time
-    t_std = datetime(datetime.now().year, 1, 1) + \
-            timedelta(days=(n-1),
-                      hours=hour,
-                      minutes=minute)
+    t_std = date
 
     # displacement from standard meridian for that longitude
     lng_std = round(lng / 15) * 15
     delta_std_meridian = timedelta(minutes=(4 * (lng_std - lng)))
 
     # eq. of time for that day
-    E = timedelta(minutes=Eq_time(n))
+    E = timedelta(minutes=Eq_time(date))
     t_solar = t_std + delta_std_meridian + E
 
-    return t_solar.hour, t_solar.minute, t_solar.second
+    return t_solar
 
 
 def hour_angle(hour, minute):
