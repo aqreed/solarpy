@@ -13,7 +13,7 @@ from solarpy.utils import *
 
 def B_nth_day(date):
     """
-    Day of the year angle on a desired date and time.
+    Day-of-the-year angle on a desired date and time.
 
     Parameters
     ----------
@@ -62,9 +62,9 @@ def Gon(date):
         if (isinstance(date, np.ndarray) and
             all(isinstance(i, datetime) for i in date)):
             # the parameter is an array of datetime objects
-            return np.array([1367 * (1.00011 + 0.034221 * cos(B) +
-                                     0.00128 * sin(B) + 0.000719 * cos(2 * B) +
-                                     0.000077 * sin(2 * B)) for i in B])
+            return np.array([1367 * (1.00011 + 0.034221 * cos(i) +
+                                     0.00128 * sin(i) + 0.000719 * cos(2 * i) +
+                                     0.000077 * sin(2 * i)) for i in B])
 
         elif isinstance(date, datetime):
             # the parameter is a datetime object
@@ -96,10 +96,10 @@ def Eq_time(date):
         if (isinstance(date, np.ndarray) and
             all(isinstance(i, datetime) for i in date)):
             # the parameter is an array of datetime objects
-            return np.array([229.2 * (0.000075 + 0.001868 * cos(B) -
-                                      0.032077 * sin(B) -
-                                      0.014615 * cos(2 * B) -
-                                      0.04089 * sin(2 * B)) for i in B])
+            return np.array([229.2 * (0.000075 + 0.001868 * cos(i) -
+                                      0.032077 * sin(i) -
+                                      0.014615 * cos(2 * i) -
+                                      0.04089 * sin(2 * i)) for i in B])
 
         elif isinstance(date, datetime):
             # the parameter is a datetime object
