@@ -48,19 +48,32 @@ def Gon(date):
 
     Parameters
     ----------
-    date : datetime-object
+    date : datetime object or array-like (datetime objects inside)
         date of interest
 
     Returns
     -------
-    Gon : float
+    Gon : float or array-like (float inside)
         extraterrestrial radiation in W/m2
     """
-    B = B_nth_day(date)
+    try:
+        B = B_nth_day(date)
 
-    return 1367 * (1.00011 + 0.034221 * cos(B) +
-                   0.00128 * sin(B) + 0.000719 * cos(2 * B) +
-                   0.000077 * sin(2 * B))
+        if (isinstance(date, np.ndarray) and
+            all(isinstance(i, datetime) for i in date)):
+            # the parameter is an array of datetime objects
+            return np.array([1367 * (1.00011 + 0.034221 * cos(B) +
+                             0.00128 * sin(B) + 0.000719 * cos(2 * B) +
+                             0.000077 * sin(2 * B)) for i in B])
+
+        elif isinstance(date, datetime):
+            # the parameter is a datetime object
+            return 1367 * (1.00011 + 0.034221 * cos(B) +
+                           0.00128 * sin(B) + 0.000719 * cos(2 * B) +
+                           0.000077 * sin(2 * B))
+
+    except TypeError as e:
+        raise e
 
 
 def Eq_time(n):

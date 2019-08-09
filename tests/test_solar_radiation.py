@@ -44,22 +44,29 @@ class Test_Gon(ut.TestCase):
     Tests radiation on a plane normal values.
     """
     def test_min(self):
-        a = np.arange(1, 366)  # array with all days
-        self.assertTrue((Gon(a) > 1320).all())
+        # array with all days
+        dates = np.array([datetime(datetime.now().year, 1, 1) +
+                          timedelta(days=i) for i in range(365)])
+        self.assertTrue((Gon(dates) > 1320).all())
 
     def test_max(self):
-        a = np.arange(1, 366)  # array with all days
-        self.assertTrue((Gon(a) < 1420).all())
+        # array with all days
+        dates = np.array([datetime(datetime.now().year, 1, 1) +
+                          timedelta(days=i) for i in range(365)])
+        self.assertTrue((Gon(dates) < 1420).all())
 
     def test_Jan1(self):
-        n = 1  # January 1
+        date = datetime(2019, 1, 1)  # January 1
         expected_value = 1415
-        self.assertAlmostEqual(Gon(n), expected_value, delta=1)
+        self.assertAlmostEqual(Gon(date), expected_value, delta=1)
 
     def test_summerSolstice(self):
-        n = 171  # July 21
+        date = datetime(2019, 6, 20)  # June 20
         expected_value = 1322
-        self.assertAlmostEqual(Gon(n), expected_value, delta=1)
+        self.assertAlmostEqual(Gon(date), expected_value, delta=1)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, Gon, 'a')
 
 
 class Test_Eq_time(ut.TestCase):
