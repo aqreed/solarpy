@@ -76,25 +76,39 @@ def Gon(date):
         raise e
 
 
-def Eq_time(n):
+def Eq_time(date):
     """
-    Equation of time on the nth day of the year.
+    Equation of time on a desired date and time.
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object or array-like (datetime objects inside)
+        date of interest
 
     Returns
     -------
-    E : float
+    E : float or array-like (float inside)
         equation of time in minutes
     """
-    B = B_nth_day(n)
+    try:
+        B = B_nth_day(date)
 
-    return 229.2 * (0.000075 + 0.001868 * cos(B) -
-                    0.032077 * sin(B) - 0.014615 * cos(2 * B) -
-                    0.04089 * sin(2 * B))
+        if (isinstance(date, np.ndarray) and
+            all(isinstance(i, datetime) for i in date)):
+            # the parameter is an array of datetime objects
+            return np.array([229.2 * (0.000075 + 0.001868 * cos(B) -
+                                      0.032077 * sin(B) -
+                                      0.014615 * cos(2 * B) -
+                                      0.04089 * sin(2 * B)) for i in B])
+
+        elif isinstance(date, datetime):
+            # the parameter is a datetime object
+            return 229.2 * (0.000075 + 0.001868 * cos(B) -
+                            0.032077 * sin(B) - 0.014615 * cos(2 * B) -
+                            0.04089 * sin(2 * B))
+
+    except TypeError as e:
+        raise e
 
 
 def declination(n):

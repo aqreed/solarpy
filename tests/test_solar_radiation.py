@@ -74,22 +74,29 @@ class Test_Eq_time(ut.TestCase):
     Tests equation of time values.
     """
     def test_min(self):
-        a = np.arange(1, 366)  # array with all days
-        self.assertTrue((Eq_time(a) > -15).all())
+        # array with all days
+        dates = np.array([datetime(datetime.now().year, 1, 1) +
+                          timedelta(days=i) for i in range(365)])
+        self.assertTrue((Eq_time(dates) > -15).all())
 
     def test_max(self):
-        a = np.arange(1, 366)  # array with all days
-        self.assertTrue((Eq_time(a) < 17).all())
+        # array with all days
+        dates = np.array([datetime(datetime.now().year, 1, 1) +
+                          timedelta(days=i) for i in range(365)])
+        self.assertTrue((Eq_time(dates) < 17).all())
 
     def test_Jan1(self):
-        n = 1  # January 1
+        date = datetime(2019, 1, 1)  # January 1
         expected_value = -3
-        self.assertAlmostEqual(Eq_time(n), expected_value, delta=1)
+        self.assertAlmostEqual(Eq_time(date), expected_value, delta=1)
 
     def test_summerSolstice(self):
-        n = 171  # July 21
+        date = datetime(2019, 6, 20)  # June 20
         expected_value = -1
-        self.assertAlmostEqual(Eq_time(n), expected_value, delta=1)
+        self.assertAlmostEqual(Eq_time(date), expected_value, delta=1)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, Eq_time, 'a')
 
 
 class Test_declination(ut.TestCase):
