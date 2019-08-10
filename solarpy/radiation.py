@@ -184,31 +184,37 @@ def solar_time(date, lng):
         raise TypeError('date must be a datetime object')
 
 
-def hour_angle(hour, minute):
+def hour_angle(date, lng, solar_input=True):
     """
     Angular displacement of the sun east-west of the local
     meridian. 15 degrees per hour, morning < 0 < afternoon
 
     Parameters
     ----------
-    hour : integer
-        hour (solar time) of the day (0 to 23)
-    minute : integer
-        solar (solar time) minutes (0 to 59)
+    date : datetime object
+        standard (or local) time
+    lng : float
+        longitude, east-west position wrt the Prime Meridian in degrees
+    solar_input : bool
+        True if the input "date" uses solar time. False if uses standard time
 
     Returns
     -------
     hour angle : float
         local hour angle in radians
     """
-    if (hour < 0) or (hour > 23):
-        raise ValueError('hour should be 0 <= hour <= 23')
-    if (minute < 0) or (minute > 59):
-        raise ValueError('minute should be 0 <= minute <= 59')
+    try:
+        t_solar = solar_time(date, lng)
 
-    w = ((hour + (minute / 60)) - 12) * 15
+        if solar_input:
+            w = ((date.hour + (date.minute / 60)) - 12) * 15
+        else:
+            w = ((t_solar.hour + (t_solar.minute / 60)) - 12) * 15
 
-    return deg2rad(w)
+        return deg2rad(w)
+
+    except TypeError as e:
+        raise e
 
 
 def theta(n, lat, beta, surf_az, hour, minute):

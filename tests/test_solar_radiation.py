@@ -158,42 +158,42 @@ class Test_hour_angle(ut.TestCase):
     """
     Tests hour angle function. Values from Duffie and Beckman
     """
-    def test_errors(self):
-        self.assertRaises(ValueError, hour_angle, -1, 0)
-        self.assertRaises(ValueError, hour_angle, 24, 0)
-        self.assertRaises(ValueError, hour_angle, 0, -1)
-        self.assertRaises(ValueError, hour_angle, 0, 60)
-
     def test_examples(self):
         # noon
-        hour, minute = 12, 0
+        lng = 0
+        date = datetime(2019, 1, 1, 12, 0)
         expected_value = deg2rad(0)
-        self.assertEqual(hour_angle(hour, minute), expected_value)
+        self.assertEqual(hour_angle(date, lng), expected_value)
 
         # Example 1.6.1
-        hour, minute = 10, 30
+        date = datetime(2019, 1, 1, 10, 30)
         expected_value = deg2rad(-22.5)
-        self.assertEqual(hour_angle(hour, minute), expected_value)
+        self.assertEqual(hour_angle(date, lng), expected_value)
 
         # Example 1.6.2a
-        hour, minute = 9, 30
+        date = datetime(2019, 1, 1, 9, 30)
         expected_value = deg2rad(-37.5)
-        self.assertEqual(hour_angle(hour, minute), expected_value)
+        self.assertEqual(hour_angle(date, lng), expected_value)
 
         # Example 1.6.2b
-        hour, minute = 18, 30
+        date = datetime(2019, 1, 1, 18, 30)
         expected_value = deg2rad(97.5)
-        self.assertEqual(hour_angle(hour, minute), expected_value)
+        self.assertEqual(hour_angle(date, lng), expected_value)
 
         # Example 1.6.3
-        hour, minute = 16, 0
+        date = datetime(2019, 1, 1, 16, 0)
         expected_value = deg2rad(60)
-        self.assertEqual(hour_angle(hour, minute), expected_value)
+        self.assertEqual(hour_angle(date, lng), expected_value)
 
         # Example 1.7.1
-        hour, minute = 14, 0
+        date = datetime(2019, 1, 1, 14, 0)
         expected_value = deg2rad(30)
-        self.assertEqual(hour_angle(hour, minute), expected_value)
+        self.assertEqual(hour_angle(date, lng), expected_value)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, hour_angle, 121, 8.3)
+        date = datetime(2019, 1, 15)
+        self.assertRaises(ValueError, hour_angle, date, 855.3)
 
 
 def test_angle_of_incidence():
