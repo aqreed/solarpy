@@ -589,63 +589,43 @@ class Test_beam_irradiance(ut.TestCase):
     def test_errors(self):
         # erroneus altitud
         h = -10
-        n = 171
+        date = datetime(2019, 6, 20, 10, 0)
         lat = -63
-        hour, minute = 10, 0
-        self.assertRaises(ValueError, beam_irradiance, h, n, lat,
-                          hour, minute)
-
-        # erroneus day of the year
-        h = 0
-        n = 367
-        lat = -63
-        hour, minute = 10, 0
-        self.assertRaises(ValueError, beam_irradiance, h, n, lat,
-                          hour, minute)
+        self.assertRaises(ValueError, beam_irradiance, h, date, lat)
 
         # erroneus latitude
         h = 0
-        n = 171
+        date = datetime(2019, 6, 20, 10, 0)
         lat = -91
-        hour, minute = 10, 0
-        self.assertRaises(ValueError, beam_irradiance, h, n, lat,
-                          hour, minute)
+        self.assertRaises(ValueError, beam_irradiance, h, date, lat)
 
     def test_limit_values(self):
         # sun below the horizon
         h = 0
-        n = 171
-        lat = -67
-        hour, minute = 12, 0
+        date = datetime(2019, 6, 20, 12, 0)
+        lat = -69
         expected_value = 0
-        self.assertEqual(beam_irradiance(h, n, lat, hour, minute),
-                         expected_value)
+        self.assertEqual(beam_irradiance(h, date, lat), 0)
 
         h = 10000
-        n = 1
+        date = datetime(2019, 1, 1, 12, 0)
         lat = 87
-        hour, minute = 12, 0
         expected_value = 0
-        self.assertEqual(beam_irradiance(h, n, lat, hour, minute),
-                         expected_value)
+        self.assertEqual(beam_irradiance(h, date, lat), 0)
 
         # north pole winter nigth
         h = 1000
-        n = 320
+        date = datetime(2019, 11, 15, 5, 0)
         lat = 80
-        hour, minute = 5, 0
         expected_value = 0
-        self.assertEqual(beam_irradiance(h, n, lat, hour, minute),
-                         expected_value)
+        self.assertEqual(beam_irradiance(h, date, lat), 0)
 
         # south pole winter nigth
         h = 5000
-        n = 150
+        date = datetime(2019, 5, 20, 22, 0)
         lat = -85
-        hour, minute = 22, 0
         expected_value = 0
-        self.assertEqual(beam_irradiance(h, n, lat, hour, minute),
-                         expected_value)
+        self.assertEqual(beam_irradiance(h, date, lat), 0)
 
         # TODO: more test!
 

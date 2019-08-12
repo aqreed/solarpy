@@ -642,24 +642,20 @@ def air_mass_Young1994(theta_z):
     return m
 
 
-def beam_irradiance(h, n, lat, hour, minute):
+def beam_irradiance(h, date, lat):
     """
     Returns the solar beam irradiance on a plane normal to the sun vector (not
-    taking into account the diffuse component) at a certain altitude, day,
-    latitude and time of the day (hour and minute).
+    taking into account the diffuse component) at a certain altitude, date,
+    time and latitude
 
     Parameters
     ----------
     h : float
         altitude above sea level in meters
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        date and *solar* time
     lat : float
         latitude (-90 to 90) in degrees
-    hour : integer
-        hour of the day (0 to 23)
-    minute : integer
-        minutes (0 to 59)
 
     Returns
     -------
@@ -679,15 +675,18 @@ def beam_irradiance(h, n, lat, hour, minute):
     a = 6378137  # [m] Earth equatorial axis
     theta_lim = (1 / 2) * np.pi + arccos(a / (a + h))  # radians
 
-    theta_zenith = theta_z(n, lat, hour, minute)  # radians
+    if isinstance(date, datetime):
+        theta_zenith = theta_z(date, lat)  # radians
 
-    if theta_zenith < theta_lim:
-        m = air_mass_KastenYoung1989(rad2deg(theta_zenith), h)
-        G = Gon(n) * exp(-prel * m * alpha_int)
+        if theta_zenith < theta_lim:
+            m = air_mass_KastenYoung1989(rad2deg(theta_zenith), h)
+            G = Gon(n) * exp(-prel * m * alpha_int)
+        else:
+            G = 0
+
+        return G
     else:
-        G = 0
-
-    return G
+        raise TypeError('date must be a datetime object')
 
 
 def irradiance_on_plane(vnorm, h, n, lat, hour, minute):
