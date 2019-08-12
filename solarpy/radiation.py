@@ -262,7 +262,7 @@ def theta(date, lat, lng, beta, surf_az):
     return arccos(cos_theta)
 
 
-def theta_z(n, lat, hour, minute):
+def theta_z(date, lat, lng):
     """
     * Zenith angle *
 
@@ -272,14 +272,13 @@ def theta_z(n, lat, hour, minute):
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        standard (or local) time
     lat : float
         latitude (-90 to 90) in degrees
-    hour : integer
-        hour of the day (0 to 23)
-    minute : integer
-        minutes (0 to 59)
+    lng : float
+        longitude, east-west position wrt the Prime Meridian in degrees
+        needed if "solar_input" is False, i.e. standard time is provided
 
     Returns
     -------
@@ -288,9 +287,9 @@ def theta_z(n, lat, hour, minute):
     """
     check_lat_range(lat)
 
-    dec = declination(n)
+    dec = declination(date)
     lat = deg2rad(lat)
-    w = hour_angle(hour, minute, lng)
+    w = hour_angle(date, lng)
 
     cos_theta_z = sin(dec) * sin(lat) + cos(dec) * cos(lat) * cos(w)
 

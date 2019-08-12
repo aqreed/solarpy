@@ -236,7 +236,7 @@ def test_angle_of_incidence():
     surf_az = 15
     expected_value = deg2rad(35)
     assert_almost_equal(theta(date, lat, lng, beta, surf_az),
-                              expected_value, decimal=3)
+                        expected_value, decimal=3)
 
 
 def test_zenith_angle():
@@ -244,36 +244,32 @@ def test_zenith_angle():
     Tests zenith angle function. Values from Duffie and Beckman
     """
     # noon at summer solstice and lat = 23.4º
-    n = 171
+    date = datetime(2019, 6, 20, 12, 0)  # Jun 20, 12:00 am (solar)
     lat = 23.45
-    hour, minute = 12, 0
+    lng = 0  # could take any value, only required if standard time is given
     expected_value = deg2rad(0)
-    assert_almost_equal(theta_z(n, lat, hour, minute),
-                        expected_value, decimal=2)
+    assert_almost_equal(theta_z(date, lat, lng), expected_value, decimal=2)
 
     # Example 1.6.2a
-    n = 44
+    date = datetime(2019, 2, 13, 9, 30)  # Feb 13, 9:30 am (solar)
     lat = 43
-    hour, minute = 9, 30
+    lng = 0  # could take any value, only required if standard time is given
     expected_value = deg2rad(66.5)
-    assert_almost_equal(theta_z(n, lat, hour, minute),
-                        expected_value, decimal=2)
+    assert_almost_equal(theta_z(date, lat, lng), expected_value, decimal=2)
 
     # Example 1.6.2b
-    n = day_of_the_year(7, 1)
+    date = datetime(2019, 7, 1, 18, 30)  # Jul 1, 18:30 am (solar)
     lat = 43
-    hour, minute = 18, 30
+    lng = 0  # could take any value, only required if standard time is given
     expected_value = deg2rad(79.6)
-    assert_almost_equal(theta_z(n, lat, hour, minute),
-                        expected_value, decimal=2)
+    assert_almost_equal(theta_z(date, lat, lng), expected_value, decimal=2)
 
     # Example 1.6.3
-    n = day_of_the_year(3, 16)
+    date = datetime(2019, 3, 16, 16, 0)  # Mar 16, 16:00 am (solar)
     lat = 43
-    hour, minute = 16, 0
+    lng = 0  # could take any value, only required if standard time is given
     expected_value = deg2rad(70.3)
-    assert_almost_equal(theta_z(n, lat, hour, minute),
-                        expected_value, decimal=2)
+    assert_almost_equal(theta_z(date, lat, lng), expected_value, decimal=2)
 
 
 def test_solar_azimuth():
