@@ -282,53 +282,53 @@ def theta_z(date, lat):
         raise TypeError('date must be a datetime object')
 
 
-def solar_azimuth(n, lat, hour, minute):
+def solar_azimuth(date, lat):
     """
     * Solar azimuth angle *
 
-    Angle between the projection of the sun beam on a horizontal
-    surface wrt N-S, for a particular day of the year (nth),
-    latitude and hour-minute. Positive to the West.
+    Angle between the projection of the sun beam on a horizontal surface
+    wrt N-S, for a date, *solar* time and latitude. Positive to the West.
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        date and *solar* time
     lat : float
         latitude (-90 to 90) in degrees
-    hour : integer
-        hour of the day (0 to 23)
-    minute : integer
-        minutes (0 to 59)
 
     Returns
     -------
     solar_az : float
         azimuth angle in radians
     """
+    check_lat_range(lat)
+
     # to avoid undefined values at lat = 90º or lat = -90º
     # the error incurred is acceptable
     if abs(lat) == 90:
         lat = np.sign(lat) * 89.999
 
-    w = hour_angle(hour, minute)
-    dec = declination(n)
-    th_z = theta_z(n, lat, hour, minute)
-    lat = deg2rad(lat)
+    if isinstance(date, datetime):
+        w = hour_angle(date)
+        dec = declination(date)
+        th_z = theta_z(date, lat)
+        lat = deg2rad(lat)
 
-    tmp = (cos(th_z) * sin(lat) - sin(dec)) / (sin(th_z) * cos(lat))
+        tmp = (cos(th_z) * sin(lat) - sin(dec)) / (sin(th_z) * cos(lat))
 
-    # herculean fight against floating-point errors
-    if (abs(tmp) > 1):
-        tmp = int(tmp)  # TODO: improve
+        # herculean fight against floating-point errors
+        if (abs(tmp) > 1):
+            tmp = int(tmp)  # TODO: improve
 
-    # to avoid undefined values at noon (12:00)
-    if w == 0:
-        s = 1
+        # to avoid undefined values at noon (12:00)
+        if w == 0:
+            s = 1
+        else:
+            s = np.sign(w)
+
+        return s * arccos(tmp)
     else:
-        s = np.sign(w)
-
-    return s * arccos(tmp)
+        raise TypeError('date must be a datetime object')
 
 
 def solar_altitude(n, lat, hour, minute):

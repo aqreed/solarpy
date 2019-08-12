@@ -244,61 +244,69 @@ class Test_zenith_angle(ut.TestCase):
         self.assertRaises(TypeError, theta_z, 121, 1)
 
 
-def test_solar_azimuth():
+class Test_solar_azimuth(ut.TestCase):
     """
     Tests solar azimuth angle function. Values from Duffie and Beckman
     """
-    # different values of (n, lat) at noon
-    hour, minute = 12, 0
+    def test_noon(self):
+        # different values of (date, lat) at noon
+        hour, minute = 12, 0  # noon
 
-    expected_value = deg2rad(0)
-    n, lat = 1, 0
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
-    n, lat = 90, 30
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
-    n, lat = 180, 60
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
-    n, lat = 270, 90
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
+        # northern hemisphere
+        expected_value = deg2rad(0)
 
-    expected_value = deg2rad(180)
-    n, lat = 90, -30
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
-    n, lat = 180, -60
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
-    n, lat = 270, -90
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
+        date = datetime(2019, 1, 1, hour, minute)  # Jan 1
+        lat = 0
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
 
-    # Example 1.6.2a
-    n = 44
-    lat = 43
-    hour, minute = 9, 30
-    expected_value = deg2rad(-40.0)
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
+        date = datetime(2019, 4, 1, hour, minute)  # Apr 1
+        lat = 30
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
 
-    # Example 1.6.2b
-    n = day_of_the_year(7, 1)
-    lat = 43
-    hour, minute = 18, 30
-    expected_value = deg2rad(112.0)
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
+        date = datetime(2019, 8, 1, hour, minute)  # Aug 1
+        lat = 60
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
 
-    # Example 1.6.3
-    n = day_of_the_year(3, 16)
-    lat = 43
-    hour, minute = 16, 0
-    expected_value = deg2rad(66.8)
-    assert_almost_equal(solar_azimuth(n, lat, hour, minute),
-                        expected_value, decimal=2)
+        date = datetime(2019, 10, 1, hour, minute)  # Oct 1
+        lat = 90
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
+
+        # northern hemisphere
+        expected_value = deg2rad(180)
+
+        date = datetime(2019, 4, 1, hour, minute)  # Apr 1
+        lat = -30
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
+
+        date = datetime(2019, 8, 1, hour, minute)  # Aug 1
+        lat = -60
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
+
+        date = datetime(2019, 10, 1, hour, minute)  # Oct 1
+        lat = -90
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
+
+    def examples(self):
+        # Example 1.6.2a
+        date = datetime(2019, 2, 13, 9, 30)  # Feb 13, 9:30am
+        lat = 43
+        expected_value = deg2rad(-40.0)
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
+
+        # Example 1.6.2b
+        date = datetime(2019, 7, 1, 18, 30)  # Jul 1, 1:30am
+        lat = 43
+        expected_value = deg2rad(112.0)
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
+
+        # Example 1.6.3
+        date = datetime(2019, 3, 16, 16, 0)  # Mar 16, 16:00am
+        lat = 43
+        expected_value = deg2rad(66.8)
+        self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, solar_azimuth, 121, 1)
 
 
 def test_solar_altitude():
