@@ -229,14 +229,14 @@ def test_angle_of_incidence():
     Tests angle of incidence function. Values from Duffie and Beckman
     example 1.6.1
     """
-    n = 44
+    date = datetime(2019, 2, 13, 10, 30)  # Feb 13, 10:30 am (solar)
     lat = 43
+    lng = 0  # could take any value, only required if standard time is given
     beta = 45
     surf_az = 15
-    hour, minute = 10, 30
     expected_value = deg2rad(35)
-    assert_almost_equal(theta(n, lat, beta, surf_az, hour, minute),
-                        expected_value, decimal=3)
+    assert_almost_equal(theta(date, lat, lng, beta, surf_az),
+                              expected_value, decimal=3)
 
 
 def test_zenith_angle():

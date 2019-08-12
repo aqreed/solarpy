@@ -195,6 +195,7 @@ def hour_angle(date, lng, solar_input=True):
         standard (or local) time
     lng : float
         longitude, east-west position wrt the Prime Meridian in degrees
+        needed if "solar_input" is False, i.e. standard time is provided
     solar_input : bool
         True if the input "date" uses solar time. False if uses standard time
 
@@ -217,28 +218,27 @@ def hour_angle(date, lng, solar_input=True):
         raise e
 
 
-def theta(n, lat, beta, surf_az, hour, minute):
+def theta(date, lat, lng, beta, surf_az):
     """
     Angle of incidence of the sun beam on a surface wrt the normal
-    to that surface, for a particular day of the year (nth), latitude,
-    surface slope, surface azimuth and hour-minute.
+    to that surface, for a date, time, position (lat, long), surface
+    slope and surface azimuth.
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        standard (or local) time
     lat : float
         latitude (-90 to 90) in degrees
+    lng : float
+        longitude, east-west position wrt the Prime Meridian in degrees
+        needed if "solar_input" is False, i.e. standard time is provided
     beta : float
         slope angle of the surface wrt the local horizon
         in degrees (0 to 180)
     surf_az : float
         azimuth angle of the surface in degrees wrt the local
         meridian (-180 to 180). 0-> south, east negative
-    hour : integer
-        hour of the day (0 to 23)
-    minute : integer
-        minutes (0 to 59)
 
     Returns
     -------
@@ -247,11 +247,11 @@ def theta(n, lat, beta, surf_az, hour, minute):
     """
     check_lat_range(lat)
 
-    dec = declination(n)
+    dec = declination(date)
     lat = deg2rad(lat)
     beta = deg2rad(beta)
     surf_az = deg2rad(surf_az)
-    w = hour_angle(hour, minute)
+    w = hour_angle(date, lng)
 
     cos_theta = sin(dec) * sin(lat) * cos(beta) - \
                 sin(dec) * cos(lat) * sin(beta) * cos(surf_az) + \
@@ -290,7 +290,7 @@ def theta_z(n, lat, hour, minute):
 
     dec = declination(n)
     lat = deg2rad(lat)
-    w = hour_angle(hour, minute)
+    w = hour_angle(hour, minute, lng)
 
     cos_theta_z = sin(dec) * sin(lat) + cos(dec) * cos(lat) * cos(w)
 
