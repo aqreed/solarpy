@@ -149,7 +149,7 @@ def declination(date):
         raise e
 
 
-def solar_time(date, lng):
+def standard2solar_time(date, lng):
     """
     Solar time for a particular longitude, date and time.
 
@@ -204,7 +204,7 @@ def hour_angle(date, lng, solar_input=True):
         local hour angle in radians
     """
     try:
-        t_solar = solar_time(date, lng)
+        t_solar = standard2solar_time(date, lng)
 
         if solar_input:
             w = ((date.hour + (date.minute / 60)) - 12) * 15
