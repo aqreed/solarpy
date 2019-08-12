@@ -160,116 +160,88 @@ class Test_hour_angle(ut.TestCase):
     """
     def test_examples(self):
         # noon
-        lng = 0
         date = datetime(2019, 1, 1, 12, 0)
         expected_value = deg2rad(0)
-        self.assertEqual(hour_angle(date, lng), expected_value)
+        self.assertEqual(hour_angle(date), expected_value)
 
         # Example 1.6.1
         date = datetime(2019, 1, 1, 10, 30)
         expected_value = deg2rad(-22.5)
-        self.assertEqual(hour_angle(date, lng), expected_value)
+        self.assertEqual(hour_angle(date), expected_value)
 
         # Example 1.6.2a
         date = datetime(2019, 1, 1, 9, 30)
         expected_value = deg2rad(-37.5)
-        self.assertEqual(hour_angle(date, lng), expected_value)
+        self.assertEqual(hour_angle(date), expected_value)
 
         # Example 1.6.2b
         date = datetime(2019, 1, 1, 18, 30)
         expected_value = deg2rad(97.5)
-        self.assertEqual(hour_angle(date, lng), expected_value)
+        self.assertEqual(hour_angle(date), expected_value)
 
         # Example 1.6.3
         date = datetime(2019, 1, 1, 16, 0)
         expected_value = deg2rad(60)
-        self.assertEqual(hour_angle(date, lng), expected_value)
+        self.assertEqual(hour_angle(date), expected_value)
 
         # Example 1.7.1
         date = datetime(2019, 1, 1, 14, 0)
         expected_value = deg2rad(30)
-        self.assertEqual(hour_angle(date, lng), expected_value)
-
-    def test_input_std_time(self):
-        # "solar_input" flag to False in order to input standard time. This
-        # tests verifies those 4 days when solar_time = standard_time
-
-        # April 16
-        lng = 0
-        date = datetime(2019, 4, 16, 12, 0)
-        expected_value = deg2rad(0)
-        self.assertAlmostEqual(hour_angle(date, lng, False), expected_value, 2)
-
-        # June 15
-        lng = 0
-        date = datetime(2019, 6, 15, 12, 0)
-        expected_value = deg2rad(0)
-        self.assertAlmostEqual(hour_angle(date, lng, False), expected_value, 2)
-
-        # Sept 2
-        lng = 0
-        date = datetime(2019, 9, 2, 12, 0)
-        expected_value = deg2rad(0)
-        self.assertAlmostEqual(hour_angle(date, lng, False), expected_value, 2)
-
-        # Dec 26
-        lng = 0
-        date = datetime(2019, 12, 26, 12, 0)
-        expected_value = deg2rad(0)
-        self.assertAlmostEqual(hour_angle(date, lng, False), expected_value, 2)
+        self.assertEqual(hour_angle(date), expected_value)
 
     def test_exception(self):
-        self.assertRaises(TypeError, hour_angle, 121, 8.3)
-        date = datetime(2019, 1, 15)
-        self.assertRaises(ValueError, hour_angle, date, 855.3)
+        self.assertRaises(TypeError, hour_angle, 121)
 
 
-def test_angle_of_incidence():
+class Test_angle_of_incidence(ut.TestCase):
     """
     Tests angle of incidence function. Values from Duffie and Beckman
     example 1.6.1
     """
-    date = datetime(2019, 2, 13, 10, 30)  # Feb 13, 10:30 am (solar)
-    lat = 43
-    lng = 0  # could take any value, only required if standard time is given
-    beta = 45
-    surf_az = 15
-    expected_value = deg2rad(35)
-    assert_almost_equal(theta(date, lat, lng, beta, surf_az),
-                        expected_value, decimal=3)
+    def test_example(self):
+        date = datetime(2019, 2, 13, 10, 30)  # Feb 13, 10:30 am (solar)
+        lat = 43
+        beta = 45
+        surf_az = 15
+        expected_value = deg2rad(35)
+        assert_almost_equal(theta(date, lat, beta, surf_az),
+                            expected_value, decimal=3)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, theta, 121, 1, 1, 1)
 
 
-def test_zenith_angle():
+class Test_zenith_angle(ut.TestCase):
     """
     Tests zenith angle function. Values from Duffie and Beckman
     """
-    # noon at summer solstice and lat = 23.4º
-    date = datetime(2019, 6, 20, 12, 0)  # Jun 20, 12:00 am (solar)
-    lat = 23.45
-    lng = 0  # could take any value, only required if standard time is given
-    expected_value = deg2rad(0)
-    assert_almost_equal(theta_z(date, lat, lng), expected_value, decimal=2)
+    def test_examples(self):
+        # noon at summer solstice and lat = 23.4º
+        date = datetime(2019, 6, 20, 12, 0)  # Jun 20, 12:00 am (solar)
+        lat = 23.45
+        expected_value = deg2rad(0)
+        assert_almost_equal(theta_z(date, lat), expected_value, decimal=2)
 
-    # Example 1.6.2a
-    date = datetime(2019, 2, 13, 9, 30)  # Feb 13, 9:30 am (solar)
-    lat = 43
-    lng = 0  # could take any value, only required if standard time is given
-    expected_value = deg2rad(66.5)
-    assert_almost_equal(theta_z(date, lat, lng), expected_value, decimal=2)
+        # Example 1.6.2a
+        date = datetime(2019, 2, 13, 9, 30)  # Feb 13, 9:30 am (solar)
+        lat = 43
+        expected_value = deg2rad(66.5)
+        assert_almost_equal(theta_z(date, lat), expected_value, decimal=2)
 
-    # Example 1.6.2b
-    date = datetime(2019, 7, 1, 18, 30)  # Jul 1, 18:30 am (solar)
-    lat = 43
-    lng = 0  # could take any value, only required if standard time is given
-    expected_value = deg2rad(79.6)
-    assert_almost_equal(theta_z(date, lat, lng), expected_value, decimal=2)
+        # Example 1.6.2b
+        date = datetime(2019, 7, 1, 18, 30)  # Jul 1, 18:30 am (solar)
+        lat = 43
+        expected_value = deg2rad(79.6)
+        assert_almost_equal(theta_z(date, lat), expected_value, decimal=2)
 
-    # Example 1.6.3
-    date = datetime(2019, 3, 16, 16, 0)  # Mar 16, 16:00 am (solar)
-    lat = 43
-    lng = 0  # could take any value, only required if standard time is given
-    expected_value = deg2rad(70.3)
-    assert_almost_equal(theta_z(date, lat, lng), expected_value, decimal=2)
+        # Example 1.6.3
+        date = datetime(2019, 3, 16, 16, 0)  # Mar 16, 16:00 am (solar)
+        lat = 43
+        expected_value = deg2rad(70.3)
+        assert_almost_equal(theta_z(date, lat), expected_value, decimal=2)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, theta_z, 121, 1)
 
 
 def test_solar_azimuth():

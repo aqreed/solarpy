@@ -184,7 +184,7 @@ def standard2solar_time(date, lng):
         raise TypeError('date must be a datetime object')
 
 
-def hour_angle(date, lng, solar_input=True):
+def hour_angle(date):
     """
     Angular displacement of the sun east-west of the local
     meridian. 15 degrees per hour, morning < 0 < afternoon
@@ -192,47 +192,32 @@ def hour_angle(date, lng, solar_input=True):
     Parameters
     ----------
     date : datetime object
-        standard (or local) time
-    lng : float
-        longitude, east-west position wrt the Prime Meridian in degrees
-        needed if "solar_input" is False, i.e. standard time is provided
-    solar_input : bool
-        True if the input "date" uses solar time. False if uses standard time
+        date and *solar* time
 
     Returns
     -------
     hour angle : float
         local hour angle in radians
     """
-    try:
-        t_solar = standard2solar_time(date, lng)
-
-        if solar_input:
-            w = ((date.hour + (date.minute / 60)) - 12) * 15
-        else:
-            w = ((t_solar.hour + (t_solar.minute / 60)) - 12) * 15
-
+    if isinstance(date, datetime):
+        w = (date.hour + (date.minute / 60) - 12) * 15
         return deg2rad(w)
+    else:
+        raise TypeError('date must be a datetime object')
 
-    except TypeError as e:
-        raise e
 
-
-def theta(date, lat, lng, beta, surf_az):
+def theta(date, lat, beta, surf_az):
     """
     Angle of incidence of the sun beam on a surface wrt the normal
-    to that surface, for a date, time, position (lat, long), surface
+    to that surface, for a date, *solar* time, latitude, surface
     slope and surface azimuth.
 
     Parameters
     ----------
     date : datetime object
-        standard (or local) time
+        date and *solar* time
     lat : float
         latitude (-90 to 90) in degrees
-    lng : float
-        longitude, east-west position wrt the Prime Meridian in degrees
-        needed if "solar_input" is False, i.e. standard time is provided
     beta : float
         slope angle of the surface wrt the local horizon
         in degrees (0 to 180)
@@ -247,22 +232,24 @@ def theta(date, lat, lng, beta, surf_az):
     """
     check_lat_range(lat)
 
-    dec = declination(date)
-    lat = deg2rad(lat)
-    beta = deg2rad(beta)
-    surf_az = deg2rad(surf_az)
-    w = hour_angle(date, lng)
+    if isinstance(date, datetime):
+        dec = declination(date)
+        lat = deg2rad(lat)
+        beta = deg2rad(beta)
+        surf_az = deg2rad(surf_az)
+        w = hour_angle(date)
 
-    cos_theta = sin(dec) * sin(lat) * cos(beta) - \
-                sin(dec) * cos(lat) * sin(beta) * cos(surf_az) + \
-                cos(dec) * cos(lat) * cos(beta) *                cos(w) + \
-                cos(dec) * sin(lat) * sin(beta) * cos(surf_az) * cos(w) + \
-                cos(dec) *            sin(beta) * sin(surf_az) * sin(w)
+        cos_theta = sin(dec) * sin(lat) * cos(beta) - \
+                    sin(dec) * cos(lat) * sin(beta) * cos(surf_az) + \
+                    cos(dec) * cos(lat) * cos(beta) *                cos(w) + \
+                    cos(dec) * sin(lat) * sin(beta) * cos(surf_az) * cos(w) + \
+                    cos(dec) *            sin(beta) * sin(surf_az) * sin(w)
+        return arccos(cos_theta)
+    else:
+        raise TypeError('date must be a datetime object')
 
-    return arccos(cos_theta)
 
-
-def theta_z(date, lat, lng):
+def theta_z(date, lat):
     """
     * Zenith angle *
 
@@ -273,12 +260,9 @@ def theta_z(date, lat, lng):
     Parameters
     ----------
     date : datetime object
-        standard (or local) time
+        date and *solar* time
     lat : float
         latitude (-90 to 90) in degrees
-    lng : float
-        longitude, east-west position wrt the Prime Meridian in degrees
-        needed if "solar_input" is False, i.e. standard time is provided
 
     Returns
     -------
@@ -287,13 +271,15 @@ def theta_z(date, lat, lng):
     """
     check_lat_range(lat)
 
-    dec = declination(date)
-    lat = deg2rad(lat)
-    w = hour_angle(date, lng)
+    if isinstance(date, datetime):
+        dec = declination(date)
+        lat = deg2rad(lat)
+        w = hour_angle(date)
 
-    cos_theta_z = sin(dec) * sin(lat) + cos(dec) * cos(lat) * cos(w)
-
-    return arccos(cos_theta_z)
+        cos_theta_z = sin(dec) * sin(lat) + cos(dec) * cos(lat) * cos(w)
+        return arccos(cos_theta_z)
+    else:
+        raise TypeError('date must be a datetime object')
 
 
 def solar_azimuth(n, lat, hour, minute):
