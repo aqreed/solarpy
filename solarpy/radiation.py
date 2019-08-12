@@ -479,14 +479,14 @@ def sunrise_time(date, lat):
         raise TypeError('date must be a datetime object')
 
 
-def daylight_hours(n, lat):
+def daylight_hours(date, lat):
     """
     Nº of hours of light for a particular day
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        date (indifferent time)
     lat : float
         latitude (-90 to 90) in degrees
 
@@ -501,19 +501,22 @@ def daylight_hours(n, lat):
     """
     check_lat_range(lat)
 
-    dec = declination(n)
-    lat = deg2rad(lat)
+    if isinstance(date, datetime):
+        dec = declination(date)
+        lat = deg2rad(lat)
 
-    tmp = -tan(lat) * tan(dec)
+        tmp = -tan(lat) * tan(dec)
 
-    # used mask to allow posterior visualization
-    b = np.zeros(tmp.shape)
+        # used mask to allow posterior visualization
+        b = np.zeros(tmp.shape)
 
-    b[(tmp < -1.0)] = 1
-    b[(abs(tmp) < 1.0)] = (2 * arccos(tmp[(abs(tmp) < 1.0)]) / (2 * np.pi))
-    b[(tmp > 1.0)] = 0
+        b[(tmp < -1.0)] = 1
+        b[(abs(tmp) < 1.0)] = (2 * arccos(tmp[(abs(tmp) < 1.0)]) / (2 * np.pi))
+        b[(tmp > 1.0)] = 0
 
-    return b * 24
+        return b * 24
+    else:
+        raise TypeError('date must be a datetime object')
 
 
 def solar_vector_NED(n, lat, hour, minute):
