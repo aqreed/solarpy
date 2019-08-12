@@ -190,6 +190,34 @@ class Test_hour_angle(ut.TestCase):
         expected_value = deg2rad(30)
         self.assertEqual(hour_angle(date, lng), expected_value)
 
+    def test_input_std_time(self):
+        # "solar_input" flag to False in order to input standard time. This
+        # tests verifies those 4 days when solar_time = standard_time
+
+        # April 16
+        lng = 0
+        date = datetime(2019, 4, 16, 12, 0)
+        expected_value = deg2rad(0)
+        self.assertAlmostEqual(hour_angle(date, lng, False), expected_value, 2)
+
+        # June 15
+        lng = 0
+        date = datetime(2019, 6, 15, 12, 0)
+        expected_value = deg2rad(0)
+        self.assertAlmostEqual(hour_angle(date, lng, False), expected_value, 2)
+
+        # Sept 2
+        lng = 0
+        date = datetime(2019, 9, 2, 12, 0)
+        expected_value = deg2rad(0)
+        self.assertAlmostEqual(hour_angle(date, lng, False), expected_value, 2)
+
+        # Dec 26
+        lng = 0
+        date = datetime(2019, 12, 26, 12, 0)
+        expected_value = deg2rad(0)
+        self.assertAlmostEqual(hour_angle(date, lng, False), expected_value, 2)
+
     def test_exception(self):
         self.assertRaises(TypeError, hour_angle, 121, 8.3)
         date = datetime(2019, 1, 15)
