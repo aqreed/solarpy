@@ -470,85 +470,74 @@ def test_solar_vector_NED():
     Test function that calculates solar vector in ned frame
     """
     # summer solstice, solar noon, lat=declination
-    n = day_of_the_year(6, 21)   # June 21
+    date = datetime(2019, 6, 21, 12, 0)
     lat = 23 + 26/60 + 14/3600  # obliquity in 2019
-    hour, minute = 12, 0
     expected_value = array([0, 0, -1])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
     # permanent darkness: south pole in winter
-    n = 165
+    date = datetime(2019, 6, 15, 12, 0)
     lat = -80
-    hour, minute = 12, 0
     expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
-    n = 200
+    date = datetime(2019, 6, 1, 17, 0)
     lat = -70
-    hour, minute = 17, 0
     expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
     # permanent darkness: north pole in winter
-    n = 1
+    date = datetime(2019, 1, 1, 10, 0)
     lat = 83
-    hour, minute = 10, 0
     expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
-    n = 300
+    date = datetime(2019, 11, 1, 19, 0)
     lat = 76
-    hour, minute = 19, 0
     expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
     # night: north hemisphere
-    n = 5
+    date = datetime(2019, 1, 5)
     lat = 33
-    ss_t = sunset_time(n, lat)
+    ss_t = sunset_time(date, lat)
     hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
+    date = datetime(2019, 1, 5, hour, minute)
     expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
-    n = 210
+    date = datetime(2019, 9, 1)
     lat = 15
-    sr_t = sunrise_time(n, lat)
+    sr_t = sunrise_time(date, lat)
     hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
+    date = datetime(2019, 9, 1, hour, minute)
     expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
     # night: south hemisphere
-    n = 34
+    date = datetime(2019, 2, 3)
     lat = -63
-    ss_t = sunset_time(n, lat)
+    ss_t = sunset_time(date, lat)
     hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
+    date = datetime(2019, 2, 3, hour, minute)
     expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
+    date = datetime(2019, 10, 1)
     n = 264
     lat = -15
-    sr_t = sunrise_time(n, lat)
+    sr_t = sunrise_time(date, lat)
     hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
+    date = datetime(2019, 10, 1, hour, minute)
     expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
     # permanent light
-    n = day_of_the_year(6, 20)  # summer solstice
+    date = datetime(2019, 6, 20, 12, 0)  # summer solstice, solar noon
     lat = 90
-    hour, minute = 12, 0  # solar noon
     alt = deg2rad(23 + 26/60 + 14/3600)
     expected_value = array([-cos(alt), 0, -sin(alt)])
-    assert_array_almost_equal(solar_vector_NED(n, lat, hour, minute),
-                              expected_value, 3)
+    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
 
 
 class Test_air_mass_KY1989(ut.TestCase):

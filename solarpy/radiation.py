@@ -519,55 +519,54 @@ def daylight_hours(date, lat):
         raise TypeError('date must be a datetime object')
 
 
-def solar_vector_NED(n, lat, hour, minute):
+def solar_vector_NED(date, lat):
     """
     Calculates solar vector (sun beam) in local geodetic horizon reference
     frame (NED - North, East, Down) of a point on the Earth surface at a
-    defined time (day, hour, minute) at a defined latitude.
+    defined date, time and latitude.
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        date and *solar* time
     lat : float
         latitude (-90 to 90) in degrees
-    hour : integer
-        hour of the day (0 to 23)
-    minute : integer
-        minutes (0 to 59)
 
     Returns
     -------
     array-like
         vector of the solar beam
     """
-    solar_az = solar_azimuth(n, lat, hour, minute)
-    solar_alt = solar_altitude(n, lat, hour, minute)
+    if isinstance(date, datetime):
+        solar_az = solar_azimuth(date, lat)
+        solar_alt = solar_altitude(date, lat)
 
-    w = hour_angle(hour, minute)
-    lh = daylight_hours(n, lat)
+        w = hour_angle(date)
+        lh = daylight_hours(date, lat)
 
-    try:
-        w_sr = sunrise_hour_angle(n, lat)
-        w_ss = sunset_hour_angle(n, lat)
+        try:
+            w_sr = sunrise_hour_angle(date, lat)
+            w_ss = sunset_hour_angle(date, lat)
 
-        if (w > w_ss) or (w < w_sr):
-            # the point on the earth surface is at night
-            return array([0, 0, 0])
-        else:
-            return array([-cos(solar_az) * cos(solar_alt),
-                          -sin(solar_az) * cos(solar_alt),
-                          -sin(solar_alt)])
+            if (w > w_ss) or (w < w_sr):
+                # the point on the earth surface is at night
+                return array([0, 0, 0])
+            else:
+                return array([-cos(solar_az) * cos(solar_alt),
+                              -sin(solar_az) * cos(solar_alt),
+                              -sin(solar_alt)])
 
-    except NoSunsetNoSunrise:
-        if (lh == 0):
-            # the point on the earth surface is in permanent darkness
-            return array([0, 0, 0])
-        else:
-            # the point on the earth surface is in permanent light
-            return array([-cos(solar_az) * cos(solar_alt),
-                          -sin(solar_az) * cos(solar_alt),
-                          -sin(solar_alt)])
+        except NoSunsetNoSunrise:
+            if (lh == 0):
+                # the point on the earth surface is in permanent darkness
+                return array([0, 0, 0])
+            else:
+                # the point on the earth surface is in permanent light
+                return array([-cos(solar_az) * cos(solar_alt),
+                              -sin(solar_az) * cos(solar_alt),
+                              -sin(solar_alt)])
+    else:
+        raise TypeError('date must be a datetime object')
 
 
 def air_mass_KastenYoung1989(theta_z, h, limit=True):
