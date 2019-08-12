@@ -204,8 +204,8 @@ class Test_angle_of_incidence(ut.TestCase):
         beta = 45
         surf_az = 15
         expected_value = deg2rad(35)
-        assert_almost_equal(theta(date, lat, beta, surf_az),
-                            expected_value, decimal=3)
+        self.assertAlmostEqual(theta(date, lat, beta, surf_az),
+                               expected_value, 2)
 
     def test_exception(self):
         self.assertRaises(TypeError, theta, 121, 1, 1, 1)
@@ -220,25 +220,25 @@ class Test_zenith_angle(ut.TestCase):
         date = datetime(2019, 6, 20, 12, 0)  # Jun 20, 12:00 am (solar)
         lat = 23.45
         expected_value = deg2rad(0)
-        assert_almost_equal(theta_z(date, lat), expected_value, decimal=2)
+        self.assertAlmostEqual(theta_z(date, lat), expected_value, 2)
 
         # Example 1.6.2a
         date = datetime(2019, 2, 13, 9, 30)  # Feb 13, 9:30 am (solar)
         lat = 43
         expected_value = deg2rad(66.5)
-        assert_almost_equal(theta_z(date, lat), expected_value, decimal=2)
+        self.assertAlmostEqual(theta_z(date, lat), expected_value, 2)
 
         # Example 1.6.2b
         date = datetime(2019, 7, 1, 18, 30)  # Jul 1, 18:30 am (solar)
         lat = 43
         expected_value = deg2rad(79.6)
-        assert_almost_equal(theta_z(date, lat), expected_value, decimal=2)
+        self.assertAlmostEqual(theta_z(date, lat), expected_value, 2)
 
         # Example 1.6.3
         date = datetime(2019, 3, 16, 16, 0)  # Mar 16, 16:00 am (solar)
         lat = 43
         expected_value = deg2rad(70.3)
-        assert_almost_equal(theta_z(date, lat), expected_value, decimal=2)
+        self.assertAlmostEqual(theta_z(date, lat), expected_value, 2)
 
     def test_exception(self):
         self.assertRaises(TypeError, theta_z, 121, 1)
