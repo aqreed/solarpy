@@ -689,7 +689,7 @@ def beam_irradiance(h, date, lat):
         raise TypeError('date must be a datetime object')
 
 
-def irradiance_on_plane(vnorm, h, n, lat, hour, minute):
+def irradiance_on_plane(vnorm, h, date, lat):
     """
     Returns the solar beam irradiance on a plane (not taking into account the
     diffuse component) defined by its unit normal vector in NED frame at a
@@ -701,36 +701,35 @@ def irradiance_on_plane(vnorm, h, n, lat, hour, minute):
         unit vector normal to plane
     h : float
         altitude above sea level in meters
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        date and *solar* time
     lat : float
         latitude (-90 to 90) in degrees
-    hour : integer
-        hour of the day (0 to 23)
-    minute : integer
-        minutes (0 to 59)
 
     Returns
     -------
     G : float
         beam irradiance in W/m2
     """
-    vsol = solar_vector_NED(n, lat, hour, minute)
+    vsol = solar_vector_NED(date, lat)
 
-    if (vsol == array([0, 0, 0])).all():
-        # in case there is no sun (night or permanent darkness)
-        G = 0
-        theta = np.nan
-    else:
-        vnorm_abs = np.linalg.norm(vnorm)
-        vsol_abs = np.linalg.norm(vsol)
-
-        theta = arccos(np.dot(vnorm, vsol) / (vnorm_abs * vsol_abs))
-
-        # for future solar panel applications: only one side of it has cells
-        if cos(theta) > 0:
-            G = beam_irradiance(h, n, lat, hour, minute) * cos(theta)
-        else:
+    if isinstance(date, datetime):
+        if (vsol == array([0, 0, 0])).all():
+            # in case there is no sun (night or permanent darkness)
             G = 0
+            theta = np.nan
+        else:
+            vnorm_abs = np.linalg.norm(vnorm)
+            vsol_abs = np.linalg.norm(vsol)
 
-    return G
+            theta = arccos(np.dot(vnorm, vsol) / (vnorm_abs * vsol_abs))
+
+            # for future solar panel applications: only one side has cells
+            if cos(theta) > 0:
+                G = beam_irradiance(h, date, lat) * cos(theta)
+            else:
+                G = 0
+
+        return G
+    else:
+        raise TypeError('date must be a datetime object')
