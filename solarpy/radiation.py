@@ -331,33 +331,30 @@ def solar_azimuth(date, lat):
         raise TypeError('date must be a datetime object')
 
 
-def solar_altitude(n, lat, hour, minute):
+def solar_altitude(date, lat):
     """
     * Solar altitude angle *
 
     Angle between the projection of the sun beam on a horizontal
-    surface wrt the beam, for a particular day of the year (nth),
-    latitude and hour-minute.
+    surface wrt the beam, for a date, *solar* time and latitude.
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        date and *solar* time
     lat : float
         latitude (-90 to 90) in degrees
-    hour : integer
-        hour of the day (0 to 23)
-    minute : integer
-        minutes (0 to 59)
 
     Returns
     -------
     solar_altitude : float
         altitude angle in radians
     """
-    th_z = theta_z(n, lat, hour, minute)
-
-    return np.arcsin(cos(th_z))
+    if isinstance(date, datetime):
+        th_z = theta_z(date, lat)
+        return np.arcsin(cos(th_z))
+    else:
+        raise TypeError('date must be a datetime object')
 
 
 def sunset_hour_angle(n, lat):

@@ -309,17 +309,19 @@ class Test_solar_azimuth(ut.TestCase):
         self.assertRaises(TypeError, solar_azimuth, 121, 1)
 
 
-def test_solar_altitude():
+class Test_solar_altitude(ut.TestCase):
     """
     Tests solar azimuth angle function. Values from Duffie and Beckman
     """
-    # Example 1.6.3
-    n = day_of_the_year(3, 16)
-    lat = 43
-    hour, minute = 16, 0
-    expected_value = deg2rad(19.7)
-    assert_almost_equal(solar_altitude(n, lat, hour, minute),
-                        expected_value, decimal=2)
+    def examples(self):
+        # Example 1.6.3
+        date = datetime(2019, 7, 1, 16, 0)  # Mar 16, 16:00am
+        lat = 43
+        expected_value = deg2rad(19.7)
+        self.assertAlmostEqual(solar_altitude(date, lat), expected_value, 2)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, solar_altitude, 121, 1)
 
 
 class Test_sunset_hour_angle(ut.TestCase):
