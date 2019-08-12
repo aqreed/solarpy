@@ -680,7 +680,7 @@ def beam_irradiance(h, date, lat):
 
         if theta_zenith < theta_lim:
             m = air_mass_KastenYoung1989(rad2deg(theta_zenith), h)
-            G = Gon(n) * exp(-prel * m * alpha_int)
+            G = Gon(date) * exp(-prel * m * alpha_int)
         else:
             G = 0
 
