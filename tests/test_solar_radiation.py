@@ -629,6 +629,9 @@ class Test_beam_irradiance(ut.TestCase):
 
         # TODO: more test!
 
+    def test_exception(self):
+        self.assertRaises(TypeError, beam_irradiance, 0, 121, 1)
+
 
 def test_irradiance_on_plane():
     """
