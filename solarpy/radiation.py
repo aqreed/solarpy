@@ -151,7 +151,7 @@ def declination(date):
 
 def standard2solar_time(date, lng):
     """
-    Solar time for a particular longitude, date and time.
+    Solar time for a particular longitude, date and *standard* time.
 
     Parameters
     ----------
@@ -186,8 +186,9 @@ def standard2solar_time(date, lng):
 
 def hour_angle(date):
     """
-    Angular displacement of the sun east-west of the local
-    meridian. 15 degrees per hour, morning < 0 < afternoon
+    Angular displacement of the sun east-west of the local meridian for a
+    date, *solar* time and latitude.
+    Note: 15 degrees per hour, morning < 0 < afternoon
 
     Parameters
     ----------
@@ -253,9 +254,8 @@ def theta_z(date, lat):
     """
     * Zenith angle *
 
-    Angle of incidence of the sun beam on a horizontal surface wrt
-    the normal to that surface, for a particular day of the year (nth),
-    latitude and hour-minute.
+    Angle of incidence of the sun beam on a horizontal surface wrt the
+    normal to that surface, for a date, *solar* time and latitude.
 
     Parameters
     ----------
