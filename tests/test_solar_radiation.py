@@ -400,24 +400,22 @@ class Test_sunrise_time(ut.TestCase):
     """
     def test_examples(self):
         # Example 1.6.3
-        n = day_of_the_year(3, 16)
+        date = datetime(2019, 3, 16)
         lat = 43
         expected_value = 6
-        self.assertAlmostEqual(sunrise_time(n, lat).hour,
+        self.assertAlmostEqual(sunrise_time(date, lat).hour,
                                expected_value, 2)
         expected_value = 7  # diferent year than boook!
-        self.assertAlmostEqual(sunrise_time(n, lat).minute,
+        self.assertAlmostEqual(sunrise_time(date, lat).minute,
                                expected_value, 2)
 
     def test_NoSunsetNoSunrise(self):
-        capturedOutput = io.StringIO()
-        sys.stdout = capturedOutput
-
-        n = day_of_the_year(8, 1)  # summer
+        date = datetime(2019, 8, 1)  # summer
         lat = 89  # North-Pole
-        msg = "Permanent night (or day) on this latitude on this day\n"
-        sunrise_time(n, lat)
-        self.assertEqual(capturedOutput.getvalue(), msg)
+        self.assertRaises(NoSunsetNoSunrise, sunrise_time, date, lat)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, sunrise_time, 121, 1)
 
 
 def test_daylight_hours():

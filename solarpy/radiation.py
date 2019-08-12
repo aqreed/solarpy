@@ -445,35 +445,38 @@ def sunrise_hour_angle(date, lat):
     return -sunset_hour_angle(date, lat)
 
 
-def sunrise_time(n, lat):
+def sunrise_time(date, lat):
     """
-    Calculates the time (hours, minutes) at sunrise
+    Calculates the *solar* time at sunrise for a desired date
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        date (indifferent time)
     lat : float
         latitude (-90 to 90) in degrees
 
     Returns
     -------
-    sunset_hour : datetime-like
-        time at sunset
+    sunset_hour : datetime object
+        time at sunrise
     """
-    try:
-        ws = sunrise_hour_angle(n, lat)  # degrees
+    if isinstance(date, datetime):
+        try:
+            ws = sunrise_hour_angle(date, lat)  # degrees
 
-        aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
-        minutes, seconds = divmod(aux, 60)
-        hours, minutes = divmod(minutes, 60)
+            aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
+            minutes, seconds = divmod(aux, 60)
+            hours, minutes = divmod(minutes, 60)
 
-        st = datetime(datetime.now().year, 1, 1) + \
-             timedelta(days=n, hours=(12+hours), minutes=minutes)
-        return st
+            st = datetime(date.year, date.month, date.day) + \
+                 timedelta(hours=(12+hours), minutes=minutes)
+            return st
 
-    except NoSunsetNoSunrise as e:
-        print(e.msg)
+        except NoSunsetNoSunrise as e:
+            raise e
+    else:
+        raise TypeError('date must be a datetime object')
 
 
 def daylight_hours(n, lat):
