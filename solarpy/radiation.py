@@ -424,14 +424,16 @@ def sunset_time(date, lat):
         raise TypeError('date must be a datetime object')
 
 
-def sunrise_hour_angle(n, lat):
+def sunrise_hour_angle(date, lat):
     """
-    When theta_z = -90º
+    Sunset hour angle for a date and latitude
+
+    Note: theta_z = -90º
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        date (indifferent time)
     lat : float
         latitude (-90 to 90) in degrees
 
@@ -440,8 +442,7 @@ def sunrise_hour_angle(n, lat):
     sunrise_hour_angle : float
         hour angle at sunrise in radians
     """
-
-    return -sunset_hour_angle(n, lat)
+    return -sunset_hour_angle(date, lat)
 
 
 def sunrise_time(n, lat):
