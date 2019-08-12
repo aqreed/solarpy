@@ -342,6 +342,9 @@ class Test_sunset_hour_angle(ut.TestCase):
         expected_value = deg2rad(87.8)
         self.assertAlmostEqual(sunset_hour_angle(date, lat), expected_value, 1)
 
+    def test_exception(self):
+        self.assertRaises(TypeError, sunset_hour_angle, 121, 1)
+
 
 class Test_sunset_time(ut.TestCase):
     """
