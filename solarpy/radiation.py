@@ -357,14 +357,16 @@ def solar_altitude(date, lat):
         raise TypeError('date must be a datetime object')
 
 
-def sunset_hour_angle(n, lat):
+def sunset_hour_angle(date, lat):
     """
-    When theta_z = 90º
+    Sunset hour angle for a date and latitude
+
+    Note: theta_z = 90º
 
     Parameters
     ----------
-    n : integer
-        day of the year (1 to 365)
+    date : datetime object
+        date (indifferent time)
     lat : float
         latitude (-90 to 90) in degrees
 
@@ -375,14 +377,17 @@ def sunset_hour_angle(n, lat):
     """
     check_lat_range(lat)
 
-    dec = declination(n)
-    lat = deg2rad(lat)
-    cos_ws = (-1) * tan(lat) * tan(dec)
+    if isinstance(date, datetime):
+        dec = declination(date)
+        lat = deg2rad(lat)
+        cos_ws = (-1) * tan(lat) * tan(dec)
 
-    if abs(cos_ws) > 1:
-        raise NoSunsetNoSunrise
+        if abs(cos_ws) > 1:
+            raise NoSunsetNoSunrise
+        else:
+            return arccos(cos_ws)
     else:
-        return arccos(cos_ws)
+        raise TypeError('date must be a datetime object')
 
 
 def sunset_time(n, lat):

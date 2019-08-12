@@ -329,15 +329,18 @@ class Test_sunset_hour_angle(ut.TestCase):
     Tests sunset hour angle function. Values from Duffie and Beckman
     """
     def test_errors(self):
-        self.assertRaises(NoSunsetNoSunrise, sunset_hour_angle, 1, 80)
-        self.assertRaises(NoSunsetNoSunrise, sunset_hour_angle, 171, -75)
+        date = datetime(2019, 1, 1)
+        self.assertRaises(NoSunsetNoSunrise, sunset_hour_angle, date, 80)
+
+        date = datetime(2019, 6, 20)
+        self.assertRaises(NoSunsetNoSunrise, sunset_hour_angle, date, -75)
 
     def test_examples(self):
         # Example 1.6.3
-        n = day_of_the_year(3, 16)
+        date = datetime(2019, 3, 16)
         lat = 43
         expected_value = deg2rad(87.8)
-        self.assertAlmostEqual(sunset_hour_angle(n, lat), expected_value, 1)
+        self.assertAlmostEqual(sunset_hour_angle(date, lat), expected_value, 1)
 
 
 class Test_sunset_time(ut.TestCase):
