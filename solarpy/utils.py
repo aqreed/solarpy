@@ -93,16 +93,14 @@ def day_of_the_year(date):
     day : int or array-like (int inside)
         day of the year (1 to 365)
     """
-    if isinstance(date, ndarray) and all(isinstance(i, datetime) for i in date):
+    if (isinstance(date, ndarray) and all(isinstance(i, datetime)
+        for i in date)):
         # the parameter is an array of datetime objects
-        day = [(date[i] - datetime(date[i].now().year, 1, 1)).days + 1
-               for i in range(len(date))]
-        return array(day)
+        return array([i.timetuple().tm_yday for i in date])
 
     elif isinstance(date, datetime):
         # the parameter is a datetime object
-        day = (date - datetime(date.now().year, 1, 1)).days + 1
-        return day
+        return date.timetuple().tm_yday
 
     else:
         msg = "date must be a datetime object or array of datetime objects"
