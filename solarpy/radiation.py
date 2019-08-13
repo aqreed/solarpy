@@ -507,14 +507,12 @@ def daylight_hours(date, lat):
 
         tmp = -tan(lat) * tan(dec)
 
-        # used mask to allow posterior visualization
-        b = np.zeros(tmp.shape)
-
-        b[(tmp < -1.0)] = 1
-        b[(abs(tmp) < 1.0)] = (2 * arccos(tmp[(abs(tmp) < 1.0)]) / (2 * np.pi))
-        b[(tmp > 1.0)] = 0
-
-        return b * 24
+        if (tmp < -1.0):
+            return 24
+        elif (tmp > 1.0):
+            return 0
+        else:
+            return 24 * (2 * arccos(tmp) / (2 * np.pi))
     else:
         raise TypeError('date must be a datetime object')
 
