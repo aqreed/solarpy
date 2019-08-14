@@ -17,17 +17,17 @@ class Test_ranges(ut.TestCase):
     """
     def test_latitude_range(self):
         self.assertRaises(ValueError, check_lat_range, -91)
-        self.assertRaises(ValueError, check_lat_range, 91)
+        self.assertRaises(ValueError, check_lat_range, 91.0)
         self.assertRaises(ValueError, check_lat_range, array([-115, 2, 55]))
 
     def test_longitude_range(self):
         self.assertRaises(ValueError, check_long_range, -1)
-        self.assertRaises(ValueError, check_long_range, 360)
+        self.assertRaises(ValueError, check_long_range, 360.0)
         self.assertRaises(ValueError, check_long_range, array([326, -180]))
 
     def test_altitude_range(self):
         self.assertRaises(ValueError, check_alt_range, -1)
-        self.assertRaises(ValueError, check_alt_range, 24001)
+        self.assertRaises(ValueError, check_alt_range, 24001.0)
         self.assertRaises(ValueError, check_alt_range, array([150, 101800]))
 
 

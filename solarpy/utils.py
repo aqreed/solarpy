@@ -114,9 +114,6 @@ class NoSunsetNoSunrise(Exception):
     def __init__(self):
         self.msg = "Permanent night (or day) on this latitude on this day"
 
-    def __str__(self):
-        return repr(self.msg)
-
 
 def lla2ecef(lat, lng, h):
     """
