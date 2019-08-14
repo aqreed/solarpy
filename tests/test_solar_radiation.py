@@ -286,7 +286,7 @@ class Test_solar_azimuth(ut.TestCase):
         lat = -90
         self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
 
-    def examples(self):
+    def test_examples(self):
         # Example 1.6.2a
         date = datetime(2019, 2, 13, 9, 30)  # Feb 13, 9:30am
         lat = 43
@@ -313,7 +313,7 @@ class Test_solar_altitude(ut.TestCase):
     """
     Tests solar azimuth angle function. Values from Duffie and Beckman
     """
-    def examples(self):
+    def test_examples(self):
         # Example 1.6.3
         date = datetime(2019, 7, 1, 16, 0)  # Mar 16, 16:00am
         lat = 43
@@ -469,7 +469,7 @@ class Test_solar_vector_NED(ut.TestCase):
     """
     Test function that calculates solar vector in ned frame
     """
-    def permanent_darkness(self):
+    def test_permanent_darkness(self):
         # permanent darkness: south pole in winter
         date = datetime(2019, 6, 15, 12, 0)
         lat = -80
@@ -496,7 +496,7 @@ class Test_solar_vector_NED(ut.TestCase):
         assert_array_almost_equal(solar_vector_NED(date, lat),
                                   expected_value, 3)
 
-    def night(self):
+    def test_night(self):
         # night: north hemisphere
         date = datetime(2019, 1, 5)
         lat = 33
@@ -536,7 +536,7 @@ class Test_solar_vector_NED(ut.TestCase):
         assert_array_almost_equal(solar_vector_NED(date, lat),
                                   expected_value, 3)
 
-    def summer_solstice(self):
+    def test_summer_solstice(self):
         # summer solstice, solar noon, lat=declination
         date = datetime(2019, 6, 21, 12, 0)
         lat = 23 + 26/60 + 14/3600  # obliquity in 2019
@@ -544,7 +544,7 @@ class Test_solar_vector_NED(ut.TestCase):
         assert_array_almost_equal(solar_vector_NED(date, lat),
                                   expected_value, 3)
 
-    def permanent_day(self):
+    def test_permanent_day(self):
         # permanent light
         date = datetime(2019, 6, 20, 12, 0)  # summer solstice, solar noon
         lat = 90
