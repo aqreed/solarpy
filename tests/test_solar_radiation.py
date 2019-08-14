@@ -655,8 +655,7 @@ class Test_irradiance_on_plane(ut.TestCase):
     Test function that calculates solar irradiance in a plane defined
     by its normal vector
     """
-    def tests(self):
-        # Northern Hemisphere #
+    def tests_northern_hemisphere(self):
         # summer solstice, solar noon, lat=declination, plane right-side-up
         vnorm = array([0, 0, -1])
         h = 20000
@@ -738,7 +737,7 @@ class Test_irradiance_on_plane(ut.TestCase):
         assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
                             expected_value, 3)
 
-        # Southern Hemisphere #
+    def tests_southern_hemisphere(self):
         # summer solstice, solar noon, lat=declination, plane right-side-up
         vnorm = array([0, 0, -1])
         h = 20000
