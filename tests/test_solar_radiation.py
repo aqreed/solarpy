@@ -315,7 +315,7 @@ class Test_solar_altitude(ut.TestCase):
     """
     def test_examples(self):
         # Example 1.6.3
-        date = datetime(2019, 7, 1, 16, 0)  # Mar 16, 16:00am
+        date = datetime(2019, 3, 16, 16, 0)  # Mar 16, 16:00am
         lat = 43
         expected_value = deg2rad(19.7)
         self.assertAlmostEqual(solar_altitude(date, lat), expected_value, 2)
