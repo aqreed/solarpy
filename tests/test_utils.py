@@ -16,13 +16,13 @@ class Test_ranges(ut.TestCase):
     Tests ranges checks
     """
     def test_latitude_range(self):
-        self.assertRaises(ValueError, check_lat_range, -91)
-        self.assertRaises(ValueError, check_lat_range, 91.0)
-        self.assertRaises(ValueError, check_lat_range, array([-115, 2, 55]))
+        self.assertRaises(ValueError, check_lat_range, -181)
+        self.assertRaises(ValueError, check_lat_range, 181.0)
+        self.assertRaises(ValueError, check_lat_range, array([-215, 2, 55]))
 
     def test_longitude_range(self):
-        self.assertRaises(ValueError, check_long_range, -1)
-        self.assertRaises(ValueError, check_long_range, 360.0)
+        self.assertRaises(ValueError, check_long_range, -181)
+        self.assertRaises(ValueError, check_long_range, 181.0)
         self.assertRaises(ValueError, check_long_range, array([326, -180]))
 
     def test_altitude_range(self):
@@ -109,7 +109,7 @@ def test_lla2ecef():
     assert_array_almost_equal(lla2ecef(lat, lng, h), expected_value, 4)
 
     lat = 0
-    lng = 270
+    lng = -90
     h = 0
     expected_value = array([0, -a, 0])
     assert_array_almost_equal(lla2ecef(lat, lng, h), expected_value, 4)

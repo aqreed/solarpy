@@ -40,18 +40,18 @@ def check_long_range(lng):
     Parameters
     ----------
     lng : float
-        longitude (0 to 359) in degrees
+        longitude (-179 to 180) in degrees
 
     Returns
     -------
     None. Raises an exception in case
     """
-    if isinstance(lng, ndarray) and ((lng < 0).any() or (lng > 359).any()):
-            raise ValueError('longitude should be 0 <= longitude <= 359')
-    elif isinstance(lng, int) and ((lng < 0) or (lng > 359)):
-            raise ValueError('longitude should be 0 <= longitude <= 359')
-    elif isinstance(lng, float) and ((lng < 0) or (lng > 359)):
-            raise ValueError('longitude should be 0 <= longitude <= 359')
+    if isinstance(lng, ndarray) and ((lng < -180).any() or (lng > 180).any()):
+            raise ValueError('longitude should be -180 <= longitude <= 180')
+    elif isinstance(lng, int) and ((lng < -180) or (lng > 180)):
+            raise ValueError('longitude should be -180 <= longitude <= 180')
+    elif isinstance(lng, float) and ((lng < -180) or (lng > 180)):
+            raise ValueError('longitude should be -180 <= longitude <= 180')
 
     return None
 
