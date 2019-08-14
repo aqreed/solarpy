@@ -465,79 +465,96 @@ class Test_daylight_hours(ut.TestCase):
         self.assertRaises(TypeError, daylight_hours, 121, 1)
 
 
-def test_solar_vector_NED():
+class Test_solar_vector_NED(ut.TestCase):
     """
     Test function that calculates solar vector in ned frame
     """
-    # summer solstice, solar noon, lat=declination
-    date = datetime(2019, 6, 21, 12, 0)
-    lat = 23 + 26/60 + 14/3600  # obliquity in 2019
-    expected_value = array([0, 0, -1])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+    def permanent_darkness(self):
+        # permanent darkness: south pole in winter
+        date = datetime(2019, 6, 15, 12, 0)
+        lat = -80
+        expected_value = array([0, 0, 0])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
 
-    # permanent darkness: south pole in winter
-    date = datetime(2019, 6, 15, 12, 0)
-    lat = -80
-    expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+        date = datetime(2019, 6, 1, 17, 0)
+        lat = -70
+        expected_value = array([0, 0, 0])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
 
-    date = datetime(2019, 6, 1, 17, 0)
-    lat = -70
-    expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+        # permanent darkness: north pole in winter
+        date = datetime(2019, 1, 1, 10, 0)
+        lat = 83
+        expected_value = array([0, 0, 0])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
 
-    # permanent darkness: north pole in winter
-    date = datetime(2019, 1, 1, 10, 0)
-    lat = 83
-    expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+        date = datetime(2019, 11, 1, 19, 0)
+        lat = 76
+        expected_value = array([0, 0, 0])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
 
-    date = datetime(2019, 11, 1, 19, 0)
-    lat = 76
-    expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+    def night(self):
+        # night: north hemisphere
+        date = datetime(2019, 1, 5)
+        lat = 33
+        ss_t = sunset_time(date, lat)
+        hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
+        date = datetime(2019, 1, 5, hour, minute)
+        expected_value = array([0, 0, 0])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
 
-    # night: north hemisphere
-    date = datetime(2019, 1, 5)
-    lat = 33
-    ss_t = sunset_time(date, lat)
-    hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
-    date = datetime(2019, 1, 5, hour, minute)
-    expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+        date = datetime(2019, 9, 1)
+        lat = 15
+        sr_t = sunrise_time(date, lat)
+        hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
+        date = datetime(2019, 9, 1, hour, minute)
+        expected_value = array([0, 0, 0])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
 
-    date = datetime(2019, 9, 1)
-    lat = 15
-    sr_t = sunrise_time(date, lat)
-    hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
-    date = datetime(2019, 9, 1, hour, minute)
-    expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+        # night: south hemisphere
+        date = datetime(2019, 2, 3)
+        lat = -63
+        ss_t = sunset_time(date, lat)
+        hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
+        date = datetime(2019, 2, 3, hour, minute)
+        expected_value = array([0, 0, 0])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
 
-    # night: south hemisphere
-    date = datetime(2019, 2, 3)
-    lat = -63
-    ss_t = sunset_time(date, lat)
-    hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
-    date = datetime(2019, 2, 3, hour, minute)
-    expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+        date = datetime(2019, 10, 1)
+        n = 264
+        lat = -15
+        sr_t = sunrise_time(date, lat)
+        hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
+        date = datetime(2019, 10, 1, hour, minute)
+        expected_value = array([0, 0, 0])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
 
-    date = datetime(2019, 10, 1)
-    n = 264
-    lat = -15
-    sr_t = sunrise_time(date, lat)
-    hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
-    date = datetime(2019, 10, 1, hour, minute)
-    expected_value = array([0, 0, 0])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+    def summer_solstice(self):
+        # summer solstice, solar noon, lat=declination
+        date = datetime(2019, 6, 21, 12, 0)
+        lat = 23 + 26/60 + 14/3600  # obliquity in 2019
+        expected_value = array([0, 0, -1])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
 
-    # permanent light
-    date = datetime(2019, 6, 20, 12, 0)  # summer solstice, solar noon
-    lat = 90
-    alt = deg2rad(23 + 26/60 + 14/3600)
-    expected_value = array([-cos(alt), 0, -sin(alt)])
-    assert_array_almost_equal(solar_vector_NED(date, lat), expected_value, 3)
+    def permanent_day(self):
+        # permanent light
+        date = datetime(2019, 6, 20, 12, 0)  # summer solstice, solar noon
+        lat = 90
+        alt = deg2rad(23 + 26/60 + 14/3600)
+        expected_value = array([-cos(alt), 0, -sin(alt)])
+        assert_array_almost_equal(solar_vector_NED(date, lat),
+                                  expected_value, 3)
+
+    def test_exception(self):
+        self.assertRaises(TypeError, solar_vector_NED, 121, 1)
 
 
 class Test_air_mass_KY1989(ut.TestCase):
@@ -633,172 +650,176 @@ class Test_beam_irradiance(ut.TestCase):
         self.assertRaises(TypeError, beam_irradiance, 0, 121, 1)
 
 
-def test_irradiance_on_plane():
+class Test_irradiance_on_plane(ut.TestCase):
     """
     Test function that calculates solar irradiance in a plane defined
     by its normal vector
     """
+    def tests(self):
+        # Northern Hemisphere #
+        # summer solstice, solar noon, lat=declination, plane right-side-up
+        vnorm = array([0, 0, -1])
+        h = 20000
+        date = datetime(2019, 6, 20, 12, 0)
+        lat = 23 + 26/60 + 14/3600
+        expected_value = beam_irradiance(h, date, lat)
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # Northern Hemisphere #
-    # summer solstice, solar noon, lat=declination, plane right-side-up
-    vnorm = array([0, 0, -1])
-    h = 20000
-    date = datetime(2019, 6, 20, 12, 0)
-    lat = 23 + 26/60 + 14/3600
-    expected_value = beam_irradiance(h, date, lat)
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # summer solstice, solar noon, lat=declination, plane upside-down
+        vnorm = array([0, 0, 1])
+        h = 20000
+        date = datetime(2019, 6, 20, 12, 0)
+        lat = 23 + 26/60 + 14/3600
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # summer solstice, solar noon, lat=declination, plane upside-down
-    vnorm = array([0, 0, 1])
-    h = 20000
-    date = datetime(2019, 6, 20, 12, 0)
-    lat = 23 + 26/60 + 14/3600
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # summer solstice, night, lat=declination, plane right-side-up
+        vnorm = array([0, 0, -1])
+        h = 20000
+        date = datetime(2019, 6, 20, 0, 0)
+        lat = 23 + 26/60 + 14/3600
+        expected_value = beam_irradiance(h, date, lat)
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # summer solstice, night, lat=declination, plane right-side-up
-    vnorm = array([0, 0, -1])
-    h = 20000
-    date = datetime(2019, 6, 20, 0, 0)
-    lat = 23 + 26/60 + 14/3600
-    expected_value = beam_irradiance(h, date, lat)
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # summer solstice, night, lat=declination, plane upside-down
+        vnorm = array([0, 0, 1])
+        h = 20000
+        date = datetime(2019, 6, 20, 0, 0)
+        lat = 23 + 26/60 + 14/3600
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # summer solstice, night, lat=declination, plane upside-down
-    vnorm = array([0, 0, 1])
-    h = 20000
-    date = datetime(2019, 6, 20, 0, 0)
-    lat = 23 + 26/60 + 14/3600
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # winter solstice, permanent darkness, plane right-side-up
+        vnorm = array([0, 0, -1])
+        h = 20000
+        date = datetime(2019, 12, 22, 12, 0)
+        lat = 70
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # winter solstice, permanent darkness, plane right-side-up
-    vnorm = array([0, 0, -1])
-    h = 20000
-    date = datetime(2019, 12, 22, 12, 0)
-    lat = 70
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # winter solstice, permanent darkness, plane upside-down
+        vnorm = array([0, 0, 1])
+        h = 20000
+        date = datetime(2019, 12, 22, 12, 0)
+        lat = 70
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # winter solstice, permanent darkness, plane upside-down
-    vnorm = array([0, 0, 1])
-    h = 20000
-    date = datetime(2019, 12, 22, 12, 0)
-    lat = 70
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # winter solstice, night, plane right-side-up
+        vnorm = array([0, 0, -1])
+        h = 20000
+        date = datetime(2019, 12, 22, 3, 0)
+        lat = 40
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # winter solstice, night, plane right-side-up
-    vnorm = array([0, 0, -1])
-    h = 20000
-    date = datetime(2019, 12, 22, 3, 0)
-    lat = 40
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # winter solstice, night, plane upside-down
+        vnorm = array([0, 0, 1])
+        h = 20000
+        date = datetime(2019, 12, 22, 3, 0)
+        lat = 40
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # winter solstice, night, plane upside-down
-    vnorm = array([0, 0, 1])
-    h = 20000
-    date = datetime(2019, 12, 22, 3, 0)
-    lat = 40
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # any day, solar noon, any latitude, plane sideways
+        vnorm = array([0, 1, 0])
+        h = 0
+        date = datetime(2019, 4, 1, 12, 0)
+        lat = 47.3
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # any day, solar noon, any latitude, plane sideways
-    vnorm = array([0, 1, 0])
-    h = 0
-    date = datetime(2019, 4, 1, 12, 0)
-    lat = 47.3
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # Southern Hemisphere #
+        # summer solstice, solar noon, lat=declination, plane right-side-up
+        vnorm = array([0, 0, -1])
+        h = 20000
+        date = datetime(2019, 12, 22, 12, 0)
+        lat = -(23 + 26/60 + 14/3600)
+        expected_value = beam_irradiance(h, date, lat)
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # Southern Hemisphere #
-    # summer solstice, solar noon, lat=declination, plane right-side-up
-    vnorm = array([0, 0, -1])
-    h = 20000
-    date = datetime(2019, 12, 22, 12, 0)
-    lat = -(23 + 26/60 + 14/3600)
-    expected_value = beam_irradiance(h, date, lat)
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # summer solstice, solar noon, lat=declination, plane upside-down
+        vnorm = array([0, 0, 1])
+        h = 20000
+        date = datetime(2019, 12, 22, 12, 0)
+        lat = -(23 + 26/60 + 14/3600)
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # summer solstice, solar noon, lat=declination, plane upside-down
-    vnorm = array([0, 0, 1])
-    h = 20000
-    date = datetime(2019, 12, 22, 12, 0)
-    lat = -(23 + 26/60 + 14/3600)
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # summer solstice, night, lat=declination, plane right-side-up
+        vnorm = array([0, 0, -1])
+        h = 20000
+        date = datetime(2019, 12, 22, 0, 0)
+        lat = -(23 + 26/60 + 14/3600)
+        expected_value = beam_irradiance(h, date, lat)
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # summer solstice, night, lat=declination, plane right-side-up
-    vnorm = array([0, 0, -1])
-    h = 20000
-    date = datetime(2019, 12, 22, 0, 0)
-    lat = -(23 + 26/60 + 14/3600)
-    expected_value = beam_irradiance(h, date, lat)
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # summer solstice, night, lat=declination, plane upside-down
+        vnorm = array([0, 0, 1])
+        h = 20000
+        date = datetime(2019, 12, 22, 0, 0)
+        lat = -(23 + 26/60 + 14/3600)
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # summer solstice, night, lat=declination, plane upside-down
-    vnorm = array([0, 0, 1])
-    h = 20000
-    date = datetime(2019, 12, 22, 0, 0)
-    lat = -(23 + 26/60 + 14/3600)
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # winter solstice, permanent darkness, plane right-side-up
+        vnorm = array([0, 0, -1])
+        h = 20000
+        date = datetime(2019, 6, 20, 12, 0)
+        lat = -70
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # winter solstice, permanent darkness, plane right-side-up
-    vnorm = array([0, 0, -1])
-    h = 20000
-    date = datetime(2019, 6, 20, 12, 0)
-    lat = -70
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # winter solstice, permanent darkness, plane upside-down
+        vnorm = array([0, 0, 1])
+        h = 20000
+        date = datetime(2019, 6, 20, 12, 0)
+        lat = -70
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # winter solstice, permanent darkness, plane upside-down
-    vnorm = array([0, 0, 1])
-    h = 20000
-    date = datetime(2019, 6, 20, 12, 0)
-    lat = -70
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # winter solstice, night, plane right-side-up
+        vnorm = array([0, 0, -1])
+        h = 20000
+        date = datetime(2019, 6, 20, 3, 0)
+        lat = -40
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # winter solstice, night, plane right-side-up
-    vnorm = array([0, 0, -1])
-    h = 20000
-    date = datetime(2019, 6, 20, 3, 0)
-    lat = -40
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # winter solstice, night, plane upside-down
+        vnorm = array([0, 0, 1])
+        h = 20000
+        date = datetime(2019, 6, 20, 3, 0)
+        lat = -40
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # winter solstice, night, plane upside-down
-    vnorm = array([0, 0, 1])
-    h = 20000
-    date = datetime(2019, 6, 20, 3, 0)
-    lat = -40
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+        # any day, solar noon, any latitude, plane sideways
+        vnorm = array([0, 1, 0])
+        h = 0
+        date = datetime(2019, 10, 5, 12, 0)
+        lat = -13.1
+        expected_value = 0
+        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
+                            expected_value, 3)
 
-    # any day, solar noon, any latitude, plane sideways
-    vnorm = array([0, 1, 0])
-    h = 0
-    date = datetime(2019, 10, 5, 12, 0)
-    lat = -13.1
-    expected_value = 0
-    assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                        expected_value, 3)
+    def test_exception(self):
+        v = array([0, 1, 0])
+        self.assertRaises(TypeError, irradiance_on_plane, v, 0, 121, 1)
