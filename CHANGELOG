@@ -8,3 +8,15 @@ All notable changes to this project will be documented in this file.
 ## [0.1.0] - 2019-08-07
 ### Added
 - First release
+
+## [0.1.1] - 2019-08-15
+### Added
+- changelog file
+
+### Changed
+- modified how date and time is handled: instead of defining the date and time as a "day_of_the_year" integer (1->365), hour integer (0->23) and minutes (0->59) integer, now proper datetime objects are used. Therefore, i.e.:
+		sunset_time(n, lat) becomes sunset_time(date, lat)
+		theta(n, lat, beta, surf_az, hour, minute) becomes theta(date, lat, beta, surf_az)
+- "solar_time" function becomes "standard2solar_time" to reflect that the input is a datetime object with standard local time, and the output is the solar local time.
+- improved error raising and handling
+- changed
