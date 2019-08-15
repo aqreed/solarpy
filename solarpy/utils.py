@@ -6,29 +6,8 @@
 """
 
 import numpy as np
-from numpy import sin, cos, tan, deg2rad
+from numpy import sin, cos, tan, deg2rad, array, ndarray
 from datetime import datetime, timedelta
-
-
-def check_day_range(n):
-    """
-    Checks whether the input nth_day of the year is within range
-
-    Parameters
-    ----------
-    n : integer
-        day of the year (1 to 365)
-
-    Returns
-    -------
-    None. Raises an exception in case
-    """
-    if isinstance(n, np.ndarray) and ((n < 1).any() or (n > 365).any()):
-            raise ValueError('n should be 1 <= n <= 365')
-    elif isinstance(n, int) and ((n < 1) or (n > 365)):
-            raise ValueError('n should be 1 <= n <= 365')
-
-    return None
 
 
 def check_lat_range(lat):
@@ -44,9 +23,11 @@ def check_lat_range(lat):
     -------
     None. Raises an exception in case
     """
-    if isinstance(lat, np.ndarray) and ((abs(lat) > 90).any()):
+    if isinstance(lat, ndarray) and ((abs(lat) > 90).any()):
             raise ValueError('latitude should be -90 <= latitude <= 90')
     elif isinstance(lat, int) and (abs(lat) > 90):
+            raise ValueError('latitude should be -90 <= latitude <= 90')
+    elif isinstance(lat, float) and (abs(lat) > 90):
             raise ValueError('latitude should be -90 <= latitude <= 90')
 
     return None
@@ -59,16 +40,18 @@ def check_long_range(lng):
     Parameters
     ----------
     lng : float
-        longitude (0 to 359) in degrees
+        longitude (-179 to 180) in degrees
 
     Returns
     -------
     None. Raises an exception in case
     """
-    if isinstance(lng, np.ndarray) and ((lng < 0).any() or (lng > 359).any()):
-            raise ValueError('longitude should be 0 <= longitude <= 359')
-    elif isinstance(lng, int) and ((lng < 0) or (lng > 359)):
-            raise ValueError('longitude should be 0 <= longitude <= 359')
+    if isinstance(lng, ndarray) and ((lng < -180).any() or (lng > 180).any()):
+            raise ValueError('longitude should be -180 <= longitude <= 180')
+    elif isinstance(lng, int) and ((lng < -180) or (lng > 180)):
+            raise ValueError('longitude should be -180 <= longitude <= 180')
+    elif isinstance(lng, float) and ((lng < -180) or (lng > 180)):
+            raise ValueError('longitude should be -180 <= longitude <= 180')
 
     return None
 
@@ -86,34 +69,42 @@ def check_alt_range(h):
     -------
     None. Raises an exception in case
     """
-    if isinstance(h, np.ndarray) and ((h < 0).any() or (h > 24000).any()):
+    if isinstance(h, ndarray) and ((h < 0).any() or (h > 24000).any()):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
     elif isinstance(h, int) and ((h < 0) or (h > 24000)):
+            raise ValueError('pressure model is only valid if 0 <= h <= 24000')
+    elif isinstance(h, float) and ((h < 0) or (h > 24000)):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
 
     return None
 
 
-def day_of_the_year(month, day):
+def day_of_the_year(date):
     """
     Returns the day of the year
 
     Parameters
     ----------
-    month : integer
-        month of the year (1 to 12)
-    day : integer
-        day of the month (0 to 31)
+    date : datetime object or array-like (datetime objects inside)
+        date of interest
 
     Returns
     -------
-    day : integer
-        day of the year(1 to 365)
+    day : int or array-like (int inside)
+        day of the year (1 to 365)
     """
-    t = datetime(datetime.now().year, month, day) - \
-        datetime(datetime.now().year, 1, 1)
+    if (isinstance(date, ndarray) and all(isinstance(i, datetime)
+        for i in date)):
+        # the parameter is an array of datetime objects
+        return array([i.timetuple().tm_yday for i in date])
 
-    return t.days + 1
+    elif isinstance(date, datetime):
+        # the parameter is a datetime object
+        return date.timetuple().tm_yday
+
+    else:
+        msg = "date must be a datetime object or array of datetime objects"
+        raise TypeError(msg)
 
 
 class NoSunsetNoSunrise(Exception):
@@ -122,9 +113,6 @@ class NoSunsetNoSunrise(Exception):
     """
     def __init__(self):
         self.msg = "Permanent night (or day) on this latitude on this day"
-
-    def __str__(self):
-        return repr(self.msg)
 
 
 def lla2ecef(lat, lng, h):
@@ -139,7 +127,7 @@ def lla2ecef(lat, lng, h):
     lng : float
         longitude in degrees
     h : float
-        altitude above sea level in feet
+        geometric altitude above sea level in meters
 
     Returns
     -------
@@ -156,7 +144,6 @@ def lla2ecef(lat, lng, h):
 
     lat = deg2rad(lat)  # degrees to radians
     lng = deg2rad(lng)  # degrees to radians
-    h = h * 0.3048  # feets to meters
 
     N = a / (1 - (e * sin(lat))**2)**(.5)
 
@@ -164,7 +151,7 @@ def lla2ecef(lat, lng, h):
     y = (N + h) * cos(lat) * sin(lng)
     z = (((b/a)**2) * N + h) * sin(lat)
 
-    return np.array([x, y, z])
+    return array([x, y, z])
 
 
 def ned2ecef(v_ned, lat, lng):
@@ -193,9 +180,9 @@ def ned2ecef(v_ned, lat, lng):
     lat = deg2rad(lat)
     lng = deg2rad(lng)
 
-    Lne = np.array([[-sin(lat) * cos(lng), -sin(lat) * sin(lng), cos(lat)],
-                    [-sin(lng), cos(lng), 0],
-                    [-cos(lat) * cos(lng), -cos(lat) * sin(lng), -sin(lat)]])
+    Lne = array([[-sin(lat) * cos(lng), -sin(lat) * sin(lng), cos(lat)],
+                 [-sin(lng), cos(lng), 0],
+                 [-cos(lat) * cos(lng), -cos(lat) * sin(lng), -sin(lat)]])
 
     Len = Lne.transpose()
     v_ecef = Len.dot(v_ned)
@@ -227,9 +214,11 @@ def pressure(h):
     """
     check_alt_range(h)
 
-    alt_ = np.append(np.linspace(0, 20e3, 21), np.linspace(22e3, 24e3, 2))
-    p_ = np.array([101325, 89876, 79501, 70121, 61660, 54048, 47217, 41105,
-                   35651, 30800, 26499, 22699, 19399, 16579, 14170, 12111,
-                   10352, 8849, 7565, 6467, 5529, 4047, 2972])
+    alt_ = np.append(np.linspace(0, 20e3, 21),
+                     np.linspace(22e3, 24e3, 2))
+
+    p_ = array([101325, 89876, 79501, 70121, 61660, 54048, 47217, 41105,
+                35651, 30800, 26499, 22699, 19399, 16579, 14170, 12111,
+                10352, 8849, 7565, 6467, 5529, 4047, 2972])
 
     return np.interp(h, alt_, p_)

@@ -1,14 +1,14 @@
 # solarpy
 
-[![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=master)](https://travis-ci.com/aqreed/solarpy)
-[![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/master/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/master)
+[![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=develop)](https://travis-ci.com/aqreed/solarpy)
+[![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/develop/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/develop)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/aqreed/solarpy/raw/master/COPYING)
 
 |  |  |
 | ------ | ------ |
 | Description | Python Solar Radiation model |
 | Author | aqreed <aqreed@protonmail.com> |
-| Version | 0.1 |
+| Version | 0.1.1 |
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib |
 
@@ -22,17 +22,16 @@ The main purpose is to generate a **solar beam irradiance** (W/m2) prediction on
 Solar [irradiance](https://en.wikipedia.org/wiki/Solar_irradiance) on the southern hemisphere on October 17, at sea-level 13.01UTC (plane pointing upwards)?
 
 ```
-from solarpy.radiation import irradiance_on_plane
-from solarpy.utils import day_of_the_year
 import numpy as np
+from solarpy.radiation import irradiance_on_plane
+from datetime import datetime
 
 vnorm = np.array([0, 0, -1])  # plane pointing zenith
 h = 0  # sea-level
-n = day_of_the_year(10, 17)  # October 17
+date = datetime(2019, 10, 17, 13, 1)  # year, month, day, hour, minute
 lat = -23.5  # southern hemisphere
-hour, minute = 13, 1  # midday
 
-irradiance_on_plane(vnorm, h, n, lat, hour, minute)
+irradiance_on_plane(vnorm, h, date, lat)
 ```
 
 A dedicated Jupyter Notebook on beam irradiance can be found [here](https://github.com/aqreed/solarpy/blob/master/examples/solar_irradiance.ipynb).
@@ -41,11 +40,11 @@ Solar [declination](https://en.wikipedia.org/wiki/Position_of_the_Sun#Declinatio
 
 ```
 from solarpy.radiation import declination
-from solarpy.utils import day_of_the_year
+from datetime import datetime
 
-n = day_of_the_year(8, 5)  # August 5
+date = datetime(2019, 8, 5)  # August 5
 
-declination(n)
+declination(date)
 ```
 
 Please find more notebooks on the 'examples' folder.
