@@ -7,7 +7,7 @@
 
 import numpy as np
 from numpy import sin, cos, tan, deg2rad, rad2deg,\
-                  array, arccos, exp, ndarray
+                  array, arccos, exp
 from datetime import datetime, timedelta
 from solarpy.utils import *
 
@@ -18,24 +18,18 @@ def B_nth_day(date):
 
     Parameters
     ----------
-    date : datetime object or array-like (datetime objects inside)
+    date : datetime object
         date of interest
 
     Returns
     -------
-    B : float or array-like (float inside)
+    B : float
         angle of the day of the year in radians
     """
     try:
         n = day_of_the_year(date)
 
-        if (isinstance(date, ndarray) and
-            all(isinstance(i, datetime) for i in date)):
-            # the parameter is an array of datetime objects
-            return array([deg2rad((i - 1) * (360 / 365)) for i in n])
-
-        elif isinstance(date, datetime):
-            # the parameter is a datetime object
+        if isinstance(date, datetime):
             return deg2rad((n - 1) * (360 / 365))
 
     except TypeError as e:
@@ -49,26 +43,18 @@ def Gon(date):
 
     Parameters
     ----------
-    date : datetime object or array-like (datetime objects inside)
+    date : datetime object
         date of interest
 
     Returns
     -------
-    Gon : float or array-like (float inside)
+    Gon : float
         extraterrestrial radiation in W/m2
     """
     try:
         B = B_nth_day(date)
 
-        if (isinstance(date, ndarray) and
-            all(isinstance(i, datetime) for i in date)):
-            # the parameter is an array of datetime objects
-            return array([1367 * (1.00011 + 0.034221 * cos(i) +
-                                  0.00128 * sin(i) + 0.000719 * cos(2 * i) +
-                                  0.000077 * sin(2 * i)) for i in B])
-
-        elif isinstance(date, datetime):
-            # the parameter is a datetime object
+        if isinstance(date, datetime):
             return 1367 * (1.00011 + 0.034221 * cos(B) +
                            0.00128 * sin(B) + 0.000719 * cos(2 * B) +
                            0.000077 * sin(2 * B))
@@ -83,27 +69,18 @@ def Eq_time(date):
 
     Parameters
     ----------
-    date : datetime object or array-like (datetime objects inside)
+    date : datetime
         date of interest
 
     Returns
     -------
-    E : float or array-like (float inside)
+    E : float
         equation of time in minutes
     """
     try:
         B = B_nth_day(date)
 
-        if (isinstance(date, ndarray) and
-            all(isinstance(i, datetime) for i in date)):
-            # the parameter is an array of datetime objects
-            return array([229.2 * (0.000075 + 0.001868 * cos(i) -
-                                   0.032077 * sin(i) -
-                                   0.014615 * cos(2 * i) -
-                                   0.04089 * sin(2 * i)) for i in B])
-
-        elif isinstance(date, datetime):
-            # the parameter is a datetime object
+        if isinstance(date, datetime):
             return 229.2 * (0.000075 + 0.001868 * cos(B) -
                             0.032077 * sin(B) - 0.014615 * cos(2 * B) -
                             0.04089 * sin(2 * B))
@@ -119,28 +96,19 @@ def declination(date):
 
     Parameters
     ----------
-    date : datetime object or array-like (datetime objects inside)
+    date : datetime object
         date of interest
 
     Returns
     -------
-    declination : float or array-like (float inside)
+    declination : float
         declination in radians
     """
 
     try:
         B = B_nth_day(date)
 
-        if (isinstance(date, ndarray) and
-            all(isinstance(i, datetime) for i in date)):
-            # the parameter is an array of datetime objects
-            return array([0.006918 - 0.399912 * cos(i) + 0.070257 * sin(i) -
-                          0.006758 * cos(2 * i) + 0.000907 * sin(2 * i) -
-                          0.002679 * cos(3 * i) + 0.00148 * sin(3 * i)
-                          for i in B])
-
-        elif isinstance(date, datetime):
-            # the parameter is a datetime object
+        if isinstance(date, datetime):
             return 0.006918 - 0.399912 * cos(B) + 0.070257 * sin(B) - \
                    0.006758 * cos(2 * B) + 0.000907 * sin(2 * B) - \
                    0.002679 * cos(3 * B) + 0.00148 * sin(3 * B)

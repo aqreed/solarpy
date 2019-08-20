@@ -12,8 +12,6 @@ from numpy.testing import (assert_equal, assert_almost_equal,
                            assert_array_almost_equal)
 from datetime import datetime
 import unittest as ut
-import io
-import sys
 
 
 class Test_B_nth_day(ut.TestCase):
@@ -29,11 +27,6 @@ class Test_B_nth_day(ut.TestCase):
         expected_value = 6.2659711
         assert_almost_equal(B_nth_day(date), expected_value, 6)
 
-    def test_array(self):
-        date = array([datetime(2019, 1, 1), datetime(2019, 12, 31)])
-        expected_value = array([0, 6.2659711])
-        assert_almost_equal(B_nth_day(date), expected_value, 6)
-
     def test_exception(self):
         self.assertRaises(TypeError, B_nth_day, 6)
 
@@ -44,15 +37,15 @@ class Test_Gon(ut.TestCase):
     """
     def test_min(self):
         # array with all days
-        dates = array([datetime(datetime.now().year, 1, 1) +
-                       timedelta(days=i) for i in range(365)])
-        self.assertTrue((Gon(dates) > 1320).all())
+        gon_ = array([Gon(datetime(datetime.now().year, 1, 1) +
+                      timedelta(days=i)) for i in range(365)])
+        self.assertTrue((gon_ > 1320).all())
 
     def test_max(self):
         # array with all days
-        dates = array([datetime(datetime.now().year, 1, 1) +
-                       timedelta(days=i) for i in range(365)])
-        self.assertTrue((Gon(dates) < 1420).all())
+        gon_ = array([Gon(datetime(datetime.now().year, 1, 1) +
+                      timedelta(days=i)) for i in range(365)])
+        self.assertTrue((gon_ < 1420).all())
 
     def test_Jan1(self):
         date = datetime(2019, 1, 1)  # January 1
@@ -74,15 +67,15 @@ class Test_Eq_time(ut.TestCase):
     """
     def test_min(self):
         # array with all days
-        dates = array([datetime(datetime.now().year, 1, 1) +
-                       timedelta(days=i) for i in range(365)])
-        self.assertTrue((Eq_time(dates) > -15).all())
+        eq_ = array([Eq_time(datetime(datetime.now().year, 1, 1) +
+                     timedelta(days=i)) for i in range(365)])
+        self.assertTrue((eq_ > -15).all())
 
     def test_max(self):
         # array with all days
-        dates = array([datetime(datetime.now().year, 1, 1) +
-                       timedelta(days=i) for i in range(365)])
-        self.assertTrue((Eq_time(dates) < 17).all())
+        eq_ = array([Eq_time(datetime(datetime.now().year, 1, 1) +
+                     timedelta(days=i)) for i in range(365)])
+        self.assertTrue((eq_ < 17).all())
 
     def test_Jan1(self):
         date = datetime(2019, 1, 1)  # January 1
@@ -104,15 +97,15 @@ class Test_declination(ut.TestCase):
     """
     def test_min(self):
         # array with all days
-        dates = array([datetime(datetime.now().year, 1, 1) +
-                       timedelta(days=i) for i in range(365)])
-        self.assertTrue((rad2deg(declination(dates)) > -24).all())
+        dec_ = array([declination(datetime(datetime.now().year, 1, 1) +
+                      timedelta(days=i)) for i in range(365)])
+        self.assertTrue((rad2deg(dec_) > -24).all())
 
     def test_max(self):
         # array with all days
-        dates = array([datetime(datetime.now().year, 1, 1) +
-                       timedelta(days=i) for i in range(365)])
-        self.assertTrue((rad2deg(declination(dates)) < 24).all())
+        dec_ = array([declination(datetime(datetime.now().year, 1, 1) +
+                      timedelta(days=i)) for i in range(365)])
+        self.assertTrue((rad2deg(dec_) < 24).all())
 
     def test_Jan1(self):
         date = datetime(2019, 1, 1)  # January 1

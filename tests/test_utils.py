@@ -6,7 +6,7 @@
 
 
 from solarpy.utils import *
-from numpy import sin, cos, deg2rad, rad2deg, array
+from numpy import array
 from numpy.testing import assert_array_almost_equal
 import unittest as ut
 
@@ -18,17 +18,14 @@ class Test_ranges(ut.TestCase):
     def test_latitude_range(self):
         self.assertRaises(ValueError, check_lat_range, -181)
         self.assertRaises(ValueError, check_lat_range, 181.0)
-        self.assertRaises(ValueError, check_lat_range, array([-215, 2, 55]))
 
     def test_longitude_range(self):
         self.assertRaises(ValueError, check_long_range, -181)
         self.assertRaises(ValueError, check_long_range, 181.0)
-        self.assertRaises(ValueError, check_long_range, array([326, -180]))
 
     def test_altitude_range(self):
         self.assertRaises(ValueError, check_alt_range, -1)
         self.assertRaises(ValueError, check_alt_range, 24001.0)
-        self.assertRaises(ValueError, check_alt_range, array([150, 101800]))
 
 
 class Test_day_of_the_year(ut.TestCase):
@@ -59,13 +56,6 @@ class Test_day_of_the_year(ut.TestCase):
         date = datetime(2019, 12, 31)
         expected_value = 365  # December 31
         self.assertEqual(day_of_the_year(date), expected_value)
-
-    def test_array(self):
-        date = array([datetime(2019, 12, 29),
-                      datetime(2019, 12, 30),
-                      datetime(2019, 12, 31)])
-        expected_value = array([363, 364, 365])  # December 31
-        self.assertTrue((day_of_the_year(date) == expected_value).all())
 
 
 class Test_exception(ut.TestCase):

@@ -6,8 +6,8 @@
 """
 
 import numpy as np
-from numpy import sin, cos, tan, deg2rad, array, ndarray
-from datetime import datetime, timedelta
+from numpy import sin, cos, deg2rad, array
+from datetime import datetime
 
 
 def check_lat_range(lat):
@@ -23,9 +23,7 @@ def check_lat_range(lat):
     -------
     None. Raises an exception in case
     """
-    if isinstance(lat, ndarray) and ((abs(lat) > 90).any()):
-            raise ValueError('latitude should be -90 <= latitude <= 90')
-    elif isinstance(lat, int) and (abs(lat) > 90):
+    if isinstance(lat, int) and (abs(lat) > 90):
             raise ValueError('latitude should be -90 <= latitude <= 90')
     elif isinstance(lat, float) and (abs(lat) > 90):
             raise ValueError('latitude should be -90 <= latitude <= 90')
@@ -46,9 +44,7 @@ def check_long_range(lng):
     -------
     None. Raises an exception in case
     """
-    if isinstance(lng, ndarray) and ((lng < -180).any() or (lng > 180).any()):
-            raise ValueError('longitude should be -180 <= longitude <= 180')
-    elif isinstance(lng, int) and ((lng < -180) or (lng > 180)):
+    if isinstance(lng, int) and ((lng < -180) or (lng > 180)):
             raise ValueError('longitude should be -180 <= longitude <= 180')
     elif isinstance(lng, float) and ((lng < -180) or (lng > 180)):
             raise ValueError('longitude should be -180 <= longitude <= 180')
@@ -69,9 +65,7 @@ def check_alt_range(h):
     -------
     None. Raises an exception in case
     """
-    if isinstance(h, ndarray) and ((h < 0).any() or (h > 24000).any()):
-            raise ValueError('pressure model is only valid if 0 <= h <= 24000')
-    elif isinstance(h, int) and ((h < 0) or (h > 24000)):
+    if isinstance(h, int) and ((h < 0) or (h > 24000)):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
     elif isinstance(h, float) and ((h < 0) or (h > 24000)):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
@@ -85,23 +79,16 @@ def day_of_the_year(date):
 
     Parameters
     ----------
-    date : datetime object or array-like (datetime objects inside)
+    date : datetime object
         date of interest
 
     Returns
     -------
-    day : int or array-like (int inside)
+    day : int
         day of the year (1 to 365)
     """
-    if (isinstance(date, ndarray) and all(isinstance(i, datetime)
-        for i in date)):
-        # the parameter is an array of datetime objects
-        return array([i.timetuple().tm_yday for i in date])
-
-    elif isinstance(date, datetime):
-        # the parameter is a datetime object
+    if isinstance(date, datetime):
         return date.timetuple().tm_yday
-
     else:
         msg = "date must be a datetime object or array of datetime objects"
         raise TypeError(msg)
