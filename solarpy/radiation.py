@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from solarpy.utils import *
 
 
-def B_nth_day(date):
+def B_nday(date):
     """
     Day-of-the-year angle on a desired date and time.
 
@@ -52,7 +52,7 @@ def Gon(date):
         extraterrestrial radiation in W/m2
     """
     try:
-        B = B_nth_day(date)
+        B = B_nday(date)
 
         if isinstance(date, datetime):
             return 1367 * (1.00011 + 0.034221 * cos(B) +
@@ -78,7 +78,7 @@ def Eq_time(date):
         equation of time in minutes
     """
     try:
-        B = B_nth_day(date)
+        B = B_nday(date)
 
         if isinstance(date, datetime):
             return 229.2 * (0.000075 + 0.001868 * cos(B) -
@@ -106,7 +106,7 @@ def declination(date):
     """
 
     try:
-        B = B_nth_day(date)
+        B = B_nday(date)
 
         if isinstance(date, datetime):
             return 0.006918 - 0.399912 * cos(B) + 0.070257 * sin(B) - \

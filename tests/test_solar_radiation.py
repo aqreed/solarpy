@@ -14,21 +14,21 @@ from datetime import datetime
 import unittest as ut
 
 
-class Test_B_nth_day(ut.TestCase):
+class Test_B_nday(ut.TestCase):
     """
     Tests B(n) values.
     """
     def test_single_days(self):
         date = datetime(2019, 1, 1)  # Jan 1
         expected_value = 0
-        assert_equal(B_nth_day(date), expected_value)
+        assert_equal(B_nday(date), expected_value)
 
         date = datetime(2019, 12, 31)  # Dec 31
         expected_value = 6.2659711
-        assert_almost_equal(B_nth_day(date), expected_value, 6)
+        assert_almost_equal(B_nday(date), expected_value, 6)
 
     def test_exception(self):
-        self.assertRaises(TypeError, B_nth_day, 6)
+        self.assertRaises(TypeError, B_nday, 6)
 
 
 class Test_Gon(ut.TestCase):
