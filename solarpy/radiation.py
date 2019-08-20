@@ -680,23 +680,22 @@ def irradiance_on_plane(vnorm, h, date, lat):
     try:
         vsol = solar_vector_NED(date, lat)
 
-        if isinstance(date, datetime):
-            if (vsol == array([0, 0, 0])).all():
-                # in case there is no sun (night or permanent darkness)
-                G = 0
-                theta = np.nan
+        if (vsol == array([0, 0, 0])).all():
+            # in case there is no sun (night or permanent darkness)
+            G = 0
+            theta = np.nan
+        else:
+            vnorm_abs = np.linalg.norm(vnorm)
+            vsol_abs = np.linalg.norm(vsol)
+
+            theta = arccos(np.dot(vnorm, vsol) / (vnorm_abs * vsol_abs))
+
+            # for future solar panel applications: only one side has cells
+            if cos(theta) > 0:
+                G = beam_irradiance(h, date, lat) * cos(theta)
             else:
-                vnorm_abs = np.linalg.norm(vnorm)
-                vsol_abs = np.linalg.norm(vsol)
+                G = 0
 
-                theta = arccos(np.dot(vnorm, vsol) / (vnorm_abs * vsol_abs))
-
-                # for future solar panel applications: only one side has cells
-                if cos(theta) > 0:
-                    G = beam_irradiance(h, date, lat) * cos(theta)
-                else:
-                    G = 0
-
-            return G
+        return G
     except TypeError as e:
         raise e
