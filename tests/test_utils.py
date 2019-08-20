@@ -16,16 +16,16 @@ class Test_ranges(ut.TestCase):
     Tests ranges checks
     """
     def test_latitude_range(self):
-        self.assertRaises(ValueError, check_lat_range, -181)
-        self.assertRaises(ValueError, check_lat_range, 181.0)
+        self.assertRaises(ValueError, check_lat, -181)
+        self.assertRaises(ValueError, check_lat, 181.0)
 
     def test_longitude_range(self):
-        self.assertRaises(ValueError, check_long_range, -181)
-        self.assertRaises(ValueError, check_long_range, 181.0)
+        self.assertRaises(ValueError, check_long, -181)
+        self.assertRaises(ValueError, check_long, 181.0)
 
     def test_altitude_range(self):
-        self.assertRaises(ValueError, check_alt_range, -1)
-        self.assertRaises(ValueError, check_alt_range, 24001.0)
+        self.assertRaises(ValueError, check_alt, -1)
+        self.assertRaises(ValueError, check_alt, 24001.0)
 
 
 class Test_day_of_the_year(ut.TestCase):

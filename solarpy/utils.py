@@ -10,65 +10,68 @@ from numpy import sin, cos, deg2rad, array
 from datetime import datetime
 
 
-def check_lat_range(lat):
+def check_lat(lat):
     """
-    Checks whether the input latitude is within range
+    Checks whether the input latitude is within range and correct type
 
     Parameters
     ----------
-    lat : float
+    lat : float or int
         latitude (-90 to 90) in degrees
 
     Returns
     -------
     None. Raises an exception in case
     """
-    if isinstance(lat, int) and (abs(lat) > 90):
+    if isinstance(lat, int) or isinstance(lat, float):
+        if abs(lat) > 90:
             raise ValueError('latitude should be -90 <= latitude <= 90')
-    elif isinstance(lat, float) and (abs(lat) > 90):
-            raise ValueError('latitude should be -90 <= latitude <= 90')
+    else:
+        raise TypeError('latitude should be "float" or "int"')
 
     return None
 
 
-def check_long_range(lng):
+def check_long(lng):
     """
-    Checks whether the input longitude is within range
+    Checks whether the input longitude is within range and correct type
 
     Parameters
     ----------
-    lng : float
+    lng : float or int
         longitude (-179 to 180) in degrees
 
     Returns
     -------
     None. Raises an exception in case
     """
-    if isinstance(lng, int) and ((lng < -180) or (lng > 180)):
+    if isinstance(lng, int) or isinstance(lng, float):
+        if abs(lng) > 180:
             raise ValueError('longitude should be -180 <= longitude <= 180')
-    elif isinstance(lng, float) and ((lng < -180) or (lng > 180)):
-            raise ValueError('longitude should be -180 <= longitude <= 180')
+    else:
+        raise TypeError('longitude should be "float" or "int"')
 
     return None
 
 
-def check_alt_range(h):
+def check_alt(h):
     """
-    Checks whether the input altitude is within range
+    Checks whether the input altitude is within range and correct type
 
     Parameters
     ----------
-    h : float
+    h : float or int
         altitude (0 to 24k) in meters
 
     Returns
     -------
     None. Raises an exception in case
     """
-    if isinstance(h, int) and ((h < 0) or (h > 24000)):
+    if isinstance(h, int) or isinstance(h, float):
+        if ((h < 0) or (h > 24000)):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
-    elif isinstance(h, float) and ((h < 0) or (h > 24000)):
-            raise ValueError('pressure model is only valid if 0 <= h <= 24000')
+    else:
+        raise TypeError('altitude should be "float" or "int"')
 
     return None
 
@@ -121,9 +124,9 @@ def lla2ecef(lat, lng, h):
     array-like
         ECEF coordinates in meters
     """
-    check_lat_range(lat)
-    check_long_range(lng)
-    check_alt_range(h)
+    check_lat(lat)
+    check_long(lng)
+    check_alt(h)
 
     a = 6378137  # [m] Earth equatorial axis
     b = 6356752.3142  # [m] Earth polar axis
@@ -161,8 +164,8 @@ def ned2ecef(v_ned, lat, lng):
     v_ecef : array-like
         vector expressed in ECEF coordinates
     """
-    check_lat_range(lat)
-    check_long_range(lng)
+    check_lat(lat)
+    check_long(lng)
 
     lat = deg2rad(lat)
     lng = deg2rad(lng)
@@ -199,7 +202,7 @@ def pressure(h):
     http://www.pdas.com/atmosTable2SI.html until 20km
     http://www.pdas.com/atmosTable1SI.html until 24km
     """
-    check_alt_range(h)
+    check_alt(h)
 
     alt_ = np.append(np.linspace(0, 20e3, 21),
                      np.linspace(22e3, 24e3, 2))

@@ -133,7 +133,7 @@ def standard2solar_time(date, lng):
     solar time : datetime object
         solar time
     """
-    check_long_range(lng)
+    check_long(lng)
 
     if isinstance(date, datetime):
         # standard time
@@ -199,7 +199,7 @@ def theta(date, lat, beta, surf_az):
     theta : float
             angle of incidence in radians
     """
-    check_lat_range(lat)
+    check_lat(lat)
 
     if isinstance(date, datetime):
         dec = declination(date)
@@ -237,7 +237,7 @@ def theta_z(date, lat):
     theta_z : float
         zenith angle of incidence in radians
     """
-    check_lat_range(lat)
+    check_lat(lat)
 
     if isinstance(date, datetime):
         dec = declination(date)
@@ -269,7 +269,7 @@ def solar_azimuth(date, lat):
     solar_az : float
         azimuth angle in radians
     """
-    check_lat_range(lat)
+    check_lat(lat)
 
     # to avoid undefined values at lat = 90º or lat = -90º
     # the error incurred is acceptable
@@ -343,7 +343,7 @@ def sunset_hour_angle(date, lat):
     sunset_hour_angle : float
         hour angle at sunset in radians
     """
-    check_lat_range(lat)
+    check_lat(lat)
 
     if isinstance(date, datetime):
         dec = declination(date)
@@ -467,7 +467,7 @@ def daylight_hours(date, lat):
     ----
         http://mathforum.org/library/drmath/view/56478.html
     """
-    check_lat_range(lat)
+    check_lat(lat)
 
     if isinstance(date, datetime):
         dec = declination(date)
@@ -561,7 +561,7 @@ def air_mass_KastenYoung1989(theta_z, h, limit=True):
     """
     # needed until the atmosphere (pressure) model is extended beyond 24km
     if limit:
-        check_alt_range(h)
+        check_alt(h)
     else:
         pass
 
