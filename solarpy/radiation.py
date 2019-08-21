@@ -657,9 +657,11 @@ def beam_irradiance(h, date, lat):
 
 def irradiance_on_plane(vnorm, h, date, lat):
     """
-    Returns the solar beam irradiance on a plane (not taking into account the
-    diffuse component) defined by its unit normal vector in NED frame at a
-    certain altitude, day, latitude and time of the day (hour and minute).
+    Returns the solar beam irradiance on a plane defined by its unit
+    normal vector in NED frame at a certain altitude, date, *solar*
+    time and latitude.
+
+    Note: it does not take into account the diffuse irradiance
 
     Parameters
     ----------
