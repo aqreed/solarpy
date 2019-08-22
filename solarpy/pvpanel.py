@@ -19,7 +19,10 @@ class solar_panel(object):
     """
 
     def __init__(self, s, eff):
-        self.eff = 0.32
+        if (eff >= 0) and (eff <= 1):
+            self.eff = eff
+        else:
+            raise ValueError('efficiency must be 0 <= eff <= 1')
 
         if (s >= 0):
             self.s = s
