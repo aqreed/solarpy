@@ -143,8 +143,13 @@ class Test_solar_time(ut.TestCase):
         self.assertEqual(standard2solar_time(date, lng).replace(microsecond=0),
                          expected_value)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, standard2solar_time, 12, 8.3)
+
+    def test_exception_lng(self):
+        date = datetime(2019, 2, 13)
+        self.assertRaises(ValueError, standard2solar_time, date, -181)
+        self.assertRaises(TypeError, standard2solar_time, date, '122')
 
 
 class Test_hour_angle(ut.TestCase):
@@ -182,7 +187,7 @@ class Test_hour_angle(ut.TestCase):
         expected_value = deg2rad(30)
         self.assertEqual(hour_angle(date), expected_value)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, hour_angle, 121)
 
 
@@ -200,8 +205,13 @@ class Test_angle_of_incidence(ut.TestCase):
         self.assertAlmostEqual(theta(date, lat, beta, surf_az),
                                expected_value, 2)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, theta, 121, 1, 1, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, theta, date, 91, 1, 1)
+        self.assertRaises(TypeError, theta, date, '91', 0, 0)
 
 
 class Test_zenith_angle(ut.TestCase):
@@ -233,8 +243,13 @@ class Test_zenith_angle(ut.TestCase):
         expected_value = deg2rad(70.3)
         self.assertAlmostEqual(theta_z(date, lat), expected_value, 2)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, theta_z, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, theta_z, date, -91)
+        self.assertRaises(TypeError, theta_z, date, '91')
 
 
 class Test_solar_azimuth(ut.TestCase):
@@ -298,8 +313,13 @@ class Test_solar_azimuth(ut.TestCase):
         expected_value = deg2rad(66.8)
         self.assertAlmostEqual(solar_azimuth(date, lat), expected_value, 2)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, solar_azimuth, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, solar_azimuth, date, -91)
+        self.assertRaises(TypeError, solar_azimuth, date, '91')
 
 
 class Test_solar_altitude(ut.TestCase):
@@ -313,8 +333,13 @@ class Test_solar_altitude(ut.TestCase):
         expected_value = deg2rad(19.7)
         self.assertAlmostEqual(solar_altitude(date, lat), expected_value, 2)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, solar_altitude, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, solar_altitude, date, -91)
+        self.assertRaises(TypeError, solar_altitude, date, '91')
 
 
 class Test_sunset_hour_angle(ut.TestCase):
@@ -335,8 +360,13 @@ class Test_sunset_hour_angle(ut.TestCase):
         expected_value = deg2rad(87.8)
         self.assertAlmostEqual(sunset_hour_angle(date, lat), expected_value, 1)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, sunset_hour_angle, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, sunset_hour_angle, date, 156)
+        self.assertRaises(TypeError, sunset_hour_angle, date, '91')
 
 
 class Test_sunset_time(ut.TestCase):
@@ -360,8 +390,13 @@ class Test_sunset_time(ut.TestCase):
         lat = 89  # North-Pole
         self.assertRaises(NoSunsetNoSunrise, sunset_time, date, lat)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, sunset_time, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, sunset_time, date, 156)
+        self.assertRaises(TypeError, sunset_time, date, '91')
 
 
 class Test_sunrise_hour_angle(ut.TestCase):
@@ -383,8 +418,13 @@ class Test_sunrise_hour_angle(ut.TestCase):
         self.assertAlmostEqual(sunrise_hour_angle(date, lat),
                                expected_value, 1)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, sunrise_hour_angle, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, sunrise_hour_angle, date, 156)
+        self.assertRaises(TypeError, sunrise_hour_angle, date, '91')
 
 
 class Test_sunrise_time(ut.TestCase):
@@ -407,8 +447,13 @@ class Test_sunrise_time(ut.TestCase):
         lat = 89  # North-Pole
         self.assertRaises(NoSunsetNoSunrise, sunrise_time, date, lat)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, sunrise_time, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, sunrise_time, date, 1526)
+        self.assertRaises(TypeError, sunrise_time, date, '91')
 
 
 class Test_daylight_hours(ut.TestCase):
@@ -454,8 +499,13 @@ class Test_daylight_hours(ut.TestCase):
         expected_value = 12
         self.assertAlmostEqual(daylight_hours(date, lat), expected_value)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, daylight_hours, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, daylight_hours, date, 1526)
+        self.assertRaises(TypeError, daylight_hours, date, '91')
 
 
 class Test_solar_vector_ned(ut.TestCase):
@@ -546,8 +596,13 @@ class Test_solar_vector_ned(ut.TestCase):
         assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
-    def test_exception(self):
+    def test_exception_date(self):
         self.assertRaises(TypeError, solar_vector_ned, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, solar_vector_ned, date, 1526)
+        self.assertRaises(TypeError, solar_vector_ned, date, '91')
 
 
 class Test_air_mass_KY1989(ut.TestCase):
@@ -639,8 +694,17 @@ class Test_beam_irradiance(ut.TestCase):
 
         # TODO: more test!
 
-    def test_exception(self):
+    def test_exception_alt(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, beam_irradiance, -1, date, 0)
+
+    def test_exception_date(self):
         self.assertRaises(TypeError, beam_irradiance, 0, 121, 1)
+
+    def test_exception_lat(self):
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, beam_irradiance, 0, date, 1526)
+        self.assertRaises(TypeError, beam_irradiance, 0, date, '91')
 
 
 class Test_irradiance_on_plane(ut.TestCase):
@@ -812,6 +876,22 @@ class Test_irradiance_on_plane(ut.TestCase):
         assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
                             expected_value, 3)
 
-    def test_exception(self):
+    def test_exception_vector(self):
+        v = 'a'
+        date = datetime(2019, 12, 13, 12, 0)
+        self.assertRaises(ValueError, irradiance_on_plane, v, 0, date, 0)
+
+    def test_exception_alt(self):
+        v = array([0, 0, -1])
+        date = datetime(2019, 12, 13, 12, 0)
+        self.assertRaises(ValueError, irradiance_on_plane, v, -1, date, 0)
+
+    def test_exception_date(self):
         v = array([0, 1, 0])
         self.assertRaises(TypeError, irradiance_on_plane, v, 0, 121, 1)
+
+    def test_exception_lat(self):
+        v = array([0, 1, 0])
+        date = datetime(2019, 12, 13)
+        self.assertRaises(ValueError, irradiance_on_plane, v, 0, date, 1526)
+        self.assertRaises(TypeError, irradiance_on_plane, v, 0, date, '91')
