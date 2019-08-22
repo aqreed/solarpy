@@ -237,8 +237,6 @@ def solar_azimuth(date, lat):
     solar_az : float
         azimuth angle in radians
     """
-    check_lat(lat)
-
     # to avoid undefined values at lat = 90º or lat = -90º
     # the error incurred is acceptable
     if abs(lat) == 90:
