@@ -3,11 +3,7 @@
 """
     Photovoltaic panel class
 """
-
-import numpy as np
-from datetime import datetime, timedelta
 from solarpy.radiation import *
-from solarpy.utils import *
 
 
 class solar_panel(object):
