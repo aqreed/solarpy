@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from solarpy.utils import *
 
 
-def B_nday(date):
+def b_nday(date):
     """
     Day-of-the-year angle on a desired date and time.
 
@@ -36,7 +36,7 @@ def B_nday(date):
         raise e
 
 
-def Gon(date):
+def gon(date):
     """
     Extraterrestrial radiation on a plane normal to
     the radiation on a desired date and time.
@@ -48,11 +48,11 @@ def Gon(date):
 
     Returns
     -------
-    Gon : float
+    gon : float
         extraterrestrial radiation in W/m2
     """
     try:
-        B = B_nday(date)
+        B = b_nday(date)
 
         if isinstance(date, datetime):
             return 1367 * (1.00011 + 0.034221 * cos(B) +
@@ -63,7 +63,7 @@ def Gon(date):
         raise e
 
 
-def Eq_time(date):
+def eq_time(date):
     """
     Equation of time on a desired date and time.
 
@@ -78,7 +78,7 @@ def Eq_time(date):
         equation of time in minutes
     """
     try:
-        B = B_nday(date)
+        B = b_nday(date)
 
         if isinstance(date, datetime):
             return 229.2 * (0.000075 + 0.001868 * cos(B) -
@@ -106,7 +106,7 @@ def declination(date):
     """
 
     try:
-        B = B_nday(date)
+        B = b_nday(date)
 
         if isinstance(date, datetime):
             return 0.006918 - 0.399912 * cos(B) + 0.070257 * sin(B) - \
@@ -144,7 +144,7 @@ def standard2solar_time(date, lng):
         delta_std_meridian = timedelta(minutes=(4 * (lng_std - lng)))
 
         # eq. of time for that day
-        E = timedelta(minutes=Eq_time(date))
+        E = timedelta(minutes=eq_time(date))
         t_solar = t_std + delta_std_meridian + E
 
         return t_solar
@@ -485,7 +485,7 @@ def daylight_hours(date, lat):
         raise TypeError('date must be a datetime object')
 
 
-def solar_vector_NED(date, lat):
+def solar_vector_ned(date, lat):
     """
     Calculates solar vector (sun beam) in local geodetic horizon reference
     frame (NED - North, East, Down) of a point on the Earth surface at a
@@ -535,7 +535,7 @@ def solar_vector_NED(date, lat):
         raise TypeError('date must be a datetime object')
 
 
-def air_mass_KastenYoung1989(theta_z, h, limit=True):
+def air_mass_kastenyoung1989(theta_z, h, limit=True):
     """
     Returns the ratio between air mass crossed by a sun beam to the mass
     it would pass if the sun were in the zenith at any altitude.
@@ -579,7 +579,7 @@ def air_mass_KastenYoung1989(theta_z, h, limit=True):
     return m
 
 
-def air_mass_Young1994(theta_z):
+def air_mass_young1994(theta_z):
     """
     Returns the ratio between air mass crossed by a sun beam to the mass
     it would pass if the sun were in the zenith at sea level.
@@ -645,8 +645,8 @@ def beam_irradiance(h, date, lat):
         theta_zenith = theta_z(date, lat)  # radians
 
         if theta_zenith < theta_lim:
-            m = air_mass_KastenYoung1989(rad2deg(theta_zenith), h)
-            G = Gon(date) * exp(-prel * m * alpha_int)
+            m = air_mass_kastenyoung1989(rad2deg(theta_zenith), h)
+            G = gon(date) * exp(-prel * m * alpha_int)
         else:
             G = 0
 
@@ -680,7 +680,7 @@ def irradiance_on_plane(vnorm, h, date, lat):
         beam irradiance in W/m2
     """
     try:
-        vsol = solar_vector_NED(date, lat)
+        vsol = solar_vector_ned(date, lat)
 
         if (vsol == array([0, 0, 0])).all():
             # in case there is no sun (night or permanent darkness)

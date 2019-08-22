@@ -14,81 +14,81 @@ from datetime import datetime
 import unittest as ut
 
 
-class Test_B_nday(ut.TestCase):
+class Test_b_nday(ut.TestCase):
     """
     Tests B(n) values.
     """
     def test_single_days(self):
         date = datetime(2019, 1, 1)  # Jan 1
         expected_value = 0
-        assert_equal(B_nday(date), expected_value)
+        assert_equal(b_nday(date), expected_value)
 
         date = datetime(2019, 12, 31)  # Dec 31
         expected_value = 6.2659711
-        assert_almost_equal(B_nday(date), expected_value, 6)
+        assert_almost_equal(b_nday(date), expected_value, 6)
 
     def test_exception(self):
-        self.assertRaises(TypeError, B_nday, 6)
+        self.assertRaises(TypeError, b_nday, 6)
 
 
-class Test_Gon(ut.TestCase):
+class Test_gon(ut.TestCase):
     """
     Tests radiation on a plane normal values.
     """
     def test_min(self):
         # array with all days
-        gon_ = array([Gon(datetime(datetime.now().year, 1, 1) +
+        gon_ = array([gon(datetime(datetime.now().year, 1, 1) +
                       timedelta(days=i)) for i in range(365)])
         self.assertTrue((gon_ > 1320).all())
 
     def test_max(self):
         # array with all days
-        gon_ = array([Gon(datetime(datetime.now().year, 1, 1) +
+        gon_ = array([gon(datetime(datetime.now().year, 1, 1) +
                       timedelta(days=i)) for i in range(365)])
         self.assertTrue((gon_ < 1420).all())
 
     def test_Jan1(self):
         date = datetime(2019, 1, 1)  # January 1
         expected_value = 1415
-        self.assertAlmostEqual(Gon(date), expected_value, delta=1)
+        self.assertAlmostEqual(gon(date), expected_value, delta=1)
 
     def test_summerSolstice(self):
         date = datetime(2019, 6, 20)  # June 20
         expected_value = 1322
-        self.assertAlmostEqual(Gon(date), expected_value, delta=1)
+        self.assertAlmostEqual(gon(date), expected_value, delta=1)
 
     def test_exception(self):
-        self.assertRaises(TypeError, Gon, 'a')
+        self.assertRaises(TypeError, gon, 'a')
 
 
-class Test_Eq_time(ut.TestCase):
+class Test_eq_time(ut.TestCase):
     """
     Tests equation of time values.
     """
     def test_min(self):
         # array with all days
-        eq_ = array([Eq_time(datetime(datetime.now().year, 1, 1) +
+        eq_ = array([eq_time(datetime(datetime.now().year, 1, 1) +
                      timedelta(days=i)) for i in range(365)])
         self.assertTrue((eq_ > -15).all())
 
     def test_max(self):
         # array with all days
-        eq_ = array([Eq_time(datetime(datetime.now().year, 1, 1) +
+        eq_ = array([eq_time(datetime(datetime.now().year, 1, 1) +
                      timedelta(days=i)) for i in range(365)])
         self.assertTrue((eq_ < 17).all())
 
     def test_Jan1(self):
         date = datetime(2019, 1, 1)  # January 1
         expected_value = -3
-        self.assertAlmostEqual(Eq_time(date), expected_value, delta=1)
+        self.assertAlmostEqual(eq_time(date), expected_value, delta=1)
 
     def test_summerSolstice(self):
         date = datetime(2019, 6, 20)  # June 20
         expected_value = -1
-        self.assertAlmostEqual(Eq_time(date), expected_value, delta=1)
+        self.assertAlmostEqual(eq_time(date), expected_value, delta=1)
 
     def test_exception(self):
-        self.assertRaises(TypeError, Eq_time, 'a')
+        self.assertRaises(TypeError, eq_time, 'a')
 
 
 class Test_declination(ut.TestCase):
@@ -458,7 +458,7 @@ class Test_daylight_hours(ut.TestCase):
         self.assertRaises(TypeError, daylight_hours, 121, 1)
 
 
-class Test_solar_vector_NED(ut.TestCase):
+class Test_solar_vector_ned(ut.TestCase):
     """
     Test function that calculates solar vector in ned frame
     """
@@ -467,26 +467,26 @@ class Test_solar_vector_NED(ut.TestCase):
         date = datetime(2019, 6, 15, 12, 0)
         lat = -80
         expected_value = array([0, 0, 0])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
         date = datetime(2019, 6, 1, 17, 0)
         lat = -70
         expected_value = array([0, 0, 0])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
         # permanent darkness: north pole in winter
         date = datetime(2019, 1, 1, 10, 0)
         lat = 83
         expected_value = array([0, 0, 0])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
         date = datetime(2019, 11, 1, 19, 0)
         lat = 76
         expected_value = array([0, 0, 0])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
     def test_night(self):
@@ -497,7 +497,7 @@ class Test_solar_vector_NED(ut.TestCase):
         hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
         date = datetime(2019, 1, 5, hour, minute)
         expected_value = array([0, 0, 0])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
         date = datetime(2019, 9, 1)
@@ -506,7 +506,7 @@ class Test_solar_vector_NED(ut.TestCase):
         hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
         date = datetime(2019, 9, 1, hour, minute)
         expected_value = array([0, 0, 0])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
         # night: south hemisphere
@@ -516,7 +516,7 @@ class Test_solar_vector_NED(ut.TestCase):
         hour, minute = ss_t.hour, ss_t.minute + 1  # 1min after sunset
         date = datetime(2019, 2, 3, hour, minute)
         expected_value = array([0, 0, 0])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
         date = datetime(2019, 10, 1)
@@ -526,7 +526,7 @@ class Test_solar_vector_NED(ut.TestCase):
         hour, minute = sr_t.hour, sr_t.minute - 1  # 1min before sunrise
         date = datetime(2019, 10, 1, hour, minute)
         expected_value = array([0, 0, 0])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
     def test_summer_solstice(self):
@@ -534,7 +534,7 @@ class Test_solar_vector_NED(ut.TestCase):
         date = datetime(2019, 6, 21, 12, 0)
         lat = 23 + 26/60 + 14/3600  # obliquity in 2019
         expected_value = array([0, 0, -1])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
     def test_permanent_day(self):
@@ -543,11 +543,11 @@ class Test_solar_vector_NED(ut.TestCase):
         lat = 90
         alt = deg2rad(23 + 26/60 + 14/3600)
         expected_value = array([-cos(alt), 0, -sin(alt)])
-        assert_array_almost_equal(solar_vector_NED(date, lat),
+        assert_array_almost_equal(solar_vector_ned(date, lat),
                                   expected_value, 3)
 
     def test_exception(self):
-        self.assertRaises(TypeError, solar_vector_NED, 121, 1)
+        self.assertRaises(TypeError, solar_vector_ned, 121, 1)
 
 
 class Test_air_mass_KY1989(ut.TestCase):
@@ -555,14 +555,14 @@ class Test_air_mass_KY1989(ut.TestCase):
     Tests air mass function based on the work of Kasten and Young (1989)
     """
     def test_errors(self):
-        self.assertRaises(ValueError, air_mass_KastenYoung1989, 0, -1)
+        self.assertRaises(ValueError, air_mass_kastenyoung1989, 0, -1)
 
     def test_limit_values(self):
         # air mass through zenit direction at sea level
         theta_z = 0
         h = 0
         expected_value = 1
-        self.assertAlmostEqual(air_mass_KastenYoung1989(theta_z, h),
+        self.assertAlmostEqual(air_mass_kastenyoung1989(theta_z, h),
                                expected_value, 3)
 
         # air mass through zenit direction at exosphere
@@ -570,14 +570,14 @@ class Test_air_mass_KY1989(ut.TestCase):
         theta_z = 0
         h = 1e8  # 10.000 km
         expected_value = 0
-        self.assertAlmostEqual(air_mass_KastenYoung1989(theta_z, h, False),
+        self.assertAlmostEqual(air_mass_kastenyoung1989(theta_z, h, False),
                                expected_value)
 
         # model limits (zenith=91.5)
         theta_z = 94
         h = 0
-        expected_value = air_mass_KastenYoung1989(91.5, h)
-        self.assertEqual(air_mass_KastenYoung1989(theta_z, h),
+        expected_value = air_mass_kastenyoung1989(91.5, h)
+        self.assertEqual(air_mass_kastenyoung1989(theta_z, h),
                          expected_value)
 
 
@@ -589,7 +589,7 @@ class Test_air_mass_Y1994(ut.TestCase):
         # air mass through zenit direction at sea level
         theta_z = 0
         expected_value = 1
-        self.assertAlmostEqual(air_mass_Young1994(theta_z), expected_value, 4)
+        self.assertAlmostEqual(air_mass_young1994(theta_z), expected_value, 4)
 
 
 class Test_beam_irradiance(ut.TestCase):
