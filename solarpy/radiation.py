@@ -26,14 +26,8 @@ def b_nday(date):
     B : float
         angle of the day of the year in radians
     """
-    try:
-        n = day_of_the_year(date)
-
-        if isinstance(date, datetime):
-            return deg2rad((n - 1) * (360 / 365))
-
-    except TypeError as e:
-        raise e
+    n = day_of_the_year(date)
+    return deg2rad((n - 1) * (360 / 365))
 
 
 def gon(date):
@@ -51,16 +45,10 @@ def gon(date):
     gon : float
         extraterrestrial radiation in W/m2
     """
-    try:
-        B = b_nday(date)
-
-        if isinstance(date, datetime):
-            return 1367 * (1.00011 + 0.034221 * cos(B) +
-                           0.00128 * sin(B) + 0.000719 * cos(2 * B) +
-                           0.000077 * sin(2 * B))
-
-    except TypeError as e:
-        raise e
+    B = b_nday(date)
+    return 1367 * (1.00011 + 0.034221 * cos(B) +
+                   0.00128 * sin(B) + 0.000719 * cos(2 * B) +
+                   0.000077 * sin(2 * B))
 
 
 def eq_time(date):
@@ -77,16 +65,10 @@ def eq_time(date):
     E : float
         equation of time in minutes
     """
-    try:
-        B = b_nday(date)
-
-        if isinstance(date, datetime):
-            return 229.2 * (0.000075 + 0.001868 * cos(B) -
-                            0.032077 * sin(B) - 0.014615 * cos(2 * B) -
-                            0.04089 * sin(2 * B))
-
-    except TypeError as e:
-        raise e
+    B = b_nday(date)
+    return 229.2 * (0.000075 + 0.001868 * cos(B) -
+                    0.032077 * sin(B) - 0.014615 * cos(2 * B) -
+                    0.04089 * sin(2 * B))
 
 
 def declination(date):
@@ -104,17 +86,10 @@ def declination(date):
     declination : float
         declination in radians
     """
-
-    try:
-        B = b_nday(date)
-
-        if isinstance(date, datetime):
-            return 0.006918 - 0.399912 * cos(B) + 0.070257 * sin(B) - \
-                   0.006758 * cos(2 * B) + 0.000907 * sin(2 * B) - \
-                   0.002679 * cos(3 * B) + 0.00148 * sin(3 * B)
-
-    except TypeError as e:
-        raise e
+    B = b_nday(date)
+    return 0.006918 - 0.399912 * cos(B) + 0.070257 * sin(B) - \
+           0.006758 * cos(2 * B) + 0.000907 * sin(2 * B) - \
+           0.002679 * cos(3 * B) + 0.00148 * sin(3 * B)
 
 
 def standard2solar_time(date, lng):
@@ -135,21 +110,18 @@ def standard2solar_time(date, lng):
     """
     check_long(lng)
 
-    if isinstance(date, datetime):
-        # standard time
-        t_std = date
+    # standard time
+    t_std = date
 
-        # displacement from standard meridian for that longitude
-        lng_std = round(lng / 15) * 15
-        delta_std_meridian = timedelta(minutes=(4 * (lng_std - lng)))
+    # displacement from standard meridian for that longitude
+    lng_std = round(lng / 15) * 15
+    delta_std_meridian = timedelta(minutes=(4 * (lng_std - lng)))
 
-        # eq. of time for that day
-        E = timedelta(minutes=eq_time(date))
-        t_solar = t_std + delta_std_meridian + E
+    # eq. of time for that day
+    E = timedelta(minutes=eq_time(date))
+    t_solar = t_std + delta_std_meridian + E
 
-        return t_solar
-    else:
-        raise TypeError('date must be a datetime object')
+    return t_solar
 
 
 def hour_angle(date):
@@ -201,21 +173,19 @@ def theta(date, lat, beta, surf_az):
     """
     check_lat(lat)
 
-    if isinstance(date, datetime):
-        dec = declination(date)
-        lat = deg2rad(lat)
-        beta = deg2rad(beta)
-        surf_az = deg2rad(surf_az)
-        w = hour_angle(date)
+    dec = declination(date)
+    lat = deg2rad(lat)
+    beta = deg2rad(beta)
+    surf_az = deg2rad(surf_az)
+    w = hour_angle(date)
 
-        cos_theta = sin(dec) * sin(lat) * cos(beta) - \
-                    sin(dec) * cos(lat) * sin(beta) * cos(surf_az) + \
-                    cos(dec) * cos(lat) * cos(beta) *                cos(w) + \
-                    cos(dec) * sin(lat) * sin(beta) * cos(surf_az) * cos(w) + \
-                    cos(dec) *            sin(beta) * sin(surf_az) * sin(w)
-        return arccos(cos_theta)
-    else:
-        raise TypeError('date must be a datetime object')
+    cos_theta = sin(dec) * sin(lat) * cos(beta) - \
+                sin(dec) * cos(lat) * sin(beta) * cos(surf_az) + \
+                cos(dec) * cos(lat) * cos(beta) *                cos(w) + \
+                cos(dec) * sin(lat) * sin(beta) * cos(surf_az) * cos(w) + \
+                cos(dec) *            sin(beta) * sin(surf_az) * sin(w)
+
+    return arccos(cos_theta)
 
 
 def theta_z(date, lat):
@@ -239,15 +209,13 @@ def theta_z(date, lat):
     """
     check_lat(lat)
 
-    if isinstance(date, datetime):
-        dec = declination(date)
-        lat = deg2rad(lat)
-        w = hour_angle(date)
+    dec = declination(date)
+    lat = deg2rad(lat)
+    w = hour_angle(date)
 
-        cos_theta_z = sin(dec) * sin(lat) + cos(dec) * cos(lat) * cos(w)
-        return arccos(cos_theta_z)
-    else:
-        raise TypeError('date must be a datetime object')
+    cos_theta_z = sin(dec) * sin(lat) + cos(dec) * cos(lat) * cos(w)
+
+    return arccos(cos_theta_z)
 
 
 def solar_azimuth(date, lat):
@@ -276,27 +244,24 @@ def solar_azimuth(date, lat):
     if abs(lat) == 90:
         lat = np.sign(lat) * 89.999
 
-    if isinstance(date, datetime):
-        w = hour_angle(date)
-        dec = declination(date)
-        th_z = theta_z(date, lat)
-        lat = deg2rad(lat)
+    w = hour_angle(date)
+    dec = declination(date)
+    th_z = theta_z(date, lat)
+    lat = deg2rad(lat)
 
-        tmp = (cos(th_z) * sin(lat) - sin(dec)) / (sin(th_z) * cos(lat))
+    tmp = (cos(th_z) * sin(lat) - sin(dec)) / (sin(th_z) * cos(lat))
 
-        # herculean fight against floating-point errors
-        if (abs(tmp) > 1):
-            tmp = int(tmp)  # TODO: improve
+    # herculean fight against floating-point errors
+    if (abs(tmp) > 1):
+        tmp = int(tmp)  # TODO: improve
 
-        # to avoid undefined values at noon (12:00)
-        if w == 0:
-            s = 1
-        else:
-            s = np.sign(w)
-
-        return s * arccos(tmp)
+    # to avoid undefined values at noon (12:00)
+    if w == 0:
+        s = 1
     else:
-        raise TypeError('date must be a datetime object')
+        s = np.sign(w)
+
+    return s * arccos(tmp)
 
 
 def solar_altitude(date, lat):
@@ -318,11 +283,9 @@ def solar_altitude(date, lat):
     solar_altitude : float
         altitude angle in radians
     """
-    if isinstance(date, datetime):
-        th_z = theta_z(date, lat)
-        return np.arcsin(cos(th_z))
-    else:
-        raise TypeError('date must be a datetime object')
+    th_z = theta_z(date, lat)
+
+    return np.arcsin(cos(th_z))
 
 
 def sunset_hour_angle(date, lat):
@@ -345,17 +308,14 @@ def sunset_hour_angle(date, lat):
     """
     check_lat(lat)
 
-    if isinstance(date, datetime):
-        dec = declination(date)
-        lat = deg2rad(lat)
-        cos_ws = (-1) * tan(lat) * tan(dec)
+    dec = declination(date)
+    lat = deg2rad(lat)
+    cos_ws = (-1) * tan(lat) * tan(dec)
 
-        if abs(cos_ws) > 1:
-            raise NoSunsetNoSunrise
-        else:
-            return arccos(cos_ws)
+    if abs(cos_ws) > 1:
+        raise NoSunsetNoSunrise
     else:
-        raise TypeError('date must be a datetime object')
+        return arccos(cos_ws)
 
 
 def sunset_time(date, lat):
@@ -374,22 +334,19 @@ def sunset_time(date, lat):
     sunset_hour : datetime object
         time at sunset
     """
-    if isinstance(date, datetime):
-        try:
-            ws = sunset_hour_angle(date, lat)  # degrees
+    try:
+        ws = sunset_hour_angle(date, lat)  # degrees
 
-            aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
-            minutes, seconds = divmod(aux, 60)
-            hours, minutes = divmod(minutes, 60)
+        aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
+        minutes, seconds = divmod(aux, 60)
+        hours, minutes = divmod(minutes, 60)
 
-            st = datetime(date.year, date.month, date.day) + \
-                 timedelta(hours=(12+hours), minutes=minutes)
-            return st
+        st = datetime(date.year, date.month, date.day) + \
+             timedelta(hours=(12+hours), minutes=minutes)
+        return st
 
-        except NoSunsetNoSunrise as e:
-            raise e
-    else:
-        raise TypeError('date must be a datetime object')
+    except NoSunsetNoSunrise as e:
+        raise e
 
 
 def sunrise_hour_angle(date, lat):
@@ -429,22 +386,19 @@ def sunrise_time(date, lat):
     sunset_hour : datetime object
         time at sunrise
     """
-    if isinstance(date, datetime):
-        try:
-            ws = sunrise_hour_angle(date, lat)  # degrees
+    try:
+        ws = sunrise_hour_angle(date, lat)  # degrees
 
-            aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
-            minutes, seconds = divmod(aux, 60)
-            hours, minutes = divmod(minutes, 60)
+        aux = (rad2deg(ws) / 15) * 60 * 60  # seconds
+        minutes, seconds = divmod(aux, 60)
+        hours, minutes = divmod(minutes, 60)
 
-            st = datetime(date.year, date.month, date.day) + \
-                 timedelta(hours=(12+hours), minutes=minutes)
-            return st
+        st = datetime(date.year, date.month, date.day) + \
+             timedelta(hours=(12+hours), minutes=minutes)
+        return st
 
-        except NoSunsetNoSunrise as e:
-            raise e
-    else:
-        raise TypeError('date must be a datetime object')
+    except NoSunsetNoSunrise as e:
+        raise e
 
 
 def daylight_hours(date, lat):
@@ -469,20 +423,17 @@ def daylight_hours(date, lat):
     """
     check_lat(lat)
 
-    if isinstance(date, datetime):
-        dec = declination(date)
-        lat = deg2rad(lat)
+    dec = declination(date)
+    lat = deg2rad(lat)
 
-        tmp = -tan(lat) * tan(dec)
+    tmp = -tan(lat) * tan(dec)
 
-        if (tmp < -1.0):
-            return 24
-        elif (tmp > 1.0):
-            return 0
-        else:
-            return 24 * (2 * arccos(tmp) / (2 * np.pi))
+    if (tmp < -1.0):
+        return 24
+    elif (tmp > 1.0):
+        return 0
     else:
-        raise TypeError('date must be a datetime object')
+        return 24 * (2 * arccos(tmp) / (2 * np.pi))
 
 
 def solar_vector_ned(date, lat):
@@ -503,36 +454,33 @@ def solar_vector_ned(date, lat):
     array-like
         vector of the solar beam
     """
-    if isinstance(date, datetime):
-        solar_az = solar_azimuth(date, lat)
-        solar_alt = solar_altitude(date, lat)
+    solar_az = solar_azimuth(date, lat)
+    solar_alt = solar_altitude(date, lat)
 
-        w = hour_angle(date)
-        lh = daylight_hours(date, lat)
+    w = hour_angle(date)
+    lh = daylight_hours(date, lat)
 
-        try:
-            w_sr = sunrise_hour_angle(date, lat)
-            w_ss = sunset_hour_angle(date, lat)
+    try:
+        w_sr = sunrise_hour_angle(date, lat)
+        w_ss = sunset_hour_angle(date, lat)
 
-            if (w > w_ss) or (w < w_sr):
-                # the point on the earth surface is at night
-                return array([0, 0, 0])
-            else:
-                return array([-cos(solar_az) * cos(solar_alt),
-                              -sin(solar_az) * cos(solar_alt),
-                              -sin(solar_alt)])
+        if (w > w_ss) or (w < w_sr):
+            # the point on the earth surface is at night
+            return array([0, 0, 0])
+        else:
+            return array([-cos(solar_az) * cos(solar_alt),
+                          -sin(solar_az) * cos(solar_alt),
+                          -sin(solar_alt)])
 
-        except NoSunsetNoSunrise:
-            if (lh == 0):
-                # the point on the earth surface is in permanent darkness
-                return array([0, 0, 0])
-            else:
-                # the point on the earth surface is in permanent light
-                return array([-cos(solar_az) * cos(solar_alt),
-                              -sin(solar_az) * cos(solar_alt),
-                              -sin(solar_alt)])
-    else:
-        raise TypeError('date must be a datetime object')
+    except NoSunsetNoSunrise:
+        if (lh == 0):
+            # the point on the earth surface is in permanent darkness
+            return array([0, 0, 0])
+        else:
+            # the point on the earth surface is in permanent light
+            return array([-cos(solar_az) * cos(solar_alt),
+                          -sin(solar_az) * cos(solar_alt),
+                          -sin(solar_alt)])
 
 
 def air_mass_kastenyoung1989(theta_z, h, limit=True):
@@ -641,18 +589,15 @@ def beam_irradiance(h, date, lat):
     a = 6378137  # [m] Earth equatorial axis
     theta_lim = (1 / 2) * np.pi + arccos(a / (a + h))  # radians
 
-    if isinstance(date, datetime):
-        theta_zenith = theta_z(date, lat)  # radians
+    theta_zenith = theta_z(date, lat)  # radians
 
-        if theta_zenith < theta_lim:
-            m = air_mass_kastenyoung1989(rad2deg(theta_zenith), h)
-            G = gon(date) * exp(-prel * m * alpha_int)
-        else:
-            G = 0
-
-        return G
+    if theta_zenith < theta_lim:
+        m = air_mass_kastenyoung1989(rad2deg(theta_zenith), h)
+        G = gon(date) * exp(-prel * m * alpha_int)
     else:
-        raise TypeError('date must be a datetime object')
+        G = 0
+
+    return G
 
 
 def irradiance_on_plane(vnorm, h, date, lat):
@@ -679,25 +624,22 @@ def irradiance_on_plane(vnorm, h, date, lat):
     G : float
         beam irradiance in W/m2
     """
-    try:
-        vsol = solar_vector_ned(date, lat)
+    vsol = solar_vector_ned(date, lat)
 
-        if (vsol == array([0, 0, 0])).all():
-            # in case there is no sun (night or permanent darkness)
-            G = 0
-            theta = np.nan
+    if (vsol == array([0, 0, 0])).all():
+        # in case there is no sun (night or permanent darkness)
+        G = 0
+        theta = np.nan
+    else:
+        vnorm_abs = np.linalg.norm(vnorm)
+        vsol_abs = np.linalg.norm(vsol)
+
+        theta = arccos(np.dot(vnorm, vsol) / (vnorm_abs * vsol_abs))
+
+        # for future solar panel applications: only one side has cells
+        if cos(theta) > 0:
+            G = beam_irradiance(h, date, lat) * cos(theta)
         else:
-            vnorm_abs = np.linalg.norm(vnorm)
-            vsol_abs = np.linalg.norm(vsol)
+            G = 0
 
-            theta = arccos(np.dot(vnorm, vsol) / (vnorm_abs * vsol_abs))
-
-            # for future solar panel applications: only one side has cells
-            if cos(theta) > 0:
-                G = beam_irradiance(h, date, lat) * cos(theta)
-            else:
-                G = 0
-
-        return G
-    except TypeError as e:
-        raise e
+    return G
