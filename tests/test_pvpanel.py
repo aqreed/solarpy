@@ -20,6 +20,7 @@ class Test_pvpanel(ut.TestCase):
         self.assertRaises(ValueError, solar_panel, -1, eff)
         self.assertRaises(ValueError, solar_panel, s, -0.1)
         self.assertRaises(ValueError, solar_panel, s, 1.1)
+        self.assertRaises(TypeError, solar_panel, s, eff, id_name=99)
 
     def test_position_exception(self):
         s, eff = 0, 0
@@ -27,7 +28,7 @@ class Test_pvpanel(ut.TestCase):
         v = array([0, 0, -1])
         d = datetime(2019, 1, 21, 12, 0)
 
-        sp = solar_panel(s, eff)
+        sp = solar_panel(s, eff, id_name=None)
         sp.set_orientation(v)
         sp.set_datetime(d)
 

@@ -17,7 +17,7 @@ class solar_panel(object):
     eff : float
         panel efficiency
     """
-    def __init__(self, s, eff):
+    def __init__(self, s, eff, id_name=None):
         if (s >= 0):
             self.s = s
         else:
@@ -28,6 +28,12 @@ class solar_panel(object):
         else:
             raise ValueError('efficiency must be 0 <= eff <= 1')
 
+        if isinstance(id_name, str):
+            self.id_name = id_name
+        elif id_name is None:
+            pass
+        else:
+            raise TypeError('the id name must be a string')
 
     def set_position(self, lat, lng, h):
         """
