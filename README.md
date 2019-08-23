@@ -8,7 +8,7 @@
 | ------ | ------ |
 | Description | Python Solar Radiation model |
 | Author | aqreed <aqreed@protonmail.com> |
-| Version | 0.1.1 |
+| Version | 0.1.2 |
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib |
 
@@ -19,6 +19,7 @@ The main purpose is to generate a **solar beam irradiance** (W/m2) prediction on
 * **any place of the earth**, taking into account the solar time wrt the standard time, geometric altitude, the latitude influence on solar azimuth and solar altitude as well as sunset/sunrise time and hour angle, etc.
 * **any day of the year**, taking into account the variations of the extraterrestrial radiation, the equation of time, the declination, etc., throughout the year
 
+#### Example 1
 Solar [irradiance](https://en.wikipedia.org/wiki/Solar_irradiance) on the southern hemisphere on October 17, at sea-level 13.01UTC (plane pointing upwards)?
 
 ```
@@ -36,6 +37,27 @@ irradiance_on_plane(vnorm, h, date, lat)
 
 A dedicated Jupyter Notebook on beam irradiance can be found [here](https://github.com/aqreed/solarpy/blob/master/examples/solar_irradiance.ipynb).
 
+#### Example 2
+Power output (in W) of a solar panel with the following characteristics:
+* surface of 2.1 sqm
+* efficiency of 0.2
+* pointing upwards
+* in NYC
+* on December 25, at 16.15
+
+```
+from numpy import array
+from solarpy.pvpanel import solar_panel
+from datetime import datetime
+
+sp = solar_panel(2.1, 0.2, id_name='NYC_xmas')  # surface and efficiency
+sp.set_orientation(array([0, 0, -1]))  # upwards
+sp.set_position(40.73, -73.93, 0)  # NYC latitude, longitude, altitude
+sp.set_datetime(datetime(2019, 12, 25, 16, 15))  # Christmas Day!
+sp.power()
+```
+
+#### Example 3
 Solar [declination](https://en.wikipedia.org/wiki/Position_of_the_Sun#Declination_of_the_Sun_as_seen_from_Earth) on August 5?
 
 ```
@@ -47,7 +69,7 @@ date = datetime(2019, 8, 5)  # August 5
 declination(date)
 ```
 
-Please find more notebooks on the 'examples' folder.
+Please find more notebooks on the ['examples'](https://github.com/aqreed/solarpy/tree/master/examples) folder.
 
 ---
 **NOTE**:

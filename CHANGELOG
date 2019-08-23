@@ -19,4 +19,17 @@ All notable changes to this project will be documented in this file.
 		theta(n, lat, beta, surf_az, hour, minute) becomes theta(date, lat, beta, surf_az)
 - "solar_time" function becomes "standard2solar_time" to reflect that the input is a datetime object with standard local time, and the output is the solar local time.
 - improved error raising and handling
-- changed
+
+## [0.1.2] - 2019-08-23
+### Added
+- panel class, that allows to define solar panels as objects. Tests and NB example
+
+### Changed
+- "B_nth_day" function is now called "B_nday"
+- some functions names to all-lowercase
+- test file: test_solar_radiation.py → test_radiation.py 
+- improved coverage in general, docstrings, unused imports...etc
+
+### Removed
+- the possibility of passing arrays containing datetime objects in some functions
+- excessive error handling structures
