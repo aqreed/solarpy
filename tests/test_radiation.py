@@ -670,27 +670,27 @@ class Test_beam_irradiance(ut.TestCase):
         date = datetime(2019, 6, 20, 12, 0)
         lat = -69
         expected_value = 0
-        self.assertEqual(beam_irradiance(h, date, lat), 0)
+        self.assertEqual(beam_irradiance(h, date, lat), expected_value)
 
         h = 10000
         date = datetime(2019, 1, 1, 12, 0)
         lat = 87
         expected_value = 0
-        self.assertEqual(beam_irradiance(h, date, lat), 0)
+        self.assertEqual(beam_irradiance(h, date, lat), expected_value)
 
         # north pole winter nigth
         h = 1000
         date = datetime(2019, 11, 15, 5, 0)
         lat = 80
         expected_value = 0
-        self.assertEqual(beam_irradiance(h, date, lat), 0)
+        self.assertEqual(beam_irradiance(h, date, lat), expected_value)
 
         # south pole winter nigth
         h = 5000
         date = datetime(2019, 5, 20, 22, 0)
         lat = -85
         expected_value = 0
-        self.assertEqual(beam_irradiance(h, date, lat), 0)
+        self.assertEqual(beam_irradiance(h, date, lat), expected_value)
 
         # TODO: more test!
 

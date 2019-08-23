@@ -17,7 +17,6 @@ class solar_panel(object):
     eff : float
         panel efficiency
     """
-
     def __init__(self, s, eff):
         if (s >= 0):
             self.s = s
