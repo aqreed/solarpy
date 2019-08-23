@@ -57,7 +57,7 @@ class Test_pvpanel(ut.TestCase):
         lat, lng, h = 0, 0, 0
         d = datetime(2019, 1, 21, 12, 0)
 
-        sp = solar_panel(s, eff)
+        sp = solar_panel(s, eff, 'panel1')
         sp.set_position(lat, lng, h)
         sp.set_datetime(d)
 
