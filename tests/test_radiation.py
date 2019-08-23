@@ -719,8 +719,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 6, 20, 12, 0)
         lat = 23 + 26/60 + 14/3600
         expected_value = beam_irradiance(h, date, lat)
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # summer solstice, solar noon, lat=declination, plane upside-down
         vnorm = array([0, 0, 1])
@@ -728,8 +728,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 6, 20, 12, 0)
         lat = 23 + 26/60 + 14/3600
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # summer solstice, night, lat=declination, plane right-side-up
         vnorm = array([0, 0, -1])
@@ -737,8 +737,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 6, 20, 0, 0)
         lat = 23 + 26/60 + 14/3600
         expected_value = beam_irradiance(h, date, lat)
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # summer solstice, night, lat=declination, plane upside-down
         vnorm = array([0, 0, 1])
@@ -746,8 +746,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 6, 20, 0, 0)
         lat = 23 + 26/60 + 14/3600
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # winter solstice, permanent darkness, plane right-side-up
         vnorm = array([0, 0, -1])
@@ -755,8 +755,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 12, 22, 12, 0)
         lat = 70
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # winter solstice, permanent darkness, plane upside-down
         vnorm = array([0, 0, 1])
@@ -764,8 +764,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 12, 22, 12, 0)
         lat = 70
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # winter solstice, night, plane right-side-up
         vnorm = array([0, 0, -1])
@@ -773,8 +773,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 12, 22, 3, 0)
         lat = 40
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # winter solstice, night, plane upside-down
         vnorm = array([0, 0, 1])
@@ -782,8 +782,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 12, 22, 3, 0)
         lat = 40
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # any day, solar noon, any latitude, plane sideways
         vnorm = array([0, 1, 0])
@@ -791,8 +791,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 4, 1, 12, 0)
         lat = 47.3
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
     def tests_southern_hemisphere(self):
         # summer solstice, solar noon, lat=declination, plane right-side-up
@@ -801,8 +801,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 12, 22, 12, 0)
         lat = -(23 + 26/60 + 14/3600)
         expected_value = beam_irradiance(h, date, lat)
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # summer solstice, solar noon, lat=declination, plane upside-down
         vnorm = array([0, 0, 1])
@@ -810,8 +810,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 12, 22, 12, 0)
         lat = -(23 + 26/60 + 14/3600)
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # summer solstice, night, lat=declination, plane right-side-up
         vnorm = array([0, 0, -1])
@@ -819,8 +819,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 12, 22, 0, 0)
         lat = -(23 + 26/60 + 14/3600)
         expected_value = beam_irradiance(h, date, lat)
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # summer solstice, night, lat=declination, plane upside-down
         vnorm = array([0, 0, 1])
@@ -828,8 +828,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 12, 22, 0, 0)
         lat = -(23 + 26/60 + 14/3600)
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # winter solstice, permanent darkness, plane right-side-up
         vnorm = array([0, 0, -1])
@@ -837,8 +837,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 6, 20, 12, 0)
         lat = -70
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # winter solstice, permanent darkness, plane upside-down
         vnorm = array([0, 0, 1])
@@ -846,8 +846,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 6, 20, 12, 0)
         lat = -70
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # winter solstice, night, plane right-side-up
         vnorm = array([0, 0, -1])
@@ -855,8 +855,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 6, 20, 3, 0)
         lat = -40
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # winter solstice, night, plane upside-down
         vnorm = array([0, 0, 1])
@@ -864,8 +864,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 6, 20, 3, 0)
         lat = -40
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
         # any day, solar noon, any latitude, plane sideways
         vnorm = array([0, 1, 0])
@@ -873,8 +873,8 @@ class Test_irradiance_on_plane(ut.TestCase):
         date = datetime(2019, 10, 5, 12, 0)
         lat = -13.1
         expected_value = 0
-        assert_almost_equal(irradiance_on_plane(vnorm, h, date, lat),
-                            expected_value, 3)
+        self.assertAlmostEqual(irradiance_on_plane(vnorm, h, date, lat),
+                               expected_value, 3)
 
     def test_exception_vector(self):
         v = 'a'
