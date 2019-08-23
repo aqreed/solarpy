@@ -19,15 +19,16 @@ class solar_panel(object):
     """
 
     def __init__(self, s, eff):
+        if (s >= 0):
+            self.s = s
+        else:
+            raise ValueError('surface must be s >= 0')
+
         if (eff >= 0) and (eff <= 1):
             self.eff = eff
         else:
             raise ValueError('efficiency must be 0 <= eff <= 1')
 
-        if (s >= 0):
-            self.s = s
-        else:
-            raise ValueError('surface must be s >= 0')
 
     def set_position(self, lat, lng, h):
         """
