@@ -23,7 +23,7 @@ def check_lat(lat):
     -------
     None. Raises an exception in case
     """
-    if isinstance(lat, int) or isinstance(lat, float):
+    if isinstance(lat, (int, float)):
         if abs(lat) > 90:
             raise ValueError('latitude should be -90 <= latitude <= 90')
     else:
@@ -45,7 +45,7 @@ def check_long(lng):
     -------
     None. Raises an exception in case
     """
-    if isinstance(lng, int) or isinstance(lng, float):
+    if isinstance(lng, (int, float)):
         if abs(lng) > 180:
             raise ValueError('longitude should be -180 <= longitude <= 180')
     else:
@@ -67,7 +67,7 @@ def check_alt(h):
     -------
     None. Raises an exception in case
     """
-    if isinstance(h, int) or isinstance(h, float):
+    if isinstance(h, (int, float)):
         if ((h < 0) or (h > 24000)):
             raise ValueError('pressure model is only valid if 0 <= h <= 24000')
     else:
