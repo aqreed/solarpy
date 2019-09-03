@@ -3,7 +3,7 @@
 """
     Photovoltaic panel class
 """
-from solarpy.radiation import *
+from .radiation import irradiance_on_plane
 
 
 class solar_panel(object):

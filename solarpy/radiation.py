@@ -9,7 +9,7 @@ import numpy as np
 from numpy import sin, cos, tan, deg2rad, rad2deg,\
                   array, arccos, exp
 from datetime import datetime, timedelta
-from solarpy.utils import *
+from .utils import *
 
 
 def b_nday(date):
