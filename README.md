@@ -24,7 +24,7 @@ Solar [irradiance](https://en.wikipedia.org/wiki/Solar_irradiance) on the southe
 
 ```
 import numpy as np
-from solarpy.radiation import irradiance_on_plane
+from solarpy import irradiance_on_plane
 from datetime import datetime
 
 vnorm = np.array([0, 0, -1])  # plane pointing zenith
@@ -47,21 +47,21 @@ Power output (in W) of a solar panel with the following characteristics:
 
 ```
 from numpy import array
-from solarpy.pvpanel import solar_panel
+from solarpy import solar_panel
 from datetime import datetime
 
-sp = solar_panel(2.1, 0.2, id_name='NYC_xmas')  # surface and efficiency
-sp.set_orientation(array([0, 0, -1]))  # upwards
-sp.set_position(40.73, -73.93, 0)  # NYC latitude, longitude, altitude
-sp.set_datetime(datetime(2019, 12, 25, 16, 15))  # Christmas Day!
-sp.power()
+panel = solar_panel(2.1, 0.2, id_name='NYC_xmas')  # surface, efficiency and name
+panel.set_orientation(array([0, 0, -1]))  # upwards
+panel.set_position(40.73, -73.93, 0)  # NYC latitude, longitude, altitude
+panel.set_datetime(datetime(2019, 12, 25, 16, 15))  # Christmas Day!
+panel.power()
 ```
 
 #### Example 3
 Solar [declination](https://en.wikipedia.org/wiki/Position_of_the_Sun#Declination_of_the_Sun_as_seen_from_Earth) on August 5?
 
 ```
-from solarpy.radiation import declination
+from solarpy import declination
 from datetime import datetime
 
 date = datetime(2019, 8, 5)  # August 5
