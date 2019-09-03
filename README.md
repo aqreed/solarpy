@@ -1,4 +1,4 @@
-<img src="/img/logo.svg" alt="drawing" width="300"/>
+<img src="/img/logo.svg" alt="drawing" width="450"/>
 
 [![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=develop)](https://travis-ci.com/aqreed/solarpy)
 [![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/develop/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/develop)
