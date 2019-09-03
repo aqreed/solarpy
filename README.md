@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=develop)](https://travis-ci.com/aqreed/solarpy)
 [![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/develop/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/develop)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/aqreed/solarpy/raw/master/COPYING)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aqreed/solarpy/develop?filepath=examples)
 
 |  |  |
 | ------ | ------ |
@@ -69,7 +70,7 @@ date = datetime(2019, 8, 5)  # August 5
 declination(date)
 ```
 
-Please find more notebooks on the ['examples'](https://github.com/aqreed/solarpy/tree/master/examples) folder.
+Please find more notebooks on the ['examples'](https://github.com/aqreed/solarpy/tree/develop/examples) folder that you can open locally, or just try [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aqreed/solarpy/develop?filepath=examples) to launch online interactive Jupyter notebooks.
 
 ---
 **NOTE**:
