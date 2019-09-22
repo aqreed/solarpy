@@ -5,7 +5,7 @@
 """
 
 
-from solarpy.pvpanel import solar_panel
+from solarpy import solar_panel
 from numpy import array
 from datetime import datetime
 import unittest as ut

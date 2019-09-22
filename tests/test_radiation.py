@@ -6,7 +6,7 @@
 """
 
 
-from solarpy.radiation import *
+from solarpy import *
 from numpy import sin, cos, deg2rad, rad2deg, array
 from numpy.testing import (assert_equal, assert_almost_equal,
                            assert_array_almost_equal)
