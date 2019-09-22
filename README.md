@@ -1,15 +1,15 @@
 <img src="/img/logo.svg" alt="drawing" width="450"/>
 
-[![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=develop)](https://travis-ci.com/aqreed/solarpy)
-[![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/develop/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/develop)
+[![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=master)](https://travis-ci.com/aqreed/solarpy)
+[![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/master/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/master)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/aqreed/solarpy/raw/master/COPYING)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aqreed/solarpy/develop?filepath=examples)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aqreed/solarpy/master?filepath=examples)
 
 |  |  |
 | ------ | ------ |
 | Description | Python Solar Radiation model |
 | Author | aqreed <aqreed@protonmail.com> |
-| Version | 0.1.2 |
+| Version | 0.1.3 |
 | Python Version | 3.6 |
 | Requires | Numpy, Matplotlib |
 

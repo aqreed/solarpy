@@ -10,7 +10,7 @@ setup(
                 "Solar energy thermal processes" (1974)',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    version="0.1.2",
+    version="0.1.3",
     url='https://github.com/aqreed/solarpy',
     packages=['solarpy'],
     install_requires=['numpy', 'matplotlib'],
