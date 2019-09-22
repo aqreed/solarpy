@@ -70,7 +70,7 @@ date = datetime(2019, 8, 5)  # August 5
 declination(date)
 ```
 
-Please find more notebooks on the ['examples'](https://github.com/aqreed/solarpy/tree/develop/examples) folder that you can open locally, or just try [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aqreed/solarpy/develop?filepath=examples) to launch online interactive Jupyter notebooks.
+Please find more notebooks on the ['examples'](https://github.com/aqreed/solarpy/tree/master/examples) folder that you can open locally, or just try [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aqreed/solarpy/master?filepath=examples) to launch online interactive Jupyter notebooks.
 
 ---
 **NOTE**:
