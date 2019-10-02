@@ -1,4 +1,4 @@
-<img src="/img/logo.svg" alt="drawing" width="450"/>
+<img src="/img/logo.png" alt="drawing" width="450"/>
 
 [![Build Status](https://travis-ci.com/aqreed/solarpy.svg?branch=develop)](https://travis-ci.com/aqreed/solarpy)
 [![codecov.io](https://codecov.io/gh/aqreed/solarpy/branch/develop/graph/badge.svg)](https://codecov.io/gh/aqreed/solarpy/branch/develop)
@@ -23,7 +23,7 @@ The main purpose is to generate a **solar beam irradiance** (W/m2) prediction on
 #### Example 1
 Solar [irradiance](https://en.wikipedia.org/wiki/Solar_irradiance) on the southern hemisphere on October 17, at sea-level 13.01UTC (plane pointing upwards)?
 
-```
+```Python
 import numpy as np
 from solarpy import irradiance_on_plane
 from datetime import datetime
@@ -46,7 +46,7 @@ Power output (in W) of a solar panel with the following characteristics:
 * in NYC
 * on December 25, at 16.15
 
-```
+```Python
 from numpy import array
 from solarpy import solar_panel
 from datetime import datetime
@@ -61,7 +61,7 @@ panel.power()
 #### Example 3
 Solar [declination](https://en.wikipedia.org/wiki/Position_of_the_Sun#Declination_of_the_Sun_as_seen_from_Earth) on August 5?
 
-```
+```Python
 from solarpy import declination
 from datetime import datetime
 
